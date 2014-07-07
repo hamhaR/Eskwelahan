@@ -1,0 +1,23 @@
+{
+    "name": "workbench/eskwelahan",
+    "description": "",
+    "authors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Workbench\\Eskwelahan\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
