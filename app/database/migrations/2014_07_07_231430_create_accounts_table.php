@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Accounts extends Migration {
+class CreateAccountsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -20,11 +20,12 @@ class Accounts extends Migration {
 			$table->string('username', 32)->unique();
             $table->string('password', 64);
 			
-            $table->string('email', 255)->nullable()->default(null);
-			$table->string ('email', 255);
+            $table->string('email', 255)->unique();
+			$table->string('address', 255);
 			$table->date('birthday');
 			
 			$table->enum('role', array('student', 'teacher'))->default('student');
+			$table->enum('role', array('male', 'female'))->default('gender');
             $table->timestamps();
             $table->softDeletes();
 			//
