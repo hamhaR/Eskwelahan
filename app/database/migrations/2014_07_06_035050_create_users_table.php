@@ -23,8 +23,9 @@ class CreateUsersTable extends Migration {
 			$table->string('fname', 32);
 			$table->string('mname', 32);
 			$table->string('lname', 32);
-			$table->string('gender', 7);
+			$table->enum('gender', array('male', 'female'));
 			$table->string('address', 255);
+			$table->string('email', 255);
 
             $table->timestamps();
             $table->softDeletes();
