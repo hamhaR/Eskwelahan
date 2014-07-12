@@ -9,7 +9,11 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		//for index views of users
+		$users = User::all();
+		
+		return View::make('users.index')
+			->with('users', $users);
 	}
 
 
@@ -20,7 +24,8 @@ class UserController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		//load the create form (app/views/users/create.blade.php)
+		return View::make('users.create')
 	}
 
 

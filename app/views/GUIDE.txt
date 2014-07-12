@@ -1,0 +1,2 @@
+folder paths:
+app/views/users -> view for creating new users
