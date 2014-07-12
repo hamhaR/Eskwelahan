@@ -36,7 +36,46 @@ class UserController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		//validate
+
+		$rules = array(
+			'username'		=>	'required',
+			'password'		=>	'required',
+			'role'			=>	'required',
+			'fname'			=>	'required',
+			'mname'			=>	'required',
+			'lname'			=>	'required',
+			'gender'		=> 	'required',
+			'address'		=> 	'required',
+			'email'			=> 	'required|email'
+		);
+		$validator = Validator::make(Input:all(), $rules)
+		
+		//do again
+		if ($validator->fails()){
+			return RedirectL::to('users/create')
+				->withErrors($validator)
+				->withInput(Input::except('password'));
+		
+		}
+		
+		else {
+			//store
+			$user = new User;
+			$user->username		= Input::get('username');
+			$user->password		= Input::get('password');
+			$user->role			= Input::get('role');
+			$user->fname		= Input::get('fname');
+			$user->mname		= Input::get('mname');
+			$user->lname		= Input::get('lname');
+			$user->gender		= Input::get('gender');
+			$user->address		= Input::get('address');
+			$user->email		= Input::get('email');
+			$user->save();
+			
+			Session::flash('message', 'Congratulations you have been registered!!');
+			return Redirect::to('users');
+		}
 	}
 
 
