@@ -3,6 +3,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<title>Welcome to Eskwelahan v0.0.1</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
 
 <!-- if there are creation errors, they will show here--->
 {{ HTML::ul($errors->all()) }}
-{{ Form::open(array('url' => 'nerds')) }}
+{{ Form::open(array('url' => 'users')) }}
 
 	<div class="form-group">
 		{{ Form::label('username', 'Username') }}
@@ -42,6 +43,11 @@
 	</div>
 	
 	<div class="form-group">
+		{{ Form::label('gender', 'Gender') }}
+		{{ Form::text('gender', Input::old('gender'), array('class' => 'form-control')) }}
+	</div>
+	
+	<div class="form-group">
 		{{ Form::label('address', 'Address') }}
 		{{ Form::text('address', Input::old('address'), array('class' => 'form-control')) }}
 	</div>
@@ -50,12 +56,7 @@
 		{{ Form::label('email', 'Email') }}
 		{{ Form::text('email', Input::old('email'), array('class' => 'form-control')) }}
 	</div>
-	
-	<!------                         PLEASE NOTE!!                            ---->
-	<!---       wala pa ang id, gender og role kay di ko kama.o unsaon          -->
-	<!----               so mag error pa sya -- will fix it later            ----->
-	
-	
+		
 	{{ Form::submit('Register!', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
 
