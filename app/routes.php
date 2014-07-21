@@ -19,3 +19,16 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+Route::get('/create', function()
+{
+	return View::make('create');
+});
+
+/*Route::post('/create')
+|-----------------------------------------
+|		NOTE!!
+|-----------------------------------------
+| Kulang ang Route::post para sa create
+| or himoon nalang sya nga para sa blade
+|
+*/

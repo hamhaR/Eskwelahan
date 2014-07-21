@@ -132,6 +132,7 @@ class UserController extends Controller {
 * authentication module
 * log in
 */
+
  public function postLogin() {
         $validator = Validator::make(Input::all(), [
                     'username' => 'required',
@@ -172,6 +173,5 @@ class UserController extends Controller {
      public function getProfile() {
         return View::make('user.profile');
     }
-
 
 }

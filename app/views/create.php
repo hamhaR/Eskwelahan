@@ -1,5 +1,11 @@
-<!-- app/views/users/create.blade.php-->
-
+<!--
+| -------------------------------------------
+| NOTE:
+| -------------------------------------------
+| naa sa app.views.users ang para sa create
+| -> index.blade.php para sa login page
+| -> create.blade.php para sa create page
+--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +15,13 @@
 </head>
 <body>
 <div class="container">
-	<a href="{{URL::to('users')}}">GO BACK TO LOGIN PAGE!!</a> <br /><br />
+	<a href="hello.php">GO BACK TO LOGIN PAGE!!</a> <br /><br />
 </div>
 
 <h1>Create an Account</h1>
 
-<!-- if there are creation errors, they will show here--->
+<!-- if there are creation errors, they will show here -->
+<!-- Diari hangtod didto sa pikas na comment kay para sa blade-->
 {{ HTML::ul($errors->all()) }}
 {{ Form::open(array('url' => 'users')) }}
 
@@ -60,6 +67,7 @@
 		
 	{{ Form::submit('Register!', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
+<!-- PADULONG DIRI PARA SA BLADE.PHP -->
 
 </body>
 </html>
