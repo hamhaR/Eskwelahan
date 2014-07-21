@@ -6,7 +6,9 @@ class CourseTableSeeder extends DatabaseSeeder{
             $courses = [
             [
                 'course_code' => 'CSC188',
-                'course_title' => 'Software Project Management'
+                'course_title' => 'Software Project Management',
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime
             ]
         ];
             

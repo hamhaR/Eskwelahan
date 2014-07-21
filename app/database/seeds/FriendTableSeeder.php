@@ -5,7 +5,9 @@ class FriendTableSeeder extends DatabaseSeeder {
 		$friends = [
 			[
 				'user_id' => 1,
-				'f_id' => 2
+				'f_id' => 2,
+				'created_at' => new DateTime,
+    			'updated_at' => new DateTime
 			]
 		];
 		
