@@ -1,5 +1,6 @@
 <!-- app/view/users/index.blade.php -->
 
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -22,7 +23,7 @@
 
 <div class="container">
 <h1>CREATE AN ACCOUNT</h1>
-	<a href="{{URL:to('users/create')}}"> CREATE ACCOUNT!!</a>
+	<a href="{{URL::to('create')}}"> CREATE ACCOUNT!!</a>
 </div>
 		
 </body>
