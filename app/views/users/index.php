@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Signin</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../bootflat/css/bootstrap.min.css" rel="stylesheet">
@@ -37,8 +37,17 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
+
+      
   </div>
-  </div> <!-- /row>
+ 
+  </div> 
+  <br>
+   <div class="row" >
+    <div class="col-md-4">
+    <a href="/create">Register</a>
+  </div>
+  </div><!-- /row>
     </div> <!-- /container -->
 
 
