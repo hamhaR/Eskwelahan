@@ -12,7 +12,7 @@
 
 <div class="container">
   <div class="row">
-   	<div class="col-md-6" >
+   	
 <h1>Create an Account</h1>
 
 {{ HTML::ul($errors->all()) }}
@@ -20,6 +20,7 @@
 
 {{ Form::open(array('url' => 'users')) }}
 
+<div class="col-md-4" >
 	<div class="form-group">
 		{{ Form::label('username', 'Username') }}
 		{{ Form::text('username', Input::old('username'), array('class' => 'form-control')) }}
@@ -39,7 +40,8 @@
 		{{ Form::label('mname', 'Middlename') }}
 		{{ Form::text('mname', Input::old('mname'), array('class' => 'form-control')) }}
 	</div>
-	
+</div>
+<div class="col-md-4" >
 	<div class="form-group">
 		{{ Form::label('lname', 'Lastname') }}
 		{{ Form::text('lname', Input::old('lname'), array('class' => 'form-control')) }}
@@ -59,12 +61,15 @@
 		{{ Form::label('email', 'Email') }}
 		{{ Form::text('email', Input::old('email'), array('class' => 'form-control')) }}
 	</div>
-		
+</div>
+</div>
+<div class="row">
 	{{ Form::submit('Register!', array('class' => 'btn btn-primary')) }}
+</div>
 {{ Form::close() }}
 
-</div>
-</div>
+
+
 </div>
 
 <script src="../bootflat/js/bootstrap.min.js"></script>
