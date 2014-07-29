@@ -1,23 +1,26 @@
 <!-- app/views/users/create.blade.php-->
-
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	
 	<title>Welcome to Eskwelahan v0.0.1</title>
+	<link href="../bootflat/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootflat/css/site.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-	<a href="{{URL::to('users')}}">GO BACK TO LOGIN PAGE!!</a> <br /><br />
-</div>
 
+<div class="container">
+  <div class="row">
+   	
 <h1>Create an Account</h1>
 
-<!-- if there are creation errors, they will show here--->
 {{ HTML::ul($errors->all()) }}
+
+
 {{ Form::open(array('url' => 'users')) }}
 
+<div class="col-md-4" >
 	<div class="form-group">
 		{{ Form::label('username', 'Username') }}
 		{{ Form::text('username', Input::old('username'), array('class' => 'form-control')) }}
@@ -37,7 +40,8 @@
 		{{ Form::label('mname', 'Middlename') }}
 		{{ Form::text('mname', Input::old('mname'), array('class' => 'form-control')) }}
 	</div>
-	
+</div>
+<div class="col-md-4" >
 	<div class="form-group">
 		{{ Form::label('lname', 'Lastname') }}
 		{{ Form::text('lname', Input::old('lname'), array('class' => 'form-control')) }}
@@ -57,9 +61,19 @@
 		{{ Form::label('email', 'Email') }}
 		{{ Form::text('email', Input::old('email'), array('class' => 'form-control')) }}
 	</div>
-		
+</div>
+</div>
+<div class="row">
 	{{ Form::submit('Register!', array('class' => 'btn btn-primary')) }}
+</div>
 {{ Form::close() }}
+
+
+
+</div>
+
+<script src="../bootflat/js/bootstrap.min.js"></script>
+    <script src="../bootflat/js/jquery-1.10.1.min.js"></script>
 
 </body>
 </html>
