@@ -22,7 +22,7 @@
 
 <div class="container">
 <h1>CREATE AN ACCOUNT</h1>
-	<a href="create.php"> CREATE ACCOUNT!!</a>
+	<a href="create"> CREATE ACCOUNT!!</a>
 </div>
 		
 </body>
