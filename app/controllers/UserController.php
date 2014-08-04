@@ -128,50 +128,6 @@ class UserController extends Controller {
 		//
 	}
 
-/**
-* authentication module
-* log in
-*/
 
- public function postLogin() {
-        $validator = Validator::make(Input::all(), [
-                    'username' => 'required',
-                    'password' => 'required'
-        ]);
-        if ($validator->passes()) {
-            $credentials = [
-                'username' => Input::get('username'),
-                'password' => Input::get('password')
-            ];
-            if (Auth::attempt($credentials)) {
-                return Redirect::route('profile');
-            }
-        }
-        $data['errors'] = new MessageBag([
-            'password' => [
-                'Invalid username and/or password.'
-            ]
-        ]);
-        $data['username'] = Input::get('username');
-        return Redirect::route("login")
-                        ->withInput($data);
-    }
-
-    public function getLogin() {
-        $errors = new MessageBag();
-        $old = Input::old("errors");      
-        
-        if ($old) {
-            $errors = $old;
-        }
-        $data = ['errors' => $errors];
-        return View::make('user.login', $data);
-    }
-
-    //insert getLogout function here
-
-     public function getProfile() {
-        return View::make('user.profile');
-    }
 
 }
