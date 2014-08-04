@@ -27,7 +27,7 @@ class UserController extends Controller {
 	public function create()
 	{
 		//load the create form (app/views/users/create.blade.php)
-		return View::make('users.create')
+		return View::make('users.create');
 	}
 
 
@@ -39,7 +39,7 @@ class UserController extends Controller {
 	public function store()
 	{
 		//validate
-
+		
 		$rules = array(
 			'username'		=>	'required',
 			'password'		=>	'required',
@@ -51,17 +51,18 @@ class UserController extends Controller {
 			'address'		=> 	'required',
 			'email'			=> 	'required|email'
 		);
-		$validator = Validator::make(Input:all(), $rules)
+		/*
+		$validator = Validator::make(Input::all(), $rules);
 		
 		//do again
 		if ($validator->fails()){
-			return RedirectL::to('users/create')
+			return Redirect::to('users/create')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		
 		}
 		
-		else {
+		else {*/
 			//store
 			$user = new User;
 			$user->username		= Input::get('username');
@@ -76,8 +77,8 @@ class UserController extends Controller {
 			$user->save();
 			
 			Session::flash('message', 'Congratulations you have been registered!!');
-			return Redirect::to('users');
-		}
+			return Redirect::to('index');
+		//}
 	}
 
 

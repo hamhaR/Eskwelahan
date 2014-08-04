@@ -28,7 +28,7 @@
 
 	<div class="form-group">
 		{{ Form::label('password', 'Password') }}
-		{{ Form::text('password', Input::old('password'), array('class' => 'form-control')) }}
+		{{ Form::password('password', Input::old('password'), array('class' => 'form-control')) }}
 	</div>
 	
 	<div class="form-group">
@@ -45,6 +45,11 @@
 	<div class="form-group">
 		{{ Form::label('lname', 'Lastname') }}
 		{{ Form::text('lname', Input::old('lname'), array('class' => 'form-control')) }}
+	</div>
+	
+	<div class="form-group">
+		{{ Form::label('role', 'Role') }}
+		{{ Form::text('role', Input::old('role'), array('class' => 'form-control')) }}
 	</div>
 	
 	<div class="form-group">
