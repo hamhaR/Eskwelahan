@@ -77,7 +77,7 @@ class UserController extends Controller {
 			$user->save();
 			
 			Session::flash('message', 'Congratulations you have been registered!!');
-			return Redirect::to('index');
+			return Redirect::to('');
 		//}
 	}
 
