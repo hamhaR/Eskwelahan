@@ -4,7 +4,7 @@ use Illuminate\Support\MessageBag;
 
 class AuthenticationController extends Controller {
 
-    public function postLogin() {
+public function postLogin() {
         $validator = Validator::make(Input::all(), [
                     'username' => 'required',
                     'password' => 'required'
@@ -24,25 +24,25 @@ class AuthenticationController extends Controller {
             ]
         ]);
         $data['username'] = Input::get('username');
-        return Redirect::route("index")
+        return Redirect::route("login")
                         ->withInput($data);
     }
 
     public function getLogin() {
         $errors = new MessageBag();
-        $old = Input::old("errors");
+        $old = Input::old("errors");    
         
         if ($old) {
             $errors = $old;
         }
         $data = ['errors' => $errors];
-        return View::make('users.index', $data);
+        return View::make('users.login', $data);
     }
 
     public function getLogout() {
         
         Auth::logout();
-        return Redirect::route('index');
+        return Redirect::route('login');
     }
 
     public function getProfile() {
