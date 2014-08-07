@@ -4,6 +4,11 @@ use Illuminate\Support\MessageBag;
 
 class UserController extends Controller {
 
+ 	private $users;
+ 	 
+ 	public function __construct(UserModel $users) {
+        $this->users = $users;
+    }
 	/**
 	 * Display a listing of the resource.
 	 *

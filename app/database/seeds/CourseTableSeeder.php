@@ -7,6 +7,7 @@ class CourseTableSeeder extends DatabaseSeeder{
             [
                 'course_code' => 'CSC188',
                 'course_title' => 'Software Project Management',
+                'course_description' => 'Project Eskwelahan',
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime
             ]

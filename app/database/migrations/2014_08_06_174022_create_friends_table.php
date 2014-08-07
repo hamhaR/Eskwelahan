@@ -13,12 +13,12 @@ class CreateFriendsTable extends Migration {
 	public function up()
 	{
 		Schema::create('friends', function(Blueprint $table) {
-            $table->increments('friend_id');
+            $table->increments('id');
             
             $table->integer('user_id');
             $table->integer('f_id');
-            $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('f_id')->references('user_id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('f_id')->references('id')->on('users');
 
             $table->timestamps();
             $table->softDeletes();

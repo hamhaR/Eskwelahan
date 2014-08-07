@@ -13,7 +13,7 @@ class CreateTestTable extends Migration {
 	public function up()
 	{
 		Schema::create('test', function(Blueprint $table) {
-			$table->increments('test_id');
+			$table->increments('id');
 			$table->text('test_questions');
 			$table->text('test_answer_key');
 			

@@ -13,14 +13,14 @@ class CreateSubmitHomeworkTable extends Migration {
 	public function up()
 	{
 		Schema::create('submit_homework', function(Blueprint $table) {
-			$table->increments('submit_homework_id');
+			$table->increments('id');
 			$table->dateTime('date_submitted');
 			$table->dateTime('deadline');
 
 			$table->integer('homework_id');
-			$table->foreign('homework_id')->references('homework_id')->on('homework');
+			$table->foreign('homework_id')->references('id')->on('homework');
 			$table->integer('student_id');
-			$table->foreign('student_id')->references('user_id')->on('users');
+			$table->foreign('student_id')->references('id')->on('users');
 
 			$table->timestamps();
 			$table->softDeletes();

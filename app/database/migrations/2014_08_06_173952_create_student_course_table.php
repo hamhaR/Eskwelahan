@@ -13,12 +13,12 @@ class CreateStudentCourseTable extends Migration {
 	public function up()
 	{
 		Schema::create('student_course', function(Blueprint $table) {
-			$table->increments('student_course_id');
+			$table->increments('id');
 
 			$table->integer('student_id');
 			$table->integer('course_id');
-			$table->foreign('student_id')->references('user_id')->on('users');
-			$table->foreign('course_id')->references('course_id')->on('course');
+			$table->foreign('student_id')->references('id')->on('users');
+			$table->foreign('course_id')->references('id')->on('course');
 
 			$table->timestamps();
 			$table->softDeletes();

@@ -13,7 +13,7 @@ class CreateHomeworkTable extends Migration {
 	public function up()
 	{
 		Schema::create('homework', function(Blueprint $table){
-			$table->increments('homework_id');
+			$table->increments('id');
 			$table->text('homework_instruction');
 
 			$table->timestamps();
