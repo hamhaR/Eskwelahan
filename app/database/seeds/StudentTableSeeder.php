@@ -11,6 +11,6 @@ class StudentTableSeeder extends DatabaseSeeder{
                 'updated_at' => new DateTime
             ]
         ];
-            DB::table('student_course')->insert($students);
+            DB::table('student')->insert($students);
 	}
 }

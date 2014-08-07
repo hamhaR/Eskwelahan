@@ -1,16 +1,19 @@
 <?php
 
-class TeacherTableSeeder extends DatabaseSeeder{
+class TestTableSeeder extends DatabaseSeeder{
     	public function run()
 	{
-            $teachers = [
+            $test = [
             [
+                'questions' => 'this is a question',
+                'answer_key' => 'this is an answer key',
                 'teacher_id' => 3,
                 'course_id' => 1,
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime
             ]
         ];
-            DB::table('teacher')->insert($teachers);
+            
+            DB::table('course')->insert($test);
 	}
 }
