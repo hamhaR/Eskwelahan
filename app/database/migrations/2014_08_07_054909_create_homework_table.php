@@ -19,7 +19,7 @@ class CreateHomeworkTable extends Migration {
 			$table->dateTime('homework_deadline');
 
 			$table->integer('teacher_id');
-			$table->foreign('teacher_id')->references('user_id')->on('users');
+			$table->foreign('teacher_id')->references('id')->on('users');
 			$table->integer('course_id');
 			$table->foreign('course_id')->references('course_id')->on('course');
 

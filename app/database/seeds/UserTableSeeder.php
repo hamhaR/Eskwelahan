@@ -12,7 +12,9 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Dela Cruz',
 				'gender' => 'male',
 				'address' => 'Iligan City',
-				'email' => 'sanjuan.delacruz@wailing-mountains.net'
+				'email' => 'sanjuan.delacruz@wailing-mountains.net',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
 			],
 			[
 				'username' => '2student',
@@ -23,7 +25,9 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Yu',
 				'gender' => 'male',
 				'address' => 'Bacolod City',
-				'email' => 'pablo.yu@seharbinger.au'
+				'email' => 'pablo.yu@seharbinger.au',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
 			],
 			[
 				'username' => 'teacher',
@@ -34,7 +38,9 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Merced',
 				'gender' => 'female',
 				'address' => 'Manila City',
-				'email' => 'francesca@yahoo.com.au'
+				'email' => 'francesca@yahoo.com.au',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
 			]
 		];
 
