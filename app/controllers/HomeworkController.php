@@ -1,6 +1,16 @@
 <?php
 
-class HomeworkController extends \BaseController {
+use Illuminate\Support\MessageBag;
+use Illuminate\Routing\Controller;
+
+class HomeworkController extends \BaseController 
+{
+	private $homeworks;
+
+	public function __construct(HomeworkModel $homeworks) 
+	{
+        $this->homeworks = $homeworks;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +19,11 @@ class HomeworkController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		//for index views of homeworks
+		$homeworks = Homework::all();
+		
+		return View::make('homeworks.index')
+			->with('homeworks', $homeworks);
 	}
 
 
@@ -20,7 +34,7 @@ class HomeworkController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('homeworks.create');
 	}
 
 
@@ -31,7 +45,16 @@ class HomeworkController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$rules = array(
+			'homework_instruction' => 'required'
+		);
+
+		$homework = new Homework;
+		$homework->homework_instruction	= Input::get('homework_instruction');
+		$homework->save();
+			
+		Session::flash('message', 'Homework successfully added.');
+		return Redirect::to('');
 	}
 
 
