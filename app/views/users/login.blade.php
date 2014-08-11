@@ -21,6 +21,7 @@
           </div>
 
             <div class="container">
+
                  <div id="mainlayout">
                   <div id="loginbox" class="col-md-4">
                   </div>
@@ -54,14 +55,18 @@
                                   {{ Form::submit('LOGIN', ['class'=>'btn btn-success'])}}
                                     <br>
                                     <br>
-                                  {{ Form::submit('CREATE ACCOUNT', ['class' => 'btn btn-primary']) }}
                               </div>
+                               <a class="btn btn-small btn-primary" href="{{ URL::route('users.create') }}">Create Account</a>
+
                               </div>
                               {{ Form::close() }}
+
                           </div>
                       </div>
                   </div>
+                  
                </div>
+
             </div>
         </div>
     

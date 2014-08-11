@@ -71,6 +71,7 @@ Route::group(["before" => "auth"], function() {
      */
     Route::resource('users', 'UserController');
    
+  
 });
 
 /*
@@ -86,6 +87,12 @@ Route::get('/create', function()
 });
 
 */
+ /*create account route*/
+     Route::get('/create', function()
+    {
+        return View::make('users.create');
+    });
+
 Route::get('/profile', function()
 {
 	return View::make('users.profile');
