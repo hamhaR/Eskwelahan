@@ -46,12 +46,27 @@
 		{{ Form::label('lname', 'Lastname') }}
 		{{ Form::text('lname', Input::old('lname'), array('class' => 'form-control')) }}
 	</div>
+<!--	
+	<div class="form-group">
+		Form::select('role', array(
+		'Student' => array('student' => 'Student'),
+		'Teacher' => array('teacher' => 'Teacher'),
+			));
+	</div>
 	
+	<div class="form-group">
+		Form::select('gender', array(
+		'Male' => array('male' => 'Male'),
+		'Female' => array('female' => 'Female'),
+			));
+	</div>
+	-->
 	<div class="form-group">
 		{{ Form::label('role', 'Role') }}
 		{{ Form::text('role', Input::old('role'), array('class' => 'form-control')) }}
 	</div>
-	
+
+
 	<div class="form-group">
 		{{ Form::label('gender', 'Gender') }}
 		{{ Form::text('gender', Input::old('gender'), array('class' => 'form-control')) }}

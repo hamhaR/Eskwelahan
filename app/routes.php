@@ -73,8 +73,8 @@ Route::group(["before" => "auth"], function() {
    
 });
 
-/*
-Route::resource('users', 'UserController');
+
+//Route::resource('users', 'UserController');
 
 Route::get('/', function()
 {
@@ -88,7 +88,7 @@ Route::get('/profile', function()
 {
 	return View::make('users.profile');
 });
-*/
+
 /*Route::post('/create')
 |-----------------------------------------
 |		NOTE!!
