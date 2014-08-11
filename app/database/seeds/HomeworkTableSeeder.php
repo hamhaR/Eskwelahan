@@ -14,6 +14,6 @@ class HomeworkTableSeeder extends DatabaseSeeder{
             ]
         ];
             
-            DB::table('course')->insert($homework);
+            DB::table('homeworks')->insert($homework);
 	}
 }

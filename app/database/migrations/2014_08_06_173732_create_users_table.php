@@ -26,11 +26,8 @@ class CreateUsersTable extends Migration {
 			$table->enum('gender', array('male', 'female'));
 			$table->string('address', 255);
 			$table->string('email', 255);
-
-			//$table->integer('test_id')->nullable();
-			//$table->foreign('test_id')->references('test_id')->on('test');
-			//$table->integer('homework_id')->nullable();
-			//$table->foreign('homework_id')->references('homework_id')->on('homework');
+			//add a new nullable remember_token of VARCHAR(100), TEXT
+			$table->TEXT('remember_token', 100)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

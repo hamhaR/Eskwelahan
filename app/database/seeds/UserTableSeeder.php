@@ -30,6 +30,17 @@ class UserTableSeeder extends DatabaseSeeder{
                 'updated_at' => new DateTime
 			],
 			[
+				'username' => 'juan',
+				'password' => Hash::make('tamad'),
+				'role' => 'student',
+				'fname' => 'Juan',
+				'mname' => 'Hindi',
+				'lname' => 'Tamad',
+				'gender' => 'male',
+				'address' => 'Iligan City',
+				'email' => 'juan.tamad@seharbinger.au'
+			],
+			[
 				'username' => 'teacher',
 				'password' => Hash::make('teacher'),
 				'role' => 'teacher',
@@ -38,10 +49,37 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Merced',
 				'gender' => 'female',
 				'address' => 'Manila City',
+<<<<<<< HEAD
 				'email' => 'francesca@yahoo.com.au',
 				'created_at' => new DateTime,
                 'updated_at' => new DateTime
 			]
+=======
+				'email' => 'francesca@yahoo.com.au'
+			],
+			[
+				'username' => 'samantha',
+				'password' => Hash::make('samsam'),
+				'role' => 'teacher',
+				'fname' => 'Samantha',
+				'mname' => 'Tan',
+				'lname' => 'Reyes',
+				'gender' => 'female',
+				'address' => 'Iligan City',
+				'email' => 'sam.reyes@seharbinger.au'
+			],
+			[
+				'username' => 'admin',
+				'password' => Hash::make('F3$kw31@'),
+				'role' => 'admin',
+				'fname' => 'Sunshine',
+				'mname' => 'Encabo',
+				'lname' => 'Podiotan',
+				'gender' => 'female',
+				'address' => 'Iligan City',
+				'email' => 'shine.podiotan@seharbinger.au'
+			],
+>>>>>>> 2630b682ba7f09f102021e6708a4ef1ac130692e
 		];
 
 		Eloquent::unguard();

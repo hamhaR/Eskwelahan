@@ -15,7 +15,7 @@ public function postLogin() {
                 'password' => Input::get('password')
             ];
             if (Auth::attempt($credentials)) {
-                return Redirect::route('profile');
+                return Redirect::route("profile");
             }
         }
         $data['errors'] = new MessageBag([

@@ -14,6 +14,6 @@ class TestTableSeeder extends DatabaseSeeder{
             ]
         ];
             
-            DB::table('course')->insert($test);
+            DB::table('tests')->insert($test);
 	}
 }
