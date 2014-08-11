@@ -3,7 +3,7 @@
 class CourseTableSeeder extends DatabaseSeeder{
     	public function run()
 	{
-            $courses = [
+            $course = [
             [
                 'course_code' => 'CSC188',
                 'course_title' => 'Software Project Management',
@@ -13,6 +13,6 @@ class CourseTableSeeder extends DatabaseSeeder{
             ]
         ];
             
-            DB::table('course')->insert($courses);
+            DB::table('courses')->insert($course);
 	}
 }

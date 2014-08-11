@@ -12,7 +12,7 @@ class CreateTeacherCourseTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('teacher_course', function(Blueprint $table) {
+		Schema::create('teacher_courses', function(Blueprint $table) {
 			$table->increments('id');
 
 			$table->integer('teacher_id');
@@ -20,7 +20,7 @@ class CreateTeacherCourseTable extends Migration {
 			//$table->integer('course_id');
 
 			$table->foreign('teacher_id')->references('id')->on('users');
-			$table->foreign('course_id')->references('id')->on('course');
+			$table->foreign('course_id')->references('id')->on('courses');
 
 			$table->timestamps();
 			$table->softDeletes();
@@ -34,7 +34,7 @@ class CreateTeacherCourseTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('teacher');
+		Schema::dropIfExists('teacher_courses');
 	}
 
 }

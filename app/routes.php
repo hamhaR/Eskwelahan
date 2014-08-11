@@ -84,6 +84,8 @@ Route::get('/create', function()
 {
 	return View::make('create');
 });
+
+*/
 Route::get('/profile', function()
 {
 	return View::make('users.profile');

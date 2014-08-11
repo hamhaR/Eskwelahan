@@ -20,6 +20,7 @@ namespace Symfony\Component\Debug\Exception;
  */
 class FatalErrorException extends \ErrorException
 {
+    
     public function __construct($message, $code, $severity, $filename, $lineno, $traceOffset = null, $traceArgs = true)
     {
         parent::__construct($message, $code, $severity, $filename, $lineno);
@@ -60,12 +61,15 @@ class FatalErrorException extends \ErrorException
 
             $this->setTrace($trace);
         }
+       
     }
 
     protected function setTrace($trace)
     {
+       
         $traceReflector = new \ReflectionProperty('Exception', 'trace');
         $traceReflector->setAccessible(true);
         $traceReflector->setValue($this, $trace);
+        
     }
 }

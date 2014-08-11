@@ -12,7 +12,7 @@ class CreateCourseTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('course', function(Blueprint $table) {
+		Schema::create('courses', function(Blueprint $table) {
 			$table->increments('id');
 
 			$table->string('course_code', 10);
@@ -23,8 +23,8 @@ class CreateCourseTable extends Migration {
 			//$table->integer('test_id');
 			$table->integer('homework_id')->nullable();
 			//$table->integer('homework_id');
-			$table->foreign('test_id')->references('id')->on('test');
-			$table->foreign('homework_id')->references('id')->on('homework');
+			$table->foreign('test_id')->references('id')->on('tests');
+			$table->foreign('homework_id')->references('id')->on('homeworks');
 
 			$table->timestamps();
 			$table->softDeletes();
@@ -38,7 +38,7 @@ class CreateCourseTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('course');
+		Schema::dropIfExists('courses');
 	}
 
 }
