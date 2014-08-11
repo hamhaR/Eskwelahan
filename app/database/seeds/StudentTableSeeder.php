@@ -5,12 +5,12 @@ class StudentTableSeeder extends DatabaseSeeder{
 	{
             $students = [
             [
-                'student_id' => 1,
+                'student_id' => 3,
                 'course_id' => 1,
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime
             ]
         ];
-            DB::table('student')->insert($students);
+            DB::table('student_courses')->insert($students);
 	}
 }

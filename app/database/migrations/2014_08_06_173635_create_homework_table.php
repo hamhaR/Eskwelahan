@@ -12,7 +12,7 @@ class CreateHomeworkTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('homework', function(Blueprint $table){
+		Schema::create('homeworks', function(Blueprint $table){
 			$table->increments('id');
 			$table->text('homework_instruction');
 
@@ -28,7 +28,7 @@ class CreateHomeworkTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('homework');
+		Schema::dropIfExists('homeworks');
 	}
 
 }
