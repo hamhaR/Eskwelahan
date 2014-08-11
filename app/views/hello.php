@@ -1,29 +1,80 @@
-
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-	<title>Welcome to Eskwelahan v0.0.1</title>
-</head>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">var siteloc = "{{ url('/') }}"</script>
+    <title>Eskwelahan</title>
+    
+        <!-- Bootstrap core CSS -->
+        {{ HTML::style('bootflat/css/bootstrap.min.css')}}
 
-<body>
+        <!-- Custom styles for this template -->
+        {{ HTML::style('bootflat/css/layout.css')}}
+    </head>
 
-<!-- para sa login pagka unya -->
-<section class="container">	
-	<div class="login">
-		Login:<br />
-		<p><input type="text" name="login" value="" placeholder="Username"></p>
-		<p><input type="password" name="password" value="" placeholder="password"></p>
-		<p class="submit"><input type="submit" name="loginNow" value="Login"></p>
-	</div>
-</section>
-<!--    -->
+    <body>
+        <div class="content">
+          <div id="header" style="text-align:center; padding-left:0px; padding-top:10px;">
+             <h2><strong>Project Eskwelahan</strong></h2>
+             <br>
+          </div>
 
-<div class="container">
-<h1>CREATE AN ACCOUNT</h1>
-	<a href="create"> CREATE ACCOUNT!!</a>
-</div>
-		
-</body>
+            <div class="container">
+               <a class="btn btn-small btn-primary" href="{{ URL::route('users.create') }}">Create Account</a>
+                 <div id="mainlayout">
+                  <div id="loginbox" class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                      <div class="panel panel-primary" >
+                         
+                          <div class="panel-body" >
+                              @if ($error = $errors->first("password"))
+                              <div id="login-alert" class="alert alert-danger col-sm-12"> 
+                                  {{ $error }}
+                              </div>
+                              @endif
+
+                              {{ Form::open(["url"        => "/login",
+                                      "autocomplete" => "off", 'class'=>'form-horizontal']) }}
+
+                              <div class="input-group">
+                                  <span class="input-group-addon"></span>
+                                  {{ Form::text('username', null, ['class'=>'form-control', 'placeholder'=>'Username']) }}
+                              </div>
+
+                              <div class="input-group">
+                                  <span class="input-group-addon"></span>
+                                  {{ Form::password('password', ['class'=>'form-control', 'placeholder'=>'Password']) }}
+                              </div>
+
+                              <div class="row">
+                         
+                          
+                              <div class="col-md-4 controls">
+                                  {{ Form::submit('LOGIN', ['class'=>'btn btn-success'])}}
+                                    <br>
+                                    <br>
+                              </div>
+
+                              </div>
+                              {{ Form::close() }}
+
+                          </div>
+                      </div>
+                  </div>
+                  
+               </div>
+
+            </div>
+        </div>
+    
+         <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../bootflat/js/bootstrap.min.js"></script>
+        <script src="../bootflat/js/jquery-1.9.1.min.js"></script>
+
+     
+    </body>
 </html>

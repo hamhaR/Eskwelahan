@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\MessageBag;
+use Illuminate\Routing\Controller;
 
 class AuthenticationController extends Controller {
 
