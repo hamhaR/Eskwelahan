@@ -34,7 +34,10 @@ class HomeworkController extends \BaseController
 	 */
 	public function create()
 	{
-		return View::make('homeworks.create');
+		$user = Auth::user();
+		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+
+		return View::make('homeworks.create')->with('courses', $results);
 	}
 
 
@@ -46,10 +49,12 @@ class HomeworkController extends \BaseController
 	public function store()
 	{
 		$rules = array(
+			'course_id' => 'required'
 			'homework_instruction' => 'required'
 		);
 
 		$homework = new Homework;
+		$homework->course_id = Input::get('course_id');
 		$homework->homework_instruction	= Input::get('homework_instruction');
 		$homework->save();
 			

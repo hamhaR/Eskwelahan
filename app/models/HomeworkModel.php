@@ -22,7 +22,10 @@ class HomeworkModel implements TableRepository
     public function add($attributes) 
     {
         $this->checkAdmin();
-        $rules = ['homework_instruction' => 'required'];
+        $rules = [
+            'homework_instruction' => 'required',
+            'course_id' => 'required'
+        ];
 
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) 
@@ -34,5 +37,21 @@ class HomeworkModel implements TableRepository
         {
             throw new ErrorException("Invalid data!");
         }
+    }
+
+    public function all(array $columns = ["*"]) {
+       //
+    }
+
+    public function delete($id) {
+        //
+    }
+
+    public function edit($id, $attributes) {
+        //
+    }
+
+    public function find($id) {
+        //
     }
 }
