@@ -86,6 +86,7 @@ Route::get('/', function()
 {
 	return View::make('users.index');
 });
+/*
 Route::get('/create', function()
 {
 	return View::make('create');

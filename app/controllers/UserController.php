@@ -33,7 +33,7 @@ class UserController extends Controller {
 	public function create()
 	{
 		//load the create form (app/views/users/create.blade.php)
-		return View::make('create');
+		return View::make('users.create');
 	}
 
 
@@ -62,7 +62,7 @@ class UserController extends Controller {
 		
 		//do again
 		if ($validator->fails()){
-			return Redirect::to('create')
+			return Redirect::to('users.create')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		
@@ -83,7 +83,7 @@ class UserController extends Controller {
 			$user->save();
 			
 			Session::flash('message', 'Congratulations you have been registered!!');
-			return Redirect::to('profile');
+			return Redirect::to('users.profile');
 		}
 	}
 
