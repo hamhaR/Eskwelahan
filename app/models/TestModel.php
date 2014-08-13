@@ -3,15 +3,21 @@
 class TestModel implements TableRepository{
 	
 	public function checkTeacher() {
-       //
+        if (Auth::user()->role != 'teacher') {
+            throw new UnauthorizedException('Access is denied!');
+        }
     }
 
     public function checkPermissions($id) {
-        //
+       $user = Auth::user();
+        if ($user->role != 'teacher' && $user->id != $id) {
+            throw new UnauthorizedException('Access is denied!');
+        }
     }
 
      public function add($attributes) {
-             $rules = [ 'username' => 'required|Unique:users',
+         $this->checkTeacher();
+         $rules = [ 'username' => 'required|Unique:users',
             'password' => 'required'];
 
         $validator = Validator::make($attributes, $rules);
@@ -25,19 +31,22 @@ class TestModel implements TableRepository{
     }
 
     public function all(array $columns = ["*"]) {
-        //wala pay sulod
+         $this->checkTeacher();
+        return User::orderBy('username')->get($columns);
     }
 
     public function delete($id) {
+        $this->checkTeacher();
         $user = User::find($id);
         if ($user != null) {
             $user->delete();
         } else {
             throw new ErrorException("Invalid userId!");
         }
+    }
 
     public function edit($id, $attributes) {
-       //
+        //wala pa.
     }
 
     public function find($id) {
@@ -47,7 +56,4 @@ class TestModel implements TableRepository{
         }
         return $user->attributesToArray();
     }
-    }
-
-
 }
