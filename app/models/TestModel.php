@@ -11,8 +11,7 @@ class TestModel implements TableRepository{
     }
 
      public function add($attributes) {
-        $this->checkTeacher();
-        $rules = [ 'username' => 'required|Unique:users',
+             $rules = [ 'username' => 'required|Unique:users',
             'password' => 'required'];
 
         $validator = Validator::make($attributes, $rules);
@@ -30,13 +29,24 @@ class TestModel implements TableRepository{
     }
 
     public function delete($id) {
-        $this->checkTeacher();
         $user = User::find($id);
         if ($user != null) {
             $user->delete();
         } else {
             throw new ErrorException("Invalid userId!");
         }
+
+    public function edit($id, $attributes) {
+       //
+    }
+
+    public function find($id) {
+        $user = User::find($id);
+        if($user == null){
+            return null;
+        }
+        return $user->attributesToArray();
+    }
     }
 
 
