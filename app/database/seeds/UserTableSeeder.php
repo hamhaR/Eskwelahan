@@ -12,7 +12,9 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Dela Cruz',
 				'gender' => 'male',
 				'address' => 'Iligan City',
-				'email' => 'sanjuan.delacruz@wailing-mountains.net'
+				'email' => 'sanjuan.delacruz@wailing-mountains.net',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
 			],
 			[
 				'username' => '2student',
@@ -23,7 +25,9 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Yu',
 				'gender' => 'male',
 				'address' => 'Bacolod City',
-				'email' => 'pablo.yu@seharbinger.au'
+				'email' => 'pablo.yu@seharbinger.au',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
 			],
 			[
 				'username' => 'juan',
@@ -45,6 +49,12 @@ class UserTableSeeder extends DatabaseSeeder{
 				'lname' => 'Merced',
 				'gender' => 'female',
 				'address' => 'Manila City',
+<<<<<<< HEAD
+				'email' => 'francesca@yahoo.com.au',
+				'created_at' => new DateTime,
+                'updated_at' => new DateTime
+			]
+=======
 				'email' => 'francesca@yahoo.com.au'
 			],
 			[
@@ -69,6 +79,7 @@ class UserTableSeeder extends DatabaseSeeder{
 				'address' => 'Iligan City',
 				'email' => 'shine.podiotan@seharbinger.au'
 			],
+>>>>>>> 2630b682ba7f09f102021e6708a4ef1ac130692e
 		];
 
 		Eloquent::unguard();

@@ -71,7 +71,12 @@ Route::group(["before" => "auth"], function() {
      */
     Route::resource('users', 'UserController');
    
-  
+
+
+   /*
+    * HomeworkController
+    */
+   Route::resource('homeworks', 'HomeworkController');
 });
 
 /*

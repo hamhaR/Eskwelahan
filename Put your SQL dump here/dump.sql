@@ -9,20 +9,6 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -104,6 +90,46 @@ ALTER SEQUENCE friends_friend_id_seq OWNED BY friends.friend_id;
 
 
 --
+-- Name: homework; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE homework (
+    homework_id integer NOT NULL,
+    homework_num integer NOT NULL,
+    homework_description text NOT NULL,
+    homework_deadline timestamp without time zone NOT NULL,
+    teacher_id integer NOT NULL,
+    course_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.homework OWNER TO postgres;
+
+--
+-- Name: homework_homework_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE homework_homework_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.homework_homework_id_seq OWNER TO postgres;
+
+--
+-- Name: homework_homework_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE homework_homework_id_seq OWNED BY homework.homework_id;
+
+
+--
 -- Name: migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -153,6 +179,83 @@ ALTER SEQUENCE student_student_course_id_seq OWNED BY student.student_course_id;
 
 
 --
+-- Name: submit_homework; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE submit_homework (
+    submit_homework_id integer NOT NULL,
+    date_submitted timestamp without time zone NOT NULL,
+    homework_id integer NOT NULL,
+    student_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.submit_homework OWNER TO postgres;
+
+--
+-- Name: submit_homework_submit_homework_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE submit_homework_submit_homework_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.submit_homework_submit_homework_id_seq OWNER TO postgres;
+
+--
+-- Name: submit_homework_submit_homework_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE submit_homework_submit_homework_id_seq OWNED BY submit_homework.submit_homework_id;
+
+
+--
+-- Name: take_test; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE take_test (
+    take_test_id integer NOT NULL,
+    time_started timestamp without time zone NOT NULL,
+    time_remaining timestamp without time zone NOT NULL,
+    student_id integer NOT NULL,
+    test_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.take_test OWNER TO postgres;
+
+--
+-- Name: take_test_take_test_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE take_test_take_test_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.take_test_take_test_id_seq OWNER TO postgres;
+
+--
+-- Name: take_test_take_test_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE take_test_take_test_id_seq OWNED BY take_test.take_test_id;
+
+
+--
 -- Name: teacher; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -190,6 +293,46 @@ ALTER SEQUENCE teacher_teacher_course_id_seq OWNED BY teacher.teacher_course_id;
 
 
 --
+-- Name: test; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    test_num integer NOT NULL,
+    questions text NOT NULL,
+    answer_key text NOT NULL,
+    teacher_id integer NOT NULL,
+    course_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.test OWNER TO postgres;
+
+--
+-- Name: test_test_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE test_test_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.test_test_id_seq OWNER TO postgres;
+
+--
+-- Name: test_test_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE test_test_id_seq OWNED BY test.test_id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -207,8 +350,8 @@ CREATE TABLE users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
-    CONSTRAINT users_gender_check CHECK (((gender)::text = ANY ((ARRAY['male'::character varying, 'female'::character varying])::text[]))),
-    CONSTRAINT users_role_check CHECK (((role)::text = ANY ((ARRAY['student'::character varying, 'teacher'::character varying])::text[])))
+    CONSTRAINT users_gender_check CHECK (((gender)::text = ANY (ARRAY[('male'::character varying)::text, ('female'::character varying)::text]))),
+    CONSTRAINT users_role_check CHECK (((role)::text = ANY (ARRAY[('student'::character varying)::text, ('teacher'::character varying)::text])))
 );
 
 
@@ -250,6 +393,13 @@ ALTER TABLE ONLY friends ALTER COLUMN friend_id SET DEFAULT nextval('friends_fri
 
 
 --
+-- Name: homework_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY homework ALTER COLUMN homework_id SET DEFAULT nextval('homework_homework_id_seq'::regclass);
+
+
+--
 -- Name: student_course_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -257,10 +407,31 @@ ALTER TABLE ONLY student ALTER COLUMN student_course_id SET DEFAULT nextval('stu
 
 
 --
+-- Name: submit_homework_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY submit_homework ALTER COLUMN submit_homework_id SET DEFAULT nextval('submit_homework_submit_homework_id_seq'::regclass);
+
+
+--
+-- Name: take_test_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY take_test ALTER COLUMN take_test_id SET DEFAULT nextval('take_test_take_test_id_seq'::regclass);
+
+
+--
 -- Name: teacher_course_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY teacher ALTER COLUMN teacher_course_id SET DEFAULT nextval('teacher_teacher_course_id_seq'::regclass);
+
+
+--
+-- Name: test_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY test ALTER COLUMN test_id SET DEFAULT nextval('test_test_id_seq'::regclass);
 
 
 --
@@ -293,7 +464,20 @@ SELECT pg_catalog.setval('course_course_id_seq', 1, false);
 -- Name: friends_friend_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('friends_friend_id_seq', 1, false);
+SELECT pg_catalog.setval('friends_friend_id_seq', 4, true);
+
+
+--
+-- Data for Name: homework; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: homework_homework_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('homework_homework_id_seq', 1, false);
 
 
 --
@@ -305,6 +489,10 @@ INSERT INTO migrations VALUES ('2014_07_07_012737_create_course_table', 1);
 INSERT INTO migrations VALUES ('2014_07_07_012911_create_teacher_course_table', 1);
 INSERT INTO migrations VALUES ('2014_07_07_014813_create_student_course_table', 1);
 INSERT INTO migrations VALUES ('2014_07_07_014835_create_friends_table', 1);
+INSERT INTO migrations VALUES ('2014_08_07_054909_create_homework_table', 2);
+INSERT INTO migrations VALUES ('2014_08_07_054934_create_test_table', 2);
+INSERT INTO migrations VALUES ('2014_08_07_055017_create_submit_homework_table', 2);
+INSERT INTO migrations VALUES ('2014_08_07_055221_create_take_test_table', 2);
 
 
 --
@@ -321,6 +509,32 @@ SELECT pg_catalog.setval('student_student_course_id_seq', 1, false);
 
 
 --
+-- Data for Name: submit_homework; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: submit_homework_submit_homework_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('submit_homework_submit_homework_id_seq', 1, false);
+
+
+--
+-- Data for Name: take_test; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: take_test_take_test_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('take_test_take_test_id_seq', 1, false);
+
+
+--
 -- Data for Name: teacher; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -334,20 +548,32 @@ SELECT pg_catalog.setval('teacher_teacher_course_id_seq', 1, false);
 
 
 --
+-- Data for Name: test; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: test_test_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_test_id_seq', 1, false);
+
+
+--
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO users VALUES (4, 'jervey', 'ani', 'student', 'jervey', 'ricablanca', 'benitez', 'male', 'palao', 'jervey2008@gmail.com', '2014-08-04 01:56:57', '2014-08-04 01:56:57', NULL);
-INSERT INTO users VALUES (5, 'asdf', 'lkjh', 'student', 'qwre', 'asd', 'vbxcb', 'male', 'zxuygvzixuytv', 'askufga@asdkufyasgdf.com', '2014-08-04 01:59:19', '2014-08-04 01:59:19', NULL);
-INSERT INTO users VALUES (6, 'jerveyb', 'lkasjdflakj', 'student', 'ani', 'rica', 'beni', 'male', 'palao iligan pod', 'jervey2007@gmail.com', '2014-08-04 02:03:34', '2014-08-04 02:03:34', NULL);
-INSERT INTO users VALUES (7, 'manny', 'pacman', 'teacher', 'manny', 'pacman', 'pacquiao', 'male', 'general santos', 'asdfasdf@adfkjal.com', '2014-08-04 02:04:38', '2014-08-04 02:04:38', NULL);
+INSERT INTO users VALUES (1, 'student1', '$2y$10$tubqgo4qELEAiiqyF7VYPuhU8LK9gOVHRaIy/F8N8SgnU4v51hYZm', 'student', 'San', 'Juan', 'Dela Cruz', 'male', 'Iligan City', 'sanjuan.delacruz@wailing-mountains.net', '2014-08-10 03:37:16', '2014-08-10 03:37:16', NULL);
+INSERT INTO users VALUES (2, '2student', '$2y$10$baLYW8NZJdgrCV2AzLbzlOcwjAOl2xjfhtn3DzRmCIpafCfBlxnj2', 'student', 'Pablo', 'Tan', 'Yu', 'male', 'Bacolod City', 'pablo.yu@seharbinger.au', '2014-08-10 03:37:16', '2014-08-10 03:37:16', NULL);
+INSERT INTO users VALUES (3, 'teacher', '$2y$10$.3xlDrpbWuQnlJd3.t5oEOr0oohN5x.wVppGnsXswByirLYG4LxjG', 'teacher', 'Francesca', 'Alde', 'Merced', 'female', 'Manila City', 'francesca@yahoo.com.au', '2014-08-10 03:37:16', '2014-08-10 03:37:16', NULL);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('users_id_seq', 7, true);
+SELECT pg_catalog.setval('users_id_seq', 3, true);
 
 
 --
@@ -367,6 +593,14 @@ ALTER TABLE ONLY friends
 
 
 --
+-- Name: homework_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY homework
+    ADD CONSTRAINT homework_pkey PRIMARY KEY (homework_id);
+
+
+--
 -- Name: student_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -375,11 +609,35 @@ ALTER TABLE ONLY student
 
 
 --
+-- Name: submit_homework_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY submit_homework
+    ADD CONSTRAINT submit_homework_pkey PRIMARY KEY (submit_homework_id);
+
+
+--
+-- Name: take_test_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY take_test
+    ADD CONSTRAINT take_test_pkey PRIMARY KEY (take_test_id);
+
+
+--
 -- Name: teacher_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY teacher
     ADD CONSTRAINT teacher_pkey PRIMARY KEY (teacher_course_id);
+
+
+--
+-- Name: test_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY test
+    ADD CONSTRAINT test_pkey PRIMARY KEY (test_id);
 
 
 --
@@ -407,6 +665,22 @@ ALTER TABLE ONLY friends
 
 
 --
+-- Name: homework_course_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY homework
+    ADD CONSTRAINT homework_course_id_foreign FOREIGN KEY (course_id) REFERENCES course(course_id);
+
+
+--
+-- Name: homework_teacher_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY homework
+    ADD CONSTRAINT homework_teacher_id_foreign FOREIGN KEY (teacher_id) REFERENCES users(id);
+
+
+--
 -- Name: student_course_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -423,6 +697,38 @@ ALTER TABLE ONLY student
 
 
 --
+-- Name: submit_homework_homework_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY submit_homework
+    ADD CONSTRAINT submit_homework_homework_id_foreign FOREIGN KEY (homework_id) REFERENCES homework(homework_id);
+
+
+--
+-- Name: submit_homework_student_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY submit_homework
+    ADD CONSTRAINT submit_homework_student_id_foreign FOREIGN KEY (student_id) REFERENCES users(id);
+
+
+--
+-- Name: take_test_student_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY take_test
+    ADD CONSTRAINT take_test_student_id_foreign FOREIGN KEY (student_id) REFERENCES users(id);
+
+
+--
+-- Name: take_test_test_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY take_test
+    ADD CONSTRAINT take_test_test_id_foreign FOREIGN KEY (test_id) REFERENCES test(test_id);
+
+
+--
 -- Name: teacher_course_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -436,6 +742,22 @@ ALTER TABLE ONLY teacher
 
 ALTER TABLE ONLY teacher
     ADD CONSTRAINT teacher_teacher_id_foreign FOREIGN KEY (teacher_id) REFERENCES users(id);
+
+
+--
+-- Name: test_course_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY test
+    ADD CONSTRAINT test_course_id_foreign FOREIGN KEY (course_id) REFERENCES course(course_id);
+
+
+--
+-- Name: test_teacher_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY test
+    ADD CONSTRAINT test_teacher_id_foreign FOREIGN KEY (teacher_id) REFERENCES users(id);
 
 
 --
