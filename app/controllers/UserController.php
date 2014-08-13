@@ -61,14 +61,14 @@ class UserController extends Controller {
 		$validator = Validator::make(Input::all(), $rules);
 		
 		//do again
-		if ($validator->fails()){
-			return Redirect::to('users.create')
+	/*	if ($validator->fails()){
+			return Redirect::to('users/create')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		
 		}
 		
-		else {
+		else {*/
 			//store
 			$user = new User;
 			$user->username		= Input::get('username');
@@ -82,9 +82,9 @@ class UserController extends Controller {
 			$user->email		= Input::get('email');
 			$user->save();
 			
-			Session::flash('message', 'Congratulations you have been registered!!');
-			return Redirect::to('users.profile');
-		}
+			console.log('You have been registered');
+			return Redirect::to('profile');
+		//}
 	}
 
 

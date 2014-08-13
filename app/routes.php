@@ -112,3 +112,22 @@ Route::get('/profile', function()
 | or himoon nalang sya nga para sa blade
 |
 */
+
+/***********************
+karaan nga routes basta mao ning gamiton dili na mag error ang create
+***********************/
+
+/*Route::resource('users', 'UserController');
+
+Route::get('/', function()
+{
+	return View::make('users.index');
+});
+Route::get('/create', function()
+{
+	return View::make('create');
+});
+Route::get('/profile', function()
+{
+	return View::make('users.profile');
+});*/

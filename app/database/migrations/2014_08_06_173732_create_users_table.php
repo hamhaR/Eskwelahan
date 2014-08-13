@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration {
 			$table->string('username', 32);
 			$table->string('password', 64);
 
-			$table->enum('role', array('admin', 'student', 'teacher'))->default('student');
+			$table->enum('role', array('admin', 'student', 'teacher'));
 
 			$table->string('fname', 32);
 			$table->string('mname', 32);

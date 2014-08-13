@@ -1,4 +1,4 @@
-<!-- app/views/create.blade.php-->
+<!-- app/views/users/create.blade.php-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +17,10 @@
 
 {{ HTML::ul($errors->all()) }}
 
+
 {{ Form::open(array('url' => 'users')) }}
 
 <div class="col-md-4" >
-	<div class="col-md-4" >
-
 	<div class="form-group">
 		{{ Form::label('username', 'Username') }}
 		{{ Form::text('username', Input::old('username'), array('class' => 'form-control')) }}
@@ -73,6 +72,8 @@
 	{{ Form::submit('Register!', array('class' => 'btn btn-primary')) }}
 </div>
 {{ Form::close() }}
+
+
 
 </div>
 
