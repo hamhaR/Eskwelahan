@@ -91,15 +91,12 @@ Route::get('/create', function()
 	return View::make('create');
 });
 
-<<<<<<< HEAD
-=======
 */
  /*create account route*/
      Route::get('/create', function()
     {
         return View::make('users.create');
     });
->>>>>>> 02557fd5eb54815cfd44cfdd61f8eef04af1764e
 
 Route::get('/profile', function()
 {
