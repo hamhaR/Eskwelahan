@@ -1,4 +1,4 @@
-<!-- app/views/users/create.blade.php-->
+<!-- app/views/create.blade.php-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,21 +46,21 @@
 		{{ Form::label('lname', 'Lastname') }}
 		{{ Form::text('lname', Input::old('lname'), array('class' => 'form-control')) }}
 	</div>
-<!--	
+<!--
 	<div class="form-group">
-		Form::select('role', array(
+		{{Form::select('role', array(
 		'Student' => array('student' => 'Student'),
 		'Teacher' => array('teacher' => 'Teacher'),
-			));
+			));}}
 	</div>
 	
 	<div class="form-group">
-		Form::select('gender', array(
+		{{Form::select('gender', array(
 		'Male' => array('male' => 'Male'),
 		'Female' => array('female' => 'Female'),
-			));
-	</div>
-	-->
+			));}}
+	</div>-->
+	
 	<div class="form-group">
 		{{ Form::label('role', 'Role') }}
 		{{ Form::text('role', Input::old('role'), array('class' => 'form-control')) }}
