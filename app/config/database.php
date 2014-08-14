@@ -68,7 +68,7 @@ return array(
 			'host'     => 'localhost',
 			'database' => 'eskwelahan',
 			'username' => 'postgres',
-			'password' => 'postgrespass',
+			'password' => 'postgre',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

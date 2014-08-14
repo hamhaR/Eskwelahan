@@ -66,11 +66,7 @@ Route::group(["before" => "auth"], function() {
         "uses" => "AuthenticationController@getLogout"
     ]);
 
-    /*
-     * UserController
-     */
-    Route::resource('users', 'UserController');
-   
+    
 
 
    /*
@@ -82,10 +78,10 @@ Route::group(["before" => "auth"], function() {
 
 //Route::resource('users', 'UserController');
 
-Route::get('/', function()
-{
-	return View::make('users.index');
-});
+//Route::get('/', function()
+//{
+//	return View::make('users.index');
+//});
 /*
 Route::get('/create', function()
 {
@@ -93,6 +89,12 @@ Route::get('/create', function()
 });
 
 */
+
+/*
+     * UserController
+     */
+    Route::resource('users', 'UserController');
+
  /*create account route*/
      Route::get('/create', function()
     {

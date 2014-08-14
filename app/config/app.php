@@ -80,7 +80,8 @@ return array(
 
 	'key' => 'YourSecretKey!!!',
 
-	'cipher' => MCRYPT_RIJNDAEL_128,
+	//used to control the default cipher used by the Laravel encryption facilities
+	'cipher' => MCRYPT_RIJNDAEL_256,
 
 	/*
 	|--------------------------------------------------------------------------
