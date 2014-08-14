@@ -131,3 +131,10 @@ Route::get('/profile', function()
 {
 	return View::make('users.profile');
 });*/
+
+/*
+ * Course Controller
+ */
+Route::resource('course', 'CourseController');
+//Route::post('course/{id}/{attributes}', 'CourseController@update');
+Route::post('/update/{id}', 'CourseController@update');
