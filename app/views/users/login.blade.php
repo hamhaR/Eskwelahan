@@ -55,11 +55,8 @@
                                   {{ Form::submit('LOGIN', ['class'=>'btn btn-success'])}}
                                     <br>
                                     <br>
-
-                                  <!--{{ Form::submit('CREATE ACCOUNT', ['class' => 'btn btn-primary']) }}
-								-->							  
-								<a href="create"> CREATE ACCOUNT!!</a>
-							  </div>
+                              </div>
+                               <a class="btn btn-small btn-primary" href="{{ URL::route('users.create') }}">Create Account</a>
 
                               </div>
                               {{ Form::close() }}
