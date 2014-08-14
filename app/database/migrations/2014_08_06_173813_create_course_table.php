@@ -19,13 +19,6 @@ class CreateCourseTable extends Migration {
 			$table->string('course_title', 32);
 			$table->string('course_description', 250);
 
-			$table->integer('test_id')->nullable();
-			//$table->integer('test_id');
-			$table->integer('homework_id')->nullable();
-			//$table->integer('homework_id');
-			$table->foreign('test_id')->references('id')->on('tests');
-			$table->foreign('homework_id')->references('id')->on('homeworks');
-
 			$table->timestamps();
 			$table->softDeletes();
 		});
