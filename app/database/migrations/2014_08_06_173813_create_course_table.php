@@ -16,8 +16,9 @@ class CreateCourseTable extends Migration {
 			$table->increments('id');
 
 			$table->string('course_code', 10);
-			$table->string('course_title', 32);
-			$table->string('course_description', 250);
+			$table->string('course_section', 10);
+			$table->text('course_title');
+			$table->text('course_description');
 
 			$table->timestamps();
 			$table->softDeletes();
