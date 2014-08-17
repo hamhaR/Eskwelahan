@@ -35,8 +35,9 @@ class CourseRepository  {
     public function add($attributes) {
         //$this->checkWritePermissions;
         $req = [
-            'course_code' => 'required|unique:course|alpha_num',
-            'course_title' => 'required|unique:course',
+            'course_code' => 'required|alpha_num',
+            'course_title' => 'required',
+            'course_section' => 'required',
             'course_description' => 'required'
         ];
         $validator = Validator::make($attributes, $req);
@@ -44,6 +45,7 @@ class CourseRepository  {
             $course = new Course;
             $course->course_code = $attributes['course_code'];
             $course->course_title = $attributes['course_title'];
+            $course->course_section = $attributes['course_section'];
             $course->course_description = $attributes['course_description'];
             $course->created_at = new DateTime;
             $course->updated_at = new DateTime;

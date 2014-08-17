@@ -42,14 +42,17 @@ class CourseController extends \BaseController {
 		$courseData = [
 			'course_code' => Input::get('course_code'),
 			'course_title' => Input::get('course_title'),
+			'course_secton' => Input::get('course_secton'),
 			'course_description' => Input::get('course_description')
 		];
 		$rules = array(
 			'course_code' => 'required',
 			'course_title' => 'required',
+			'course_secton' => 'required',
 			'course_description' => 'required'
 		);
-		$validator = Validator::make($courseData, $rules);
+		$validator = Validator::make(Input::all(), $rules);
+		
 		if ($validator->fails()) {
 			return Redirect::to('course/create')
 							->withErrors($validator)
@@ -58,6 +61,7 @@ class CourseController extends \BaseController {
 			$this->course->add($courseData);
 			return $this->index() ;
 		}
+		
 
 	}
 

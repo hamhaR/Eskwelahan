@@ -1,7 +1,7 @@
 <?php
 
 class Course extends Eloquent{
-	protected $table = 'course';
+	protected $table = 'courses';
 	protected $primaryKey = 'id';
 	protected $softDelete = true;
 }
