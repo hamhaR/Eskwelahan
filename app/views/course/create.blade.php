@@ -1,10 +1,7 @@
 @extends("layout")
 @section("content")
 
-{{ Form::open(array('url' => 'course'
-        'autocomplete' => 'off',
-        'class' => 'form-horizontal'
-        )) }}
+{{ Form::open(array('url' => 'course')) }}
 
     <div class="form-group">
         <label for="course_code">Course code</label>

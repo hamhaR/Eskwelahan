@@ -39,30 +39,31 @@ class CourseController extends \BaseController {
 	 */
 	public function store()
 	{
+		$attributes = Input::all();
 		$courseData = [
-			'course_code' => Input::get('course_code'),
-			'course_title' => Input::get('course_title'),
-			'course_secton' => Input::get('course_secton'),
-			'course_description' => Input::get('course_description')
+			'course_code' => $attributes['course_code'],
+			'course_title' => $attributes['course_title'],
+			'course_description' => $attributes['course_description']
 		];
-		$rules = array(
+
+		$c_section = $attributes['course_section'];
+
+		$rules = [
 			'course_code' => 'required',
 			'course_title' => 'required',
-			'course_secton' => 'required',
 			'course_description' => 'required'
-		);
-		$validator = Validator::make(Input::all(), $rules);
-		
+		];
+
+		$validator = Validator::make($courseData, $rules);
+				
 		if ($validator->fails()) {
 			return Redirect::to('course/create')
 							->withErrors($validator)
 							->withInput(Input::all());
 		} else{
-			$this->course->add($courseData);
+			$this->course->add($courseData, $c_section);
 			return $this->index() ;
 		}
-		
-
 	}
 
 
