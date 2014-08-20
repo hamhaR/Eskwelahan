@@ -1,7 +1,9 @@
 <?php
 
 class Course extends Eloquent{
+	use SoftDeletingTrait;
+
 	protected $table = 'courses';
 	protected $primaryKey = 'id';
-	protected $softDelete = true;
+	public $timestamps = true;
 }

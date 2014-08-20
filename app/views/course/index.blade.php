@@ -12,7 +12,7 @@
 				<?php $length = count($rows); ?>
 				@for ($i = 0; $i < $length; $i++)
 				<tr>
-					<td><a href="http://localhost:8000/course/{{ $rows[$i]['id'] }}">{{ $rows[$i]['course_code'] }}</a></td>
+					<td>{{ HTML::link('/course/' . $rows[$i]['id'], $rows[$i]['course_code']) }}</td>
 				</tr>
 				@endfor
 			</tbody>

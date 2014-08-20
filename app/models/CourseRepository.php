@@ -29,7 +29,33 @@ class CourseRepository  {
 
  	public function all() {
  		//$this->checkReadPermissions;
- 		return Course::all();
+        $t_id = Auth::id();
+
+        $a = TeacherCourse::where('teacher_id', $t_id)->get();
+        
+        $rows = DB::table('teacher_courses')
+                    ->join('courses', 'courses.id', '=', 'teacher_courses.course_id')
+                    ->join('users', 'users.id', '=', 'teacher_courses.teacher_id')
+                    ->where('teacher_id', '=', $t_id)
+                    ->select('courses.id', 'courses.course_code', 'courses.course_section', 'courses.course_title', 'courses.course_description')
+                    ->get();
+        $array = [];
+
+        foreach($rows as $row){
+            $row = get_object_vars($row);
+            $course_code = $row['course_code'];
+            $course_id = $row['id'];
+            
+            $result = [
+                'id' => $course_id,
+                'course_code' => $course_code
+
+            ];
+
+            array_push($array, $result);
+        }
+
+        return $array;
  	}
 
     public function add($attributes, $c_section) {
@@ -39,7 +65,7 @@ class CourseRepository  {
             'course_title' => 'required',
             'course_description' => 'required'
         ];
-        
+
         $validator = Validator::make($attributes, $req);
         if ($validator->passes()) {
             $course = new Course;
@@ -47,11 +73,18 @@ class CourseRepository  {
             $course->course_title = $attributes['course_title'];
             $course->course_section = $c_section;
             $course->course_description = $attributes['course_description'];
-            $course->created_at = new DateTime;
-            $course->updated_at = new DateTime;
-            $course->deleted_at = null;
             $course->save();
-            return $course->course_code;
+            
+            $c_id = $course->id;        // course id
+            $t_id = Auth::id();         // teacher id
+
+            // insert to the teacher_course table
+            $t_c = new TeacherCourse;
+            $t_c->teacher_id = $t_id;
+            $t_c->course_id = $c_id;
+            $t_c->save();
+            
+            return $course->id;
         } else {
             return print 'Invalid data.';
         }

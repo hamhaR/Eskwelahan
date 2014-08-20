@@ -20,21 +20,6 @@
             	{{ $course['course_title'] }}
     	</div>
 
-	<!--
-		<tr>
-			<td> Course code: </td>
-			<td> {{ $course['course_code'] }} </td>
-		</tr>
-		<tr>
-			<td> Course section: </td>
-			<td> {{ $course['course_section'] }} </td>
-		</tr>
-		<tr>
-			<td> Course title: </td>
-			<td> {{ $course['course_title'] }} </td>
-		</tr>
-	-->
-
 		<!-- Text input-->
 	    <div class="form-group">
 	        <label class="col-md-4 control-label" for="course_description"><span style="font-family:sans-serif; font-size:13px ">Course Description</span></label>  
@@ -42,14 +27,6 @@
 	            <input id="course_description" name="course_description" type="textarea" placeholder="" value="{{ $course['course_description'] }}" class="form-control input-md" required="">
 	        </div>
 	    </div>
-<!--
-		<tr>
-			<td> 
-				{{ Form::label('course_description', 'Course Description') }}
-				{{ Form::textarea('course_description')}} 
-			</td>
-		</tr>
--->
 		<tr>
 			<td>
 					{{ Form::hidden('_method', 'POST') }}
