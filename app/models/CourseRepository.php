@@ -90,9 +90,9 @@ class CourseRepository  {
         }
     }
 
-    public function delete($course_code) {
+    public function delete($id) {
         //$this->checkWritePermissions;
-        $course = Course::find($course_code);
+        $course = Course::find($id);
         if ($course != null) {
             $course->delete();
         } else {
@@ -118,9 +118,9 @@ class CourseRepository  {
         }
     }
 
-    public function find($course_code) {
+    public function find($id) {
         //$this->checkReadPermissions;
-        $course = Course::find($course_code);
+        $course = Course::find($id);
         if ($course_code == null) {
             throw new Exception("Course code doesn't exist.");
         } else {
