@@ -94,6 +94,7 @@ class CourseRepository  {
         //$this->checkWritePermissions;
         $course = Course::find($id);
         if ($course != null) {
+            DB::table('teacher_courses')->where('course_id', $id)->delete();
             $course->delete();
         } else {
             throw new Exception("Invalid course code.");
@@ -118,12 +119,12 @@ class CourseRepository  {
         }
     }
 
-    public function find($id) {
+    public function find($course_code) {
         //$this->checkReadPermissions;
-        $course = Course::find($id);
-        if ($course_code == null) {
+        $course = Course::find($course_code);
+        if ($course == null) {
             throw new Exception("Course code doesn't exist.");
-        } else {
+        }elseif($course['deleted_at'] == null) {
             $attributes = $course->attributesToArray();
             return $attributes;
         }
