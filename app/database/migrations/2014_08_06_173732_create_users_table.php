@@ -28,10 +28,13 @@ class CreateUsersTable extends Migration {
 			$table->string('email', 255);
 			//add a new nullable remember_token of VARCHAR(100), TEXT
 			$table->TEXT('remember_token', 100)->nullable();
-
+/*
 			$table->timestamp('created_at');
            $table->timestamp('deleted_at')->nullable();
            $table->timestamp('updated_at')->nullable();
+           */
+           $table->timestamps();
+            $table->softDeletes();
         });
 	}
 

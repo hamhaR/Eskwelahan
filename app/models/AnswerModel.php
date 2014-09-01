@@ -1,6 +1,6 @@
 <?php
 
-class TestModel implements TableRepository{
+class AnswerModel implements TableRepository{
 	
 	 protected static $writePermissions = [
         'admin' => false,
@@ -11,7 +11,7 @@ class TestModel implements TableRepository{
     
     protected static $readPermissions = [
         'admin' => false,
-        'student' => true,
+        'student' => false,
         'teacher' => true,
         null => false
     ];
@@ -33,18 +33,16 @@ class TestModel implements TableRepository{
     public function add($attributes) {
         $this->checkWritePermissions();
         $rules = [ 
-            'test_name'    => 'required|Unique',
-            'teacher_id'   => 'required',
-            'course_id'  => 'required'
+            'correct_answer'         => 'required|Unique',
+            'question_id'            => 'required'
             ];
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) {
-            $test = new Test;
-            $test->test_name = $attributes['test_name'];
-            $test->teacher_id = $attributes['teacher_id'];
-            $test->course_id = $attributes['course_id'];
-            $test->save();
-            return $test->id;
+            $answer = new Answer;
+            $answer->correct_answer = $attributes['correct_answer'];
+            $answer->question_id = $attributes['question_id'];
+            $answer->save();
+            return $answer->id;
         } else {
             throw new ErrorException("Invalid data!");
         }
@@ -52,7 +50,7 @@ class TestModel implements TableRepository{
 
     public function all(array $columns = ["*"]) {
          $this->checkReadPermissions();
-        return Test::orderBy('id')->get($columns);
+        return Answer::orderBy('id')->get($columns);
     }
 
     public function delete($id) {
@@ -64,10 +62,10 @@ class TestModel implements TableRepository{
     }
 
     public function find($id) {
-        $test = Test::find($id);
-        if($test == null){
+        $answer = Answer::find($id);
+        if($answer == null){
             return null;
         }
-        return $test->attributesToArray();
+        return $answer->attributesToArray();
     }
 }

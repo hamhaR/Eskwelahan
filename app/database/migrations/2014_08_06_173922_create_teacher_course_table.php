@@ -22,7 +22,8 @@ class CreateTeacherCourseTable extends Migration {
 			$table->foreign('teacher_id')->references('id')->on('users');
 			$table->foreign('course_id')->references('id')->on('courses');
 
-			$table->timestamp('deleted_at')->nullable();
+			$table->timestamps();
+            $table->softDeletes();
 			
 		});
 	}

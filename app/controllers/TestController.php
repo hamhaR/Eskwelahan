@@ -20,10 +20,10 @@ class TestController extends Controller
 	public function index()
 	{
 		//for index views of tests
-	//	$tests = Test::all();
+		$tests = Test::all();
 		
-		//return View::make('tests.index')
-			//->with('tests', $tests);
+		return View::make('tests.index')
+			->with('tests', $tests);
 	}
 
 

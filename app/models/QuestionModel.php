@@ -1,6 +1,6 @@
 <?php
 
-class TestModel implements TableRepository{
+class QuestionModel implements TableRepository{
 	
 	 protected static $writePermissions = [
         'admin' => false,
@@ -33,18 +33,16 @@ class TestModel implements TableRepository{
     public function add($attributes) {
         $this->checkWritePermissions();
         $rules = [ 
-            'test_name'    => 'required|Unique',
-            'teacher_id'   => 'required',
-            'course_id'  => 'required'
+            'content'    => 'required|Unique',
+            'test_id'   => 'required'
             ];
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) {
-            $test = new Test;
-            $test->test_name = $attributes['test_name'];
-            $test->teacher_id = $attributes['teacher_id'];
-            $test->course_id = $attributes['course_id'];
-            $test->save();
-            return $test->id;
+            $question = new Question;
+            $question->content = $attributes['content'];
+            $question->test_id = $attributes['test_id'];
+            $question->save();
+            return $question->id;
         } else {
             throw new ErrorException("Invalid data!");
         }
@@ -52,7 +50,7 @@ class TestModel implements TableRepository{
 
     public function all(array $columns = ["*"]) {
          $this->checkReadPermissions();
-        return Test::orderBy('id')->get($columns);
+        return Question::orderBy('id')->get($columns);
     }
 
     public function delete($id) {
@@ -64,10 +62,10 @@ class TestModel implements TableRepository{
     }
 
     public function find($id) {
-        $test = Test::find($id);
-        if($test == null){
+        $question = Question::find($id);
+        if($question == null){
             return null;
         }
-        return $test->attributesToArray();
+        return $question->attributesToArray();
     }
 }

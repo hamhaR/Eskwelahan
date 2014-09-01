@@ -6,4 +6,6 @@ class Course extends Eloquent{
 	protected $table = 'courses';
 	protected $primaryKey = 'id';
 	public $timestamps = true;
+
+	
 }

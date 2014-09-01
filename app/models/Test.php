@@ -11,6 +11,10 @@ class Test extends Eloquent{
 
 
     public function teacherCourses(){
-        return $this->belongsTo('TeacherCourse','teacherCourse_id');
+        return $this->belongsTo('TeacherCourse','teacherCourse_id', 'id');
+    }
+
+    public function testQuestion(){
+    	return $this->hasManyThrough('Question', 'User', 'question_id', 'user_id');
     }
 }
