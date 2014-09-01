@@ -10,7 +10,7 @@ class Test extends Eloquent{
   	protected $dates = ['deleted_at'];
 
 
-    public function teacher_courses(){
-        return $this->belongsTo('Teacher','teacher_id');
+    public function teacherCourses(){
+        return $this->belongsTo('TeacherCourse','teacherCourse_id');
     }
 }

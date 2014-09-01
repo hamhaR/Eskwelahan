@@ -5,11 +5,11 @@ use Illuminate\Routing\Controller;
 
 class TestController extends Controller 
 {
-	private $homeworks;
+	private $tests;
 
-	public function __construct(TestModel $homeworks) 
+	public function __construct(TestModel $tests) 
 	{
-        $this->homeworks = $homeworks;
+        $this->tests = $tests;
     }
 
 	/**
@@ -19,11 +19,11 @@ class TestController extends Controller
 	 */
 	public function index()
 	{
-		//for index views of homeworks
-		$homeworks = Homework::all();
+		//for index views of tests
+	//	$tests = Test::all();
 		
-		return View::make('homeworks.index')
-			->with('homeworks', $homeworks);
+		//return View::make('tests.index')
+			//->with('tests', $tests);
 	}
 
 
@@ -34,10 +34,7 @@ class TestController extends Controller
 	 */
 	public function create()
 	{
-		$user = Auth::user();
-		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
-
-		return View::make('homeworks.create')->with('courses', $results);
+		//return View::make('tests.create');
 	}
 
 
@@ -49,16 +46,25 @@ class TestController extends Controller
 	public function store()
 	{
 		$rules = array(
-			'course_id' => 'required'
-			'homework_instruction' => 'required'
+			'question' 	=>	'required',
+			'choice1'	=>	'required',
+			'choice2' 	=>	'required',
+			'choice3'	=>	'required',
+			'choice4'	=>	'required',
+			'answer'	=>	'required'
 		);
 
-		$homework = new Homework;
-		$homework->course_id = Input::get('course_id');
-		$homework->homework_instruction	= Input::get('homework_instruction');
-		$homework->save();
+		$test = new Test;
+		$test->course_id 	= Input::get('course_id');
+		$test->question		= Input::get('question');
+		$test->choice1		= Input::get('choice1');
+		$test->choice2		= Input::get('choice2');
+		$test->choice3		= Input::get('choice3');
+		$test->choice4		= Input::get('choice4');
+		$test->answer		= Input::get('answer');
+		$test->save();
 			
-		Session::flash('message', 'Homework successfully added.');
+		Session::flash('message', 'Test/quiz successfully added.');
 		return Redirect::to('');
 	}
 

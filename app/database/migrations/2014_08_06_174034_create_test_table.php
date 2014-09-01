@@ -14,9 +14,12 @@ class CreateTestTable extends Migration {
 	{
 		Schema::create('tests', function(Blueprint $table){
 			$table->increments('id');
-			$table->integer('test_num');
-			$table->text('questions');
-			$table->text('answer_key');
+			$table->text('question');
+			$table->text('choice1');
+			$table->text('choice2');
+			$table->text('choice3');
+			$table->text('choice4');
+			$table->varchar('answer')->nullable();
 
 			$table->integer('teacher_id');
 			$table->foreign('teacher_id')->references('id')->on('users');
