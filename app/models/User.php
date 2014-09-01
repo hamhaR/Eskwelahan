@@ -2,6 +2,7 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
     
@@ -18,7 +19,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var boolean
 	 */
-        protected $softDelete = true;
+                    //updated version of soft deletes in laravel
+    use SoftDeletingTrait;
+  	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -75,11 +78,5 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    //return null;
 	}
 
-	/*disable token
-	public function setAttribute($key, $value)
-	{
-		return null;
-	}
-	*/
 
 }

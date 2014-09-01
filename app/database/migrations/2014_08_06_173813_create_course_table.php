@@ -20,8 +20,8 @@ class CreateCourseTable extends Migration {
 			$table->text('course_title');
 			$table->text('course_description');
 
-			$table->timestamps();
-			$table->softDeletes();
+			$table->timestamp('deleted_at')->nullable();
+			
 		});
 	}
 

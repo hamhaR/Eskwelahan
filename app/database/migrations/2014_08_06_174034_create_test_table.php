@@ -23,8 +23,7 @@ class CreateTestTable extends Migration {
 			$table->integer('course_id');
 			$table->foreign('course_id')->references('id')->on('courses');
 
-			$table->timestamps();
-			$table->softDeletes();
+			$table->timestamp('deleted_at')->nullable();
 		});
 	}
 

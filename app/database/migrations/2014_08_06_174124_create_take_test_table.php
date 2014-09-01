@@ -22,8 +22,7 @@ class CreateTakeTestTable extends Migration {
 			$table->integer('test_id');
 			$table->foreign('test_id')->references('id')->on('tests');
 
-			$table->timestamps();
-			$table->softDeletes();
+			$table->timestamp('deleted_at')->nullable();
 		});
 	}
 

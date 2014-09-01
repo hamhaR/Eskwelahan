@@ -29,8 +29,9 @@ class CreateUsersTable extends Migration {
 			//add a new nullable remember_token of VARCHAR(100), TEXT
 			$table->TEXT('remember_token', 100)->nullable();
 
-            $table->timestamps();
-            $table->softDeletes();
+			$table->timestamp('created_at');
+           $table->timestamp('deleted_at')->nullable();
+           $table->timestamp('updated_at')->nullable();
         });
 	}
 

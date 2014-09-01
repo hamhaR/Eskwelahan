@@ -22,8 +22,7 @@ class CreateSubmitHomeworkTable extends Migration {
 			$table->integer('student_id');
 			$table->foreign('student_id')->references('id')->on('users');
 
-			$table->timestamps();
-			$table->softDeletes();
+			$table->timestamp('deleted_at')->nullable();
 		});
 	}
 
