@@ -7,6 +7,8 @@ class TestController extends Controller
 {
 	private $tests;
 
+	
+
 	public function __construct(TestModel $tests) 
 	{
         $this->tests = $tests;
@@ -20,10 +22,15 @@ class TestController extends Controller
 	public function index()
 	{
 		//for index views of tests
+		/*
 		$tests = Test::all();
 		
 		return View::make('tests.index')
 			->with('tests', $tests);
+			*/
+		return View::make('index')
+			->with('tests', Test::all())
+			->with('questions', Question::all());
 	}
 
 
@@ -46,22 +53,15 @@ class TestController extends Controller
 	public function store()
 	{
 		$rules = array(
-			'question' 	=>	'required',
-			'choice1'	=>	'required',
-			'choice2' 	=>	'required',
-			'choice3'	=>	'required',
-			'choice4'	=>	'required',
-			'answer'	=>	'required'
+			'test_name' 	=>	'required',
+			'course_id'		=> 'required',
+			'teacher_id'	=>	'required'
 		);
 
 		$test = new Test;
-		$test->course_id 	= Input::get('course_id');
-		$test->question		= Input::get('question');
-		$test->choice1		= Input::get('choice1');
-		$test->choice2		= Input::get('choice2');
-		$test->choice3		= Input::get('choice3');
-		$test->choice4		= Input::get('choice4');
-		$test->answer		= Input::get('answer');
+		$test->test_name		= Input::get('teat_name');
+		$test->course_id 		= Input::get('course_id');
+		$test->teacher_id		= Input::get('teacher_id');
 		$test->save();
 			
 		Session::flash('message', 'Test/quiz successfully added.');

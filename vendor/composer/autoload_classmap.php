@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Answer' => $baseDir . '/app/models/Answer.php',
+    'AnswerModel' => $baseDir . '/app/models/AnswerModel.php',
     'AuthenticationController' => $baseDir . '/app/controllers/AuthenticationController.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'BaseSeeder' => $baseDir . '/app/database/seeds/BaseSeeder.php',
@@ -220,7 +222,7 @@ return array(
     'CourseController' => $baseDir . '/app/controllers/CourseController.php',
     'CourseRepository' => $baseDir . '/app/models/CourseRepository.php',
     'CourseTableSeeder' => $baseDir . '/app/database/seeds/CourseTableSeeder.php',
-    'CreateAnswersTable' => $baseDir . '/app/database/migrations/2014_09_01_170956_create_answers_table.php',
+    'CreateChoicesTable' => $baseDir . '/app/database/migrations/2014_09_03_171344_create_choices_table.php',
     'CreateCourseTable' => $baseDir . '/app/database/migrations/2014_08_06_173813_create_course_table.php',
     'CreateFriendsTable' => $baseDir . '/app/database/migrations/2014_08_06_174022_create_friends_table.php',
     'CreateHomeworkTable' => $baseDir . '/app/database/migrations/2014_08_06_173935_create_homework_table.php',
@@ -1634,6 +1636,8 @@ return array(
     'Psr\\Log\\LoggerInterface' => $vendorDir . '/psr/log/Psr/Log/LoggerInterface.php',
     'Psr\\Log\\LoggerTrait' => $vendorDir . '/psr/log/Psr/Log/LoggerTrait.php',
     'Psr\\Log\\NullLogger' => $vendorDir . '/psr/log/Psr/Log/NullLogger.php',
+    'Question' => $baseDir . '/app/models/Question.php',
+    'QuestionModel' => $baseDir . '/app/models/QuestionModel.php',
     'RemoteKeyboard' => $vendorDir . '/facebook/webdriver/lib/remote/RemoteKeyboard.php',
     'RemoteMouse' => $vendorDir . '/facebook/webdriver/lib/remote/RemoteMouse.php',
     'RemoteTouchScreen' => $vendorDir . '/facebook/webdriver/lib/remote/RemoteTouchScreen.php',

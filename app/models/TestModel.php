@@ -50,6 +50,44 @@ class TestModel implements TableRepository{
         }
     }
 
+    public function addQuestion($attributes){
+            $this->checkWritePermissions();
+            $rules = [
+                'content'           => 'required',
+                'correct_answer'    =>  'required',
+                'teacher_id'        =>  'required'
+            ];
+            $validator = Validator::make($attributes, $rules);
+            if ($validator->passes()){
+                $question = new Question;
+                $question->content = $attributes['content'];
+                $question->correct_answer = $attributes['correct_answer'];
+                $question->teacher_id = $attributes['teacher_id'];
+                $question->save();
+                return $question->id;
+            }
+            else{
+                throw new ErrorException("Invalid data!");
+            }
+    }
+
+    public function addChoices($attributes){
+        $this->checkWritePermissions();
+        $rules = [
+            'options'   => 'required',
+            'question_id'   => 'required'
+        ];
+        $validator = Validator::make($attributes, $rules);
+        if ($validator->passes()){
+            $choice = new Choice;
+            $choice->options = $attributes('options');
+            $choice->question_id = $attributes('question_id');
+        }
+        else{
+            throw new ErrorException("Invalid data!");
+        }
+    }
+
     public function all(array $columns = ["*"]) {
          $this->checkReadPermissions();
         return Test::orderBy('id')->get($columns);

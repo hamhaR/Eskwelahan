@@ -15,6 +15,6 @@ class Test extends Eloquent{
     }
 
     public function testQuestion(){
-    	return $this->hasManyThrough('Question', 'User', 'question_id', 'user_id');
+    	return $this->hasMany('Question', 'question_id', 'id');
     }
 }

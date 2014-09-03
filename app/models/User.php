@@ -19,7 +19,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var boolean
 	 */
-                    //updated version of soft deletes in laravel
+    //updated version of soft deletes in laravel
     use SoftDeletingTrait;
   	protected $dates = ['deleted_at'];
 

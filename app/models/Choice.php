@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Answer extends Eloquent{
-    protected $table = 'questions';
+class Choice extends Eloquent{
+    protected $table = 'choices';
     protected $primaryKey = 'id';
     //protected $softDelete = true;
     use SoftDeletingTrait;
