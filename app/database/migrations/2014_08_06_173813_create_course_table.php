@@ -16,18 +16,13 @@ class CreateCourseTable extends Migration {
 			$table->increments('id');
 
 			$table->string('course_code', 10);
-			$table->string('course_title', 32);
-			$table->string('course_description', 250);
-
-			$table->integer('test_id')->nullable();
-			//$table->integer('test_id');
-			$table->integer('homework_id')->nullable();
-			//$table->integer('homework_id');
-			$table->foreign('test_id')->references('id')->on('tests');
-			$table->foreign('homework_id')->references('id')->on('homeworks');
+			$table->string('course_section', 10);
+			$table->text('course_title');
+			$table->text('course_description');
 
 			$table->timestamps();
-			$table->softDeletes();
+            $table->softDeletes();
+			
 		});
 	}
 

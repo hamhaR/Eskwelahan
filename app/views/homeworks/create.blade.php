@@ -38,8 +38,8 @@
     </select>
     </div>
     <div class="form-group">
-    {{ Form::label('homework_description', 'Homework Guidelines') }}
-    {{ Form::textarea('homework_description', "") }}
+    {{ Form::label('homework_instruction', 'Homework Guidelines') }}
+    {{ Form::textarea('homework_instruction', "" ,array('class' => 'ckeditor')) }}
     </div>
     {{ Form::submit('Post Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}

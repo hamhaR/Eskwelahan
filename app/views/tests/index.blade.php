@@ -96,15 +96,22 @@
                 <!--start-->
                 <div class="row">
 
-  <div class="col-md-1">
-      <img src="bootflat/img/default_user.jpg" width= "75px" height="auto"class="img-circle">
-  </div>
-
   <div class="col-md-6">
-    <span style="font-weight: bold; font-size: 24px;">Welcome {{ Auth::user()->fname }}! </span>
-    <br>
-    <i class="glyphicon glyphicon-user"></i>       <span style="text-transform:uppercase;">{{ Auth::user()->role }}
-  </div>
+    <table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Tests</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $length = count($rows); ?>
+				@for ($i = 0; $i < $length; $i++)
+				<tr>
+					<td>{{ HTML::link('/test/' . $rows[$i]['id'], $rows[$i]['test_name']) }}</td>
+				</tr>
+				@endfor
+			</tbody>
+		</table>  </div>
 
 </div>
 

@@ -34,10 +34,16 @@ class HomeworkController extends \BaseController
 	 */
 	public function create()
 	{
-		$user = Auth::user();
-		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+		if (Auth::user()->role == 'teacher') 
+		{
+			$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
 
-		return View::make('homeworks.create')->with('courses', $results);
+			return View::make('homeworks.create')->with('courses', $results);
+		}
+		else
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
 	}
 
 
@@ -49,13 +55,14 @@ class HomeworkController extends \BaseController
 	public function store()
 	{
 		$rules = array(
-			'course_id' => 'required'
+			'course_id' => 'required',
 			'homework_instruction' => 'required'
 		);
 
 		$homework = new Homework;
 		$homework->course_id = Input::get('course_id');
 		$homework->homework_instruction	= Input::get('homework_instruction');
+		$homework->teacher_id = Auth::user()->id;
 		$homework->save();
 			
 		Session::flash('message', 'Homework successfully added.');

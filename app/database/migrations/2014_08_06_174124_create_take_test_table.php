@@ -14,6 +14,7 @@ class CreateTakeTestTable extends Migration {
 	{
 		Schema::create('take_tests', function(Blueprint $table){
 			$table->increments('id');
+			$table->char('answer');
 			$table->dateTime('time_started');
 			$table->dateTime('time_remaining');
 
@@ -23,7 +24,7 @@ class CreateTakeTestTable extends Migration {
 			$table->foreign('test_id')->references('id')->on('tests');
 
 			$table->timestamps();
-			$table->softDeletes();
+            $table->softDeletes();
 		});
 	}
 

@@ -16,14 +16,15 @@ class CreateTeacherCourseTable extends Migration {
 			$table->increments('id');
 
 			$table->integer('teacher_id');
-			$table->integer('course_id')->nullable();
+			$table->integer('course_id');
 			//$table->integer('course_id');
 
 			$table->foreign('teacher_id')->references('id')->on('users');
 			$table->foreign('course_id')->references('id')->on('courses');
 
 			$table->timestamps();
-			$table->softDeletes();
+            $table->softDeletes();
+			
 		});
 	}
 
