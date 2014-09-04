@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<link rel="stylesheet" href="../bootflat/css/bootstrap.min.css">
-</head>
-<body>
+@extends("layout")
+@section("content")
 <div class="container">
 
 

@@ -147,7 +147,7 @@ Route::get('/profile', function()
 /*
  * Course Controller
  */
-Route::resource('course', 'CourseController');
+Route::resource('courses', 'CourseController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'CourseController@update');
 

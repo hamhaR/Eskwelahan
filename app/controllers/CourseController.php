@@ -76,7 +76,7 @@ class CourseController extends \BaseController {
 	public function show($id)
 	{
 
-		$displayData = $this->course->find($id);
+		$displayData = Course::find($id);
 		return View::make('course.show')
 					->with('rows', $displayData);
 
