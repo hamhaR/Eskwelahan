@@ -2,6 +2,7 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
     
@@ -18,7 +19,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var boolean
 	 */
-        protected $softDelete = true;
+    //updated version of soft deletes in laravel
+    use SoftDeletingTrait;
+  	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -56,20 +59,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
-/*added modules para sa Eloquent na authentication driver*/
-public function getRememberToken()
-{
-    return $this->remember_token;
-}
+	/*added modules para sa Eloquent na authentication driver*/
+	public function getRememberToken()
+	{
+	    return $this->remember_token;
+	    //return null;
+	}
 
-public function setRememberToken($value)
-{
-    $this->remember_token = $value;
-}
+	public function setRememberToken($value)
+	{
+	    $this->remember_token = $value;
+	    //return null;
+	}
 
-public function getRememberTokenName()
-{
-    return 'remember_token';
-}
+	public function getRememberTokenName()
+	{
+	    return 'remember_token';
+	    //return null;
+	}
+
 
 }

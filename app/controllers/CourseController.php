@@ -2,6 +2,7 @@
 
 class CourseController extends \BaseController {
 
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,14 +10,11 @@ class CourseController extends \BaseController {
 	 */
 	public function index()
 	{
-		$students = Course::find(1)->students;
+
+		$courses = Course::all();
 		
-		
-			foreach($students as $s){
-				echo $s;
-			}
-	 
-		
+		return View::make('course.index')->with('courses', $courses);
+
 	}
 
 
@@ -27,7 +25,9 @@ class CourseController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+
+		return View::make('course.create');
+
 	}
 
 
@@ -38,7 +38,32 @@ class CourseController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+
+		$attributes = Input::all();
+		$courseData = [
+			'course_code' => $attributes['course_code'],
+			'course_title' => $attributes['course_title'],
+			'course_description' => $attributes['course_description']
+		];
+
+		$c_section = $attributes['course_section'];
+
+		$rules = [
+			'course_code' => 'required',
+			'course_title' => 'required',
+			'course_description' => 'required'
+		];
+
+		$validator = Validator::make($courseData, $rules);
+				
+		if ($validator->fails()) {
+			return Redirect::to('course/create')
+							->withErrors($validator)
+							->withInput(Input::all());
+		} else{
+			$this->course->add($courseData, $c_section);
+			return $this->index() ;
+		}
 	}
 
 
@@ -50,7 +75,11 @@ class CourseController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+
+		$displayData = $this->course->find($id);
+		return View::make('course.show')
+					->with('rows', $displayData);
+
 	}
 
 
@@ -62,7 +91,10 @@ class CourseController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+
+		$courseData = $this->course->find($id);
+		return View::make('course.edit')
+			->with('course', $courseData);
 	}
 
 
@@ -74,7 +106,28 @@ class CourseController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+
+		// validate
+		$rules = [
+				'course_description' => 'required'
+		];
+
+		$attributes = [
+				'course_description' => Input::get('course_description')
+		];
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+			return Redirect::to('course/' . $id . '/edit')
+							->withErrors($validator);
+		} else {
+			$course = Course::find($id);
+			$course->course_description = Input::get('course_description');
+			$course->save();
+			return $this->show($id);
+		}
+
 	}
 
 
@@ -86,7 +139,10 @@ class CourseController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+
+		$this->course->delete($id);
+		return $this->index() ;
+
 	}
 
 

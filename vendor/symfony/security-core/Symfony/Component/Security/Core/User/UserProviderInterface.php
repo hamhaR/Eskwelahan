@@ -73,4 +73,9 @@ interface UserProviderInterface
      * @return bool
      */
     public function supportsClass($class);
+
+    //added functions on upgrade version of laravel 4.2.16
+    public function retrieveByToken($identifier, $token);
+
+    public function updateRememberToken(UserInterface $user, $token);
 }

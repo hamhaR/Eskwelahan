@@ -16,20 +16,18 @@
 <table class="table table-striped table-bordered">
 	<thead>
 		<tr>
-			<td>Course </td>
-			<td>Student ID</td>
-			<td>Name</td>
+			<td>Course Code </td>
+			<td>Course Title</td>
+			<td>Course Description</td>
 		</tr>
 	</thead>
 	<tbody>
-	@foreach($courses as $course)
-		@foreach($course->students as $student)
-			<tr>
-				<td>{{$course->id}}</td>
-				<td>{{ $student->id }}</td>
-				<td>{{ $student->fname ." " . $student->lname  }}</td>
-			</tr>
-		@endforeach
+	@foreach($courses as $course)		
+		<tr>
+			<td>{{$course->course_code}}</td>
+			<td>{{ $course->course_title }}</td>
+			<td>{{ $course->course_description }}</td>
+		</tr>
 	@endforeach
 	</tbody>
 </table>

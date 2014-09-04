@@ -1,6 +1,6 @@
 <?php 
 $I = new AcceptanceTester($scenario);
-$I->wantTo('perform actions and see result');
+$I->wantTo('login');
 
 $I->amOnPage('/');
 $I->see('Welcome');

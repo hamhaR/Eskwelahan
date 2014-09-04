@@ -20,9 +20,8 @@ class CreateFriendsTable extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('f_id')->references('id')->on('users');
 
-            $table->timestamps();
+           $table->timestamps();
             $table->softDeletes();
-
         });
 	}
 

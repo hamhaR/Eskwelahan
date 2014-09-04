@@ -61,18 +61,18 @@ class UserController extends Controller {
 		$validator = Validator::make(Input::all(), $rules);
 		
 		//do again
-	/*	if ($validator->fails()){
+		if ($validator->fails()){
 			return Redirect::to('users/create')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		
 		}
 		
-		else {*/
+		else {
 			//store
 			$user = new User;
 			$user->username		= Input::get('username');
-			$user->password		= Input::get('password');
+			$user->password     = Hash::make(Input::get('password'));
 			$user->role			= Input::get('role');
 			$user->fname		= Input::get('fname');
 			$user->mname		= Input::get('mname');
@@ -82,9 +82,9 @@ class UserController extends Controller {
 			$user->email		= Input::get('email');
 			$user->save();
 			
-			console.log('You have been registered');
-			return Redirect::to('profile');
-		//}
+			
+			return Redirect::to('login')->with('message', 'Congratulations! You are now registered!');
+		}
 	}
 
 

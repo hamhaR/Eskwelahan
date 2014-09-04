@@ -66,28 +66,32 @@ Route::group(["before" => "auth"], function() {
         "uses" => "AuthenticationController@getLogout"
     ]);
 
-    /*
-     * UserController
-     */
-    Route::resource('users', 'UserController');
-   
+    
 
 
    /*
     * HomeworkController
     */
    Route::resource('homeworks', 'HomeworkController');
+
+   /*
+    * TestController
+    */
+   Route::resource('tests', 'TestController');
+
 });
+
 
 
  Route::resource('studentcourses', 'StudentCourseController');
 
+
 //Route::resource('users', 'UserController');
 
-Route::get('/', function()
-{
-	return View::make('users.index');
-});
+//Route::get('/', function()
+//{
+//	return View::make('users.index');
+//});
 /*
 Route::get('/create', function()
 {
@@ -95,6 +99,12 @@ Route::get('/create', function()
 });
 
 */
+
+/*
+     * UserController
+     */
+    Route::resource('users', 'UserController');
+
  /*create account route*/
      Route::get('/create', function()
     {
@@ -133,3 +143,20 @@ Route::get('/profile', function()
 {
 	return View::make('users.profile');
 });*/
+
+/*
+ * Course Controller
+ */
+Route::resource('course', 'CourseController');
+//Route::post('course/{id}/{attributes}', 'CourseController@update');
+Route::post('/update/{id}', 'CourseController@update');
+
+
+/*
+ * Test Controller
+ */
+Route::resource('test', 'TestController');
+//Route::post('course/{id}/{attributes}', 'CourseController@update');
+Route::post('/update/{id}', 'TestController@update');
+
+

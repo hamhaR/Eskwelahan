@@ -6,44 +6,59 @@ use Illuminate\Routing\Controller;
 class AuthenticationController extends Controller {
 
 public function postLogin() {
-        $validator = Validator::make(Input::all(), [
-                    'username' => 'required',
-                    'password' => 'required'
-        ]);
-        if ($validator->passes()) {
-            $credentials = [
-                'username' => Input::get('username'),
-                'password' => Input::get('password')
-            ];
-            if (Auth::attempt($credentials)) {
-                return Redirect::route("profile");
+        // Get all the inputs
+        // id is used for login, username is used for validation to return correct error-strings
+        $userdata = array(
+            'username' => Input::get('username'),
+            'password' => Input::get('password'),
+        );
+
+        // Declare the rules for the form validation.
+        $rules = array(
+            'username'  => 'Required',
+            'password'  => 'Required'
+        );
+
+        // Validate the inputs.
+        $validator = Validator::make($userdata, $rules);
+
+        // Check if the form validates with success.
+        if ($validator->passes())
+        {
+            // Try to log the user in.
+            //sets remember_token to true para ang newly created user kay maka log in
+            if (Auth::attempt($userdata, $remember_token = true))
+            {
+                // Redirect to homepage
+                return Redirect::to('profile')->with('message', 'You have logged in successfully');
+            }
+            else
+            {
+                // Redirect to the login page.
+                return Redirect::to('login')->withErrors(array('password' => 'Username and password did not match'))->withInput(Input::except('password'));
             }
         }
-        $data['errors'] = new MessageBag([
-            'password' => [
-                'Invalid username and/or password.'
-            ]
-        ]);
-        $data['username'] = Input::get('username');
-        return Redirect::route("login")
-                        ->withInput($data);
+
+        // Something went wrong.
+        return Redirect::to('login')->withErrors($validator)->withInput(Input::except('password'));
     }
 
     public function getLogin() {
-        $errors = new MessageBag();
-        $old = Input::old("errors");    
-        
-        if ($old) {
-            $errors = $old;
+       // Check if we already logged in
+        if (Auth::check())
+        {
+            // Redirect to homepage
+            return Redirect::to('profile')->with('message', 'You are already logged in');
         }
-        $data = ['errors' => $errors];
-        return View::make('users.login', $data);
+
+        // Show the login page
+        return View::make('users.login');
     }
 
     public function getLogout() {
         
         Auth::logout();
-        return Redirect::route('login');
+        return Redirect::to('login')->with('message', 'You are logged out');
     }
 
     public function getProfile() {

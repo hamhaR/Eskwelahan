@@ -3,6 +3,8 @@
 class AuthenticationTest extends TestCase
 {
     protected $useDatabase = true;
+
+
     
     /**
      * Tests login with invalid username or password.
