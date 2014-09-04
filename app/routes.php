@@ -80,6 +80,8 @@ Route::group(["before" => "auth"], function() {
 });
 
 
+ Route::resource('studentcourses', 'StudentCourseController');
+
 //Route::resource('users', 'UserController');
 
 Route::get('/', function()
