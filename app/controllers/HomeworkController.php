@@ -62,6 +62,7 @@ class HomeworkController extends \BaseController
 		$homework = new Homework;
 		$homework->course_id = Input::get('course_id');
 		$homework->homework_instruction	= Input::get('homework_instruction');
+		$homework->teacher_id = Auth::user()->id;
 		$homework->save();
 			
 		Session::flash('message', 'Homework successfully added.');
