@@ -83,6 +83,9 @@ Route::group(["before" => "auth"], function() {
 
 
 
+ Route::resource('studentcourses', 'StudentCourseController');
+
+
 //Route::resource('users', 'UserController');
 
 //Route::get('/', function()
@@ -144,7 +147,7 @@ Route::get('/profile', function()
 /*
  * Course Controller
  */
-Route::resource('course', 'CourseController');
+Route::resource('courses', 'CourseController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'CourseController@update');
 
