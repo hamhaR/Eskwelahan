@@ -1,23 +1,5 @@
-<!-- app/views/users/create.blade.php-->
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript">var siteloc = "{{ url('/') }}"</script>
-    <title>Eskwelahan</title>
-    
-        <!-- Bootstrap core CSS -->
-        {{ HTML::style('bootflat/css/bootstrap.min.css')}}
-
-        <!-- Custom styles for this template -->
-        {{ HTML::style('bootflat/css/layout.css')}}
-    </head>
-<body>
-
-<div class="container">
-
-  <div class="row">
+@extends("layout")
+@section("content")
    	
 <h1>Add a Homework</h1>
 
@@ -38,24 +20,16 @@
     </select>
     </div>
     <div class="form-group">
+    {{ Form::label('homework_title', 'Homework Title') }}
+    {{ Form::text('homework_title', "") }}
+    </div>
+
+    <div class="form-group">
     {{ Form::label('homework_instruction', 'Homework Guidelines') }}
     {{ Form::textarea('homework_instruction', "" ,array('class' => 'ckeditor')) }}
     </div>
     {{ Form::submit('Post Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
-</div>
-<div class="col-md-4" >
-	
-</div>
-</div>
-<div class="row">
-	
-</div>
-
-
-
-
-</div>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
@@ -63,5 +37,3 @@
         <script src="../bootflat/js/jquery-1.9.1.min.js"></script>
         <script src="../ckeditor/ckeditor.js"></script>
         <script src="../bootflat/js/bootstrap.min.js"></script>
-</body>
-</html>

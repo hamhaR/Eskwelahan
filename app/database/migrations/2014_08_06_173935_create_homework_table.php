@@ -14,6 +14,7 @@ class CreateHomeworkTable extends Migration {
 	{
 		Schema::create('homeworks', function(Blueprint $table){
 			$table->increments('id');
+			$table->string('homework_title', 255);
 			$table->text('homework_instruction');
 			$table->integer('teacher_id');
 			$table->integer('course_id');
