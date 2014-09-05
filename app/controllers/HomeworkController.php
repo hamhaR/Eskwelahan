@@ -22,10 +22,9 @@ class HomeworkController extends \BaseController
 		//for index views of homeworks
 		if (Auth::user()->role == 'student') 
 		{
-			$homeworks = Homework::all();
+			$homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN student_courses ON (homeworks.course_id = student_courses.course_id) INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE student_courses.student_id = ?', array(Auth::user()->id));
 		
-		return View::make('homeworks.index')
-			->with('homeworks', $homeworks);
+		return View::make('homeworks.index')->with('homeworks', $homeworks);
 		}
 		elseif (Auth::user()->role == 'teacher') 
 		{
@@ -82,7 +81,7 @@ class HomeworkController extends \BaseController
 		$homework->save();
 			
 		Session::flash('message', 'Homework successfully added.');
-		return Redirect::to('');
+		return Redirect::to('homeworks');
 	}
 
 
