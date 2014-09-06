@@ -11,12 +11,31 @@ class CourseController extends \BaseController {
 	public function index()
 	{
 
-		$courses = Course::all();
-		
-		return View::make('course.index')->with('courses', $courses);
+		//$courses = Course::all();
+		$course = new CourseRepository;
+		$rows = $course->all();
+		return View::make('course.index')->with('rows', $rows);
 
 	}
 
+	/*
+	 * Display the list of courses.
+	 */
+	public function student_index(){
+		$course = new CourseRepository;
+		$rows = $course->viewAll();
+		return View::make('course.student_index')
+					->with('rows', $rows);			
+	}
+
+	/*
+	 * Page with Enrol me button.
+	 */
+	public function student_enrol($id){
+		$displayData = $this->course->find($id);
+		return View::make('course.student_enrol')
+					->with('rows', $displayData);
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -46,7 +65,7 @@ class CourseController extends \BaseController {
 			'course_description' => $attributes['course_description']
 		];
 
-		$c_section = $attributes['course_section'];
+		$c_section = $attributes['sec_name'];
 
 		$rules = [
 			'course_code' => 'required',

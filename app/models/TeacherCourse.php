@@ -6,10 +6,10 @@ class TeacherCourse extends Eloquent {
 	protected $table = 'teacher_courses';
 
 	public function teacher(){
-		return $this->belongsTo('User', 'teacher_id', 'id');
+		return $this->belongsToMany('User', 'teacher_id', 'id');
 	}
 
 	public function course(){
-		return $this->belongsTo('Course', 'course_id', 'id');
+		return $this->belongsToMany('Course', 'course_id', 'id');
 	}
 }

@@ -12,21 +12,36 @@
 	<thead>
 		<tr>
 			<td>Course Code </td>
+			<td>Course Section</td>
 			<td>Course Title</td>
 			<td>Course Description</td>
+			<td>Action</td>
 		</tr>
 	</thead>
 	<tbody>
-	@foreach($courses as $course)		
+		<?php $length = count($rows); ?>
+		@for ($i = 0; $i < $length; $i++)
 		<tr>
-			<td>{{$course->course_code}}</td>
-			<td>{{ $course->course_title }}</td>
-			<td>{{ $course->course_description }}</td>
+			<td>{{ $rows[$i]['course_code'] }}</td>
+			<td>{{ $rows[$i]['sec_name'] }}</td>
+			<td>{{ $rows[$i]['course_title'] }}</td>
+			<td>{{ $rows[$i]['course_description'] }}</td>
+			<td>
+				{{ Form::open(array('url' => 'course/' . $rows[$i]['id'] . '/edit')) }}
+					{{ Form::hidden('_method', 'GET') }}
+					{{ Form::submit('Edit Course', ['class' => 'btn btn-default']) }}
+				{{ Form::close() }}
+	
+				{{ Form::open(array('url' => 'course/' . $rows[$i]['id'])) }}
+					{{ Form::hidden('_method', 'DELETE') }}
+					{{ Form::submit('Delete Course', ['class' => 'btn btn-default', 'data-toggle' => 'modal']) }}
+				{{ Form::close() }}
+			</td>
 		</tr>
-	@endforeach
+		@endfor
+			{{ Form::open(array('url' => 'course/create')) }}
+				{{ Form::hidden('_method', 'GET') }}
+				{{ Form::submit('Create Course') }}
+			{{ Form::close() }}
 	</tbody>
 </table>
-
-</div>
-</body>
-</html>
