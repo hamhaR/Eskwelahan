@@ -7,11 +7,8 @@ class Course extends Eloquent{
 	protected $primaryKey = 'id';
 	public $timestamps = true;
 
-	public function students(){
-		return $this->belongsToMany('User','student_courses','course_id','student_id');
-	}
-
-	public function section(){
-		return $this->hasMany('sec_name');
+	
+	public function sections(){
+		return $this->belongsToMany('Section','sections','course_id','section_id')->withTimestamps();
 	}
 }

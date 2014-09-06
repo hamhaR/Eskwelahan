@@ -9,12 +9,18 @@ class CourseController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
+	{		
+		// complicated man kaayo ni nga pamaagi
 
-		//$courses = Course::all();
-		$course = new CourseRepository;
-		$rows = $course->all();
-		return View::make('course.index')->with('rows', $rows);
+		// $course = new CourseRepository;
+		// $rows = $course->all();
+		// return View::make('course.index')->with('rows', $rows);
+
+		//mas sayon ni pramis
+		$teachers = User::where('role','=','teacher')->get();
+		foreach($teachers as $teacher){
+			echo $teacher->fname . " " .  $teacher->id  . "<br> " ;
+		}
 
 	}
 
