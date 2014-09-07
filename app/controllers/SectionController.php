@@ -9,9 +9,28 @@ class SectionController extends \BaseController {
 	 */
 	public function index()
 	{
-		$sections = Section::all();
+		$user = Auth::user();
+		if(Auth::check()){
 
-		return View::make('section.index')->with('sections',$sections);
+			if($user->role == 'student'){
+				$s = Section::where('section_id','=',3)->pluck('section_name');
+				echo $s;
+				//$sections = $user->sections;
+				//return View::make('section.index')->with('sections',$sections);
+			}
+
+			if($user->role == 'teacher'){
+				$sections = $user->sections;
+				return View::make('section.index')->with('sections',$sections);
+			}
+			
+			
+		}
+		else{
+			echo "not logged in";
+		}
+
+		
 	}
 
 
