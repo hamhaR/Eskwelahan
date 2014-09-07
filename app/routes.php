@@ -159,4 +159,5 @@ Route::resource('test', 'TestController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'TestController@update');
 
+Route::resource('sections', 'SectionController');
 

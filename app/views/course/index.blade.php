@@ -12,7 +12,6 @@
 	<thead>
 		<tr>
 			<td>Course Code </td>
-			<td>Course Section</td>
 			<td>Course Title</td>
 			<td>Course Description</td>
 			<td>Action</td>
@@ -23,7 +22,6 @@
 		@for ($i = 0; $i < $length; $i++)
 		<tr>
 			<td>{{ $rows[$i]['course_code'] }}</td>
-			<td>{{ $rows[$i]['sec_name'] }}</td>
 			<td>{{ $rows[$i]['course_title'] }}</td>
 			<td>{{ $rows[$i]['course_description'] }}</td>
 			<td>
@@ -36,6 +34,9 @@
 					{{ Form::hidden('_method', 'DELETE') }}
 					{{ Form::submit('Delete Course', ['class' => 'btn btn-default', 'data-toggle' => 'modal']) }}
 				{{ Form::close() }}
+
+
+
 			</td>
 		</tr>
 		@endfor

@@ -16,11 +16,10 @@ class CreateSectionsTable extends Migration {
 		{
 			$table->increments('section_id');
 			$table->string('section_name');
-			$table->integer('course_id');
 			$table->integer('teacher_id');
 			$table->foreign('teacher_id')->references('id')->on('users');
-			$table->foreign('course_id')->references('id')->on('courses');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 

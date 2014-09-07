@@ -9,6 +9,6 @@ class Course extends Eloquent{
 
 	
 	public function sections(){
-		return $this->belongsToMany('Section','sections','course_id','section_id')->withTimestamps();
+		return $this->belongsToMany('Section','section_course','course_id','section_id')->withTimestamps();
 	}
 }

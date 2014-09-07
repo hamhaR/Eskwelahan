@@ -66,21 +66,18 @@ class SectionTableSeeder extends Seeder{
 	
 	$section1 = Section::create(array(
 		'section_name' => 'A123',
-		'course_id' => 1,
 		'teacher_id' => $student4->id,
 
 	));
 
 	$section2 = Section::create(array(
 		'section_name' => 'B123',
-		'course_id' => 1,
 		'teacher_id' => $student5->id,
 
 	));
 
 	$section3 = Section::create(array(
 		'section_name' => 'C123',
-		'course_id' => 1,
 		'teacher_id' => $student4->id,
 
 	));

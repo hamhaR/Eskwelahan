@@ -17,10 +17,8 @@ class CourseController extends \BaseController {
 		// return View::make('course.index')->with('rows', $rows);
 
 		//mas sayon ni pramis
-		$teachers = User::where('role','=','teacher')->get();
-		foreach($teachers as $teacher){
-			echo $teacher->fname . " " .  $teacher->id  . "<br> " ;
-		}
+		$courses = Course::all();
+		return View::make('course.index')->with('rows', $courses);
 
 	}
 
