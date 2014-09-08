@@ -93,7 +93,8 @@ class HomeworkController extends \BaseController
 	 */
 	public function show($id)
 	{
-		//
+		$displayData = Homework::find($id);
+		return View::make('homework.show')->with('rows', $displayData);
 	}
 
 

@@ -24,6 +24,7 @@ class HomeworkModel implements TableRepository
         $this->checkAdmin();
         $rules = [
             'homework_instruction' => 'required',
+            'homework_title' => 'required',
             'course_id' => 'required'
         ];
 
@@ -39,7 +40,8 @@ class HomeworkModel implements TableRepository
         }
     }
 
-    public function all(array $columns = ["*"]) {
+    public function all(array $columns = ["*"]) 
+    {
        //
     }
 
@@ -51,7 +53,17 @@ class HomeworkModel implements TableRepository
         //
     }
 
-    public function find($id) {
-        //
+    public function find($homework_id) 
+    {
+        $homework = Homework::find($homework_id);
+        if ($homework == null) 
+        {
+            throw new Exception("Homework not found.");
+        }
+        elseif($homework['deleted_at'] == null) 
+        {
+            $attributes = $homework->attributesToArray();
+            return $attributes;
+        }
     }
 }
