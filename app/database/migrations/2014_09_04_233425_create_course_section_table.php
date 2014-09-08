@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCourseTable extends Migration {
+class CreateCourseSectionTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateCourseTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('courses', function(Blueprint $table) {
+		Schema::create('section', function(Blueprint $table) {
 			$table->increments('id');
-			$table->string('course_code', 10);
-			$table->text('course_title');
-			$table->text('course_description');
+			$table->string('sec_name', 10);
+			
+			$table->integer('course_id');
+			$table->foreign('course_id')->references('id')->on('courses');
 
 			$table->timestamps();
             $table->softDeletes();
@@ -31,7 +32,7 @@ class CreateCourseTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('courses');
+		Schema::dropIfExists('section');
 	}
 
 }

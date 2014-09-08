@@ -81,6 +81,7 @@ class UserController extends Controller {
 			$user->address		= Input::get('address');
 			$user->email		= Input::get('email');
 			$user->save();
+
 			
 			
 			return Redirect::to('login')->with('message', 'Congratulations! You are now registered!');

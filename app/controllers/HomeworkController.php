@@ -20,10 +20,23 @@ class HomeworkController extends \BaseController
 	public function index()
 	{
 		//for index views of homeworks
-		$homeworks = Homework::all();
+		if (Auth::user()->role == 'student') 
+		{
+			$homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN student_courses ON (homeworks.course_id = student_courses.course_id) INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE student_courses.student_id = ?', array(Auth::user()->id));
 		
-		return View::make('homeworks.index')
-			->with('homeworks', $homeworks);
+		return View::make('homeworks.index')->with('homeworks', $homeworks);
+		}
+		elseif (Auth::user()->role == 'teacher') 
+		{
+		 	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+		
+			return View::make('homeworks.index')->with('homeworks', $homeworks);
+		} 
+		else 
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
+		
 	}
 
 
@@ -56,17 +69,19 @@ class HomeworkController extends \BaseController
 	{
 		$rules = array(
 			'course_id' => 'required',
+			'homework_title' => 'required',
 			'homework_instruction' => 'required'
 		);
 
 		$homework = new Homework;
 		$homework->course_id = Input::get('course_id');
+		$homework->homework_title = Input::get('homework_title');
 		$homework->homework_instruction	= Input::get('homework_instruction');
 		$homework->teacher_id = Auth::user()->id;
 		$homework->save();
 			
 		Session::flash('message', 'Homework successfully added.');
-		return Redirect::to('');
+		return Redirect::to('homeworks');
 	}
 
 
@@ -78,7 +93,8 @@ class HomeworkController extends \BaseController
 	 */
 	public function show($id)
 	{
-		//
+		$displayData = Homework::find($id);
+		return View::make('homework.show')->with('rows', $displayData);
 	}
 
 

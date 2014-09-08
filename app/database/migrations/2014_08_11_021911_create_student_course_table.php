@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeworkTable extends Migration {
+class CreateStudentCourseTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,18 +12,16 @@ class CreateHomeworkTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('homeworks', function(Blueprint $table){
+		Schema::create('student_courses', function(Blueprint $table)
+		{
 			$table->increments('id');
-			$table->string('homework_title', 255);
-			$table->text('homework_instruction');
-			$table->integer('teacher_id');
+			$table->integer('student_id');
 			$table->integer('course_id');
-
-			$table->foreign('teacher_id')->references('id')->on('users');
 			$table->foreign('course_id')->references('id')->on('courses');
+			$table->foreign('student_id')->references('id')->on('users');
 
 			$table->timestamps();
-            $table->softDeletes();
+			$table->softDeletes();
 		});
 	}
 
@@ -34,7 +32,10 @@ class CreateHomeworkTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('homeworks');
+		Schema::table('studentcourse', function(Blueprint $table)
+		{
+			//
+		});
 	}
 
 }

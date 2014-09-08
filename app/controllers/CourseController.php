@@ -2,11 +2,6 @@
 
 class CourseController extends \BaseController {
 
-	private $course;
-	
-	public function __construct(CourseRepository $course){
-		$this->course = $course;
-	}
 
 	/**
 	 * Display a listing of the resource.
@@ -14,13 +9,37 @@ class CourseController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		$course = new CourseRepository;
-		$rows = $course->all();
-		return View::make('course.index')
-					->with('rows', $rows);
+	{		
+		// complicated man kaayo ni nga pamaagi
+
+		// $course = new CourseRepository;
+		// $rows = $course->all();
+		// return View::make('course.index')->with('rows', $rows);
+
+		//mas sayon ni pramis
+		$courses = Course::all();
+		return View::make('course.index')->with('rows', $courses);
+
 	}
 
+	/*
+	 * Display the list of courses.
+	 */
+	public function student_index(){
+		$course = new CourseRepository;
+		$rows = $course->viewAll();
+		return View::make('course.student_index')
+					->with('rows', $rows);			
+	}
+
+	/*
+	 * Page with Enrol me button.
+	 */
+	public function student_enrol($id){
+		$displayData = $this->course->find($id);
+		return View::make('course.student_enrol')
+					->with('rows', $displayData);
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -29,7 +48,9 @@ class CourseController extends \BaseController {
 	 */
 	public function create()
 	{
+
 		return View::make('course.create');
+
 	}
 
 
@@ -40,6 +61,7 @@ class CourseController extends \BaseController {
 	 */
 	public function store()
 	{
+
 		$attributes = Input::all();
 		$courseData = [
 			'course_code' => $attributes['course_code'],
@@ -47,7 +69,7 @@ class CourseController extends \BaseController {
 			'course_description' => $attributes['course_description']
 		];
 
-		$c_section = $attributes['course_section'];
+		$c_section = $attributes['sec_name'];
 
 		$rules = [
 			'course_code' => 'required',
@@ -76,9 +98,11 @@ class CourseController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$displayData = $this->course->find($id);
+
+		$displayData = Course::find($id);
 		return View::make('course.show')
 					->with('rows', $displayData);
+
 	}
 
 
@@ -90,6 +114,7 @@ class CourseController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+
 		$courseData = $this->course->find($id);
 		return View::make('course.edit')
 			->with('course', $courseData);
@@ -104,6 +129,7 @@ class CourseController extends \BaseController {
 	 */
 	public function update($id)
 	{
+
 		// validate
 		$rules = [
 				'course_description' => 'required'
@@ -124,6 +150,7 @@ class CourseController extends \BaseController {
 			$course->save();
 			return $this->show($id);
 		}
+
 	}
 
 
@@ -135,8 +162,10 @@ class CourseController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
+
 		$this->course->delete($id);
 		return $this->index() ;
+
 	}
 
 
