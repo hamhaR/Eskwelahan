@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-{{ Form::open(array('url' => 'course')) }}
+{{ Form::open(array('url' => 'courses')) }}
 
     <div class="form-group">
         <label for="course_code">Course code</label>
@@ -9,7 +9,7 @@
     </div>
     <div class="form-group">
         <label for="course_section">Course section</label>
-        <input class="form-control" id="course_section" name="course_section" placeholder="Course section">
+        <input class="form-control" id="section_name" name="section_name" placeholder="Course section">
     </div>
     <div class="form-group">
         <label for="course_title">Course title</label>

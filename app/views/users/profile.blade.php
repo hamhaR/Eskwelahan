@@ -53,7 +53,8 @@
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
                             <li><a href="test">Manage Tests</a></li>
-                            <li><a href="course">Manage Courses</a></li>
+                            <li><a href="courses">Manage Courses</a></li>
+                            <li><a href="homeworks">Manage Homeworks</a></li>
                     @endif
 
                     @endif

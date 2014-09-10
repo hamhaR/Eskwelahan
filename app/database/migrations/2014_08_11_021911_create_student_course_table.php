@@ -12,16 +12,16 @@ class CreateStudentCourseTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('student_courses', function(Blueprint $table)
-		{
+		Schema::create('student_courses', function(Blueprint $table) {
 			$table->increments('id');
+
 			$table->integer('student_id');
 			$table->integer('course_id');
-			$table->foreign('course_id')->references('id')->on('courses');
 			$table->foreign('student_id')->references('id')->on('users');
+			$table->foreign('course_id')->references('id')->on('courses');
 
 			$table->timestamps();
-			$table->softDeletes();
+            $table->softDeletes();
 		});
 	}
 
@@ -32,10 +32,7 @@ class CreateStudentCourseTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('studentcourse', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::dropIfExists('student_courses');
 	}
 
 }

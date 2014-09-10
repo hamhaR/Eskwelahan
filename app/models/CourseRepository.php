@@ -31,31 +31,34 @@ class CourseRepository  {
  		//$this->checkReadPermissions;
         $t_id = Auth::id();
 
-        $a = TeacherCourse::where('teacher_id', $t_id)->get();
-        
         $rows = DB::table('teacher_courses')
                     ->join('courses', 'courses.id', '=', 'teacher_courses.course_id')
-                    ->join('users', 'users.id', '=', 'teacher_courses.teacher_id')
+                    ->join('section_course', 'section_course.course_id', '=', 'courses.id')
                     ->where('teacher_id', '=', $t_id)
-                    ->select('courses.id', 'courses.course_code', 'courses.course_section', 'courses.course_title', 'courses.course_description')
+                    ->select('courses.id', 'courses.course_code', 'section_course.section_id', 'courses.course_title', 'courses.course_description')
                     ->get();
-        $array = [];
 
+        $array = [];
         foreach($rows as $row){
             $row = get_object_vars($row);
-            $course_code = $row['course_code'];
             $course_id = $row['id'];
+            $course_code = $row['course_code'];
+            $section_id = $row['section_id'];
+            $course_title = $row['course_title'];
+            $course_description = $row['course_description'];
             
             $result = [
                 'id' => $course_id,
-                'course_code' => $course_code
-
+                'course_code' => $course_code,
+                'sec_name' => $section_id,
+                'course_title' => $course_title,
+                'course_description' => $course_description
             ];
 
             array_push($array, $result);
         }
 
-        return $array;
+        return $array;      
  	}
 
     public function add($attributes, $c_section) {
@@ -68,23 +71,82 @@ class CourseRepository  {
 
         $validator = Validator::make($attributes, $req);
         if ($validator->passes()) {
-            $course = new Course;
-            $course->course_code = $attributes['course_code'];
-            $course->course_title = $attributes['course_title'];
-            $course->course_section = $c_section;
-            $course->course_description = $attributes['course_description'];
-            $course->save();
             
-            $c_id = $course->id;        // course id
-            $t_id = Auth::id();         // teacher id
+            // find course_code if exist in course table
+            $findCourseCode = Course::where('course_code', '=', $attributes['course_code'])->get();
+            $json_decode = json_decode($findCourseCode, true);
+            if(in_array($attributes['course_code'], $json_decode)){
+                $c_id = $findCourseCode[0]['id'];
+                
+                $find = DB::table('section_course')->where('course_id', '=', $c_id)->get();
+                //$id = [];
+                $arr = [];
+                foreach ($find as $f) {
+                    $s_id = $f->section_id;
+                    //array_push($id, $s_id);
+                    $findSecName = Section::where('section_id', '=', $s_id)->get();
+                    foreach ($findSecName as $g) {
+                        $section_name = $g['section_name'];
+                        $result = [
+                            'section_id' => $s_id,
+                            'section_name' => $section_name
+                        ];
+                        array_push($arr, $result);
+                    }
+                }
 
-            // insert to the teacher_course table
-            $t_c = new TeacherCourse;
-            $t_c->teacher_id = $t_id;
-            $t_c->course_id = $c_id;
-            $t_c->save();
-            
-            return $course->id;
+                return print "Course code exist";
+            } else{
+                return $findCourseCode;
+            }
+                /*
+                if (in_array($c_section, $arr)) {
+                    return print 'Error. Section already exist!';
+                } else{
+                    // insert new section
+                    $section = new Section;
+                    $section->section_name = $c_section;
+                    $section->teacher_id = Auth::id();
+                    $section->save();
+
+                    $r = new SectionCourse;
+                    $r->section_id = $section->section_id;
+                    $r->course_id = $c_id;
+                    $r->save();
+
+                    return $c_id;
+                }
+                
+            } else{
+                // insert course to course table
+                $course = new Course;
+                $course->course_code = $attributes['course_code'];
+                $course->course_title = $attributes['course_title'];
+                $course->course_description = $attributes['course_description'];
+                $course->save();
+
+                $c_id = $course->id;        // course id
+
+                // insert section name to section table
+                $section = new Section;
+                $section->section_name = $c_section;
+                $section->teacher_id = Auth::id();
+                $section->save();
+    
+                $r = new SectionCourse;
+                $r->section_id = $section->section_id;
+                $r->course_id = $c_id;
+                $r->save();
+
+                // insert teacher id to teacher_course table
+                $t_c = new TeacherCourse;
+                $t_c->teacher_id = Auth::id();
+                $t_c->course_id = $c_id;
+                $t_c->save();
+                
+                return $course->id;
+            }
+            */
         } else {
             return print 'Invalid data.';
         }
