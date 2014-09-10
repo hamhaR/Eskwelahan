@@ -1,3 +1,5 @@
+<!-- wala pa.. usbon pa ang db design-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -53,7 +55,7 @@
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
                             <li><a href="tests">Manage Tests</a></li>
-                            <li><a href="courses">Manage Courses</a></li>
+                            <li><a href="course">Manage Courses</a></li>
                     @endif
 
                     @endif
@@ -99,18 +101,15 @@
     </thead>
     <tbody>
     
-       
-   
         @foreach ($tests as $test)
             
                  <tr> 
                 <td> {{ $test['course']['course_code']}} </td>
                 
-                <td> 
-                    <a  href="{{ URL::route('questions.index') }} "> {{ $test['test_name'] }} </a> </td>
+                <td> {{ $test['test_name'] }} </td>
                 <td>                  
-                    <p> <a style="height:30px; padding-up:0px; " class="btn btn-small btn-primary" href="{{ URL::route('tests.create') }} ">Create Test</a> </p>
-                    
+                   <!--  <a class="btn btn-small btn-primary" href="{{ URL::route('questions.create') }} ">Add question</a> 
+                    -->
                 </td> 
                  </tr>
             @endforeach
@@ -131,3 +130,4 @@
      
     </body>
 </html>
+

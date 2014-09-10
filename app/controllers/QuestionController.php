@@ -3,16 +3,19 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Routing\Controller;
 
-class TestController extends Controller 
+class QuestionController extends Controller 
 {
-	private $tests;
+	private $questions;
+	//private $tests;
 
 	
-
-	public function __construct(TestModel $tests) 
+	public function __construct(QuestionModel $questions) 
 	{
-        $this->tests = $tests;
+        $this->questions = $questions;
+        //$this->tests = $tests;
     }
+
+
 
 	/**
 	 * Display a listing of the resource.
@@ -21,12 +24,14 @@ class TestController extends Controller
 	 */
 	public function index()
 	{
-		//for index views of tests
+		//for index views of questions
+		//$c = $courses->all();
+		$questions = Question::all();
+		//$tests = Test::where();
 		
-		$tests = Test::all();
-		
-		return View::make('tests.index')
-			->with('tests', $tests);
+		return View::make('questions.index')
+			->with('questions', $questions);
+			//->with('tests', $tests);
 	}
 
 
@@ -37,7 +42,7 @@ class TestController extends Controller
 	 */
 	public function create()
 	{
-		return View::make('tests.create');
+		return View::make('questions.create');
 	}
 
 
@@ -49,19 +54,19 @@ class TestController extends Controller
 	public function store()
 	{
 		$rules = array(
-			'test_name' 	=>	'required',
-			'course_id'		=> 'required',
+			'content' 	=>	'required',
+			'correct_answer'		=> 'required',
 			'teacher_id'	=>	'required'
 		);
 
-		$test = new Test;
-		$test->test_name		= Input::get('test_name');
-		$test->course_id 		= Input::get('course_id');
-		$test->teacher_id		= Input::get('teacher_id');
-		$test->save();
+		$question = new Question;
+		$question->content				= Input::get('content');
+		$question->correct_answer 		= Input::get('correct_answer');
+		$question->teacher_id			= Input::get('teacher_id');
+		$question->save();
 			
-		Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('');
+		//Session::flash('message', 'question/quiz successfully added.');
+		return Redirect::to('questions/index')->with('message', 'question is successfully added!');
 	}
 
 
@@ -73,7 +78,9 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+		return View::make('questions.show', [
+                    'question' => $this->questions->find($id)
+        ]);
 	}
 
 

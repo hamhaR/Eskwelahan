@@ -53,7 +53,7 @@
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
                             <li><a href="tests">Manage Tests</a></li>
-                            <li><a href="courses">Manage Courses</a></li>
+                            <li><a href="course">Manage Courses</a></li>
                     @endif
 
                     @endif
@@ -89,35 +89,28 @@
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <td>Course</td>
-            <td>Test Name</td>
-            <td>Options</td>
+<div class="col-md-6 col-md-offset-3">
+<table class="table table-hover">
+    <tbody
+        <tr> 
+            <td> Course: </td>
+            <td> {{ $test['course']['course_code'] }} </td>
         </tr>
-    </thead>
-    <tbody>
-    
-       
-   
-        @foreach ($tests as $test)
-            
-                 <tr> 
-                <td> {{ $test['course']['course_code']}} </td>
-                
-                <td> 
-                    <a  href="{{ URL::route('questions.index') }} "> {{ $test['test_name'] }} </a> </td>
-                <td>                  
-                    <p> <a style="height:30px; padding-up:0px; " class="btn btn-small btn-primary" href="{{ URL::route('tests.create') }} ">Create Test</a> </p>
-                    
-                </td> 
-                 </tr>
-            @endforeach
-           
-    
+        <tr> 
+            <td> Name: </td>
+            <td> {{ $test['test_name'] }} </td>
+        </tr>
+        <tr> 
+        <tr>
+            <td>Create question</td>
+            <td> <a class="btn btn-small btn-primary" href="{{ URL::route('questions.create') }} ">CreateQuestion</a>  </td>
+        </tr>
     </tbody>
 </table>
+
+
+</div>
+
 
 </div>
         </div>
