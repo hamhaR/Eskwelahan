@@ -29,16 +29,16 @@
 				<tr>
 					<td>{{ $homeworks[$i]->course_code }}</td>
 					<td>{{ $homeworks[$i]->homework_title }}</td>
-					<td>{{ $homeworks[$i]->created_at }}</td>
+					<td>{{ date('j F Y, h:i A',strtotime($homeworks[$i]->created_at)) }}</td>
 					<td>Needs attention</td>
-					<td><a class="btn btn-primary" href="homeworks/show/{{ $homeworks[$i]->id }}"><span class="glyphicon glyphicon-search"></span> View Homework</a></td>
+					<td><a class="btn btn-primary" href="homeworks/{{ $homeworks[$i]->id }}"><span class="glyphicon glyphicon-search"></span> View Homework</a></td>
 				</tr>
 				@endfor
 			</tbody>
 		</table>
 
 	@if(Auth::check() && Auth::user()->role == 'teacher')
-		<a class="btn btn-primary" href="homeworks/create"><span class="glyphicon glyphicon-plus"></span> Add New Homework</a>
+		<a class="btn btn-primary" href="{{ URL::route('homeworks.create') }}"><span class="glyphicon glyphicon-plus"></span> Add New Homework</a>
 	@endif
 
 	</div>
