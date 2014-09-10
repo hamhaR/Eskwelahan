@@ -87,8 +87,8 @@ class CourseController extends \BaseController {
 		} else{
 			$course = new CourseRepository;
 			$rows = $course->add($courseData, $c_section);
-			//return $this->index() ;
-			return View::make('course.test')->with('rows', $rows);
+			return $this->index() ;
+			//return View::make('course.test')->with('rows', $rows);
 		}
 	}
 

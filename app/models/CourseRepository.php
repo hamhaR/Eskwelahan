@@ -74,13 +74,21 @@ class CourseRepository  {
             
             // find course_code if exist in course table
             $findCourseCode = Course::where('course_code', '=', $attributes['course_code'])->get();
-            $json_decode = json_decode($findCourseCode, true);
-            if(in_array($attributes['course_code'], $json_decode)){
-                $c_id = $findCourseCode[0]['id'];
+            $store = [];
+            $c_only = [];
+            foreach ($findCourseCode as $t) {
+                $result = [
+                    'id' => $t->id
+                ];
+                array_push($store, $result);
+                array_push($c_only, $t->course_code);
+            }
+            if(in_array($attributes['course_code'], $c_only)){
+                $c_id = $store[0]['id'];
                 
                 $find = DB::table('section_course')->where('course_id', '=', $c_id)->get();
-                //$id = [];
                 $arr = [];
+                $sectionName_only = [];
                 foreach ($find as $f) {
                     $s_id = $f->section_id;
                     //array_push($id, $s_id);
@@ -92,15 +100,11 @@ class CourseRepository  {
                             'section_name' => $section_name
                         ];
                         array_push($arr, $result);
+                        array_push($sectionName_only, $g->section_name);
                     }
                 }
 
-                return print "Course code exist";
-            } else{
-                return $findCourseCode;
-            }
-                /*
-                if (in_array($c_section, $arr)) {
+                if (in_array($c_section, $sectionName_only)) {
                     return print 'Error. Section already exist!';
                 } else{
                     // insert new section
@@ -146,7 +150,6 @@ class CourseRepository  {
                 
                 return $course->id;
             }
-            */
         } else {
             return print 'Invalid data.';
         }
