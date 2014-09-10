@@ -13,5 +13,4 @@ class Question extends Eloquent{
     public function studentTest(){
         return $this->belongsTo('Test','test_id', 'id');
     }
-
 }
