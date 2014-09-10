@@ -64,7 +64,7 @@ class CourseRepository  {
     public function add($attributes, $c_section) {
         //$this->checkWritePermissions;
         $req = [
-            'course_code' => 'required|alpha_num',
+            'course_code' => 'required',
             'course_title' => 'required',
             'course_description' => 'required'
         ];
@@ -159,8 +159,16 @@ class CourseRepository  {
         //$this->checkWritePermissions;
         $course = Course::find($id);
         if ($course != null) {
-            DB::table('teacher_courses')->where('course_id', $id)->delete();
-            $course->delete();
+            $a = DB::table('section_course')->where('course_id', $id)->get();
+            $d = [];
+            foreach ($a as $b) {
+                array_push($d, $b->section_id);
+            }
+            $section_id = $d[0];
+
+            DB::table('section_course')->where('course_id', $id)->delete();
+            $section = Section::find($section_id)->delete();
+
         } else {
             throw new Exception("Invalid course code.");
         }
