@@ -161,3 +161,4 @@ Route::post('/update/{id}', 'TestController@update');
 
 Route::resource('sections', 'SectionController');
 
+Route::resource('materials', 'MaterialController');
