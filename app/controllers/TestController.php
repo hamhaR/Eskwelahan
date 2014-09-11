@@ -22,12 +22,18 @@ class TestController extends Controller
 	public function index()
 	{
 		//for index views of tests
+		if (Auth::user()->role == 'teacher') 
+		{
+		 	$tests = DB::select('SELECT tests.id, tests.course_id, tests.test_name, courses.course_code, tests.created_at FROM tests INNER JOIN courses ON (tests.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
 		
-		$tests = Test::all();
-		
-		return View::make('tests.index')
-			->with('tests', $tests);
+			return View::make('tests.index')->with('tests', $tests);
+		} 
+		else 
+		{
+			return Redirect::to('profile')->with('message', 'Error! Access denied.');
+		}
 	}
+
 
 
 	/**
@@ -109,8 +115,10 @@ class TestController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
-	}
+            $this->tests->delete($id);
+        
+            return Redirect::route('tests.index');
+     }
 
 
 }

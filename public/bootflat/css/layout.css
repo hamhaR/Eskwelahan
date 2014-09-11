@@ -44,3 +44,12 @@ body {
     float: left;
     text-align:center;
 }
+/*add form*/
+#form {
+  width: 600px;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  margin-top: -30px;
+  margin-left: -50px;
+}

@@ -1,5 +1,9 @@
 <?php
 
+//namespace Services;
+
+//use Course;
+
 class TestModel implements TableRepository{
 	
 	 protected static $writePermissions = [
@@ -90,11 +94,45 @@ class TestModel implements TableRepository{
 
     public function all(array $columns = ["*"]) {
          $this->checkReadPermissions();
-        return Test::orderBy('id')->get($columns);
+       // return Test::orderBy('id')->get($columns);
+          $t_id = Auth::id();   //teacher id
+
+         $rows = DB::table('teacher_courses')
+                    ->join('courses', 'courses.id', '=', 'teacher_courses.course_id')
+                    ->join('tests', 'tests.course_id', '=', 'courses.id')
+                    ->where('teacher_courses.teacher_id', '=', $t_id)
+                    ->select( 'courses.course_code', 'tests.test_name')
+                    ->get();
+
+        $array = [];
+
+        foreach($rows as $test){
+            $test = get_object_vars($test);
+            $course_code = $test['course_code'];
+            $test_name = $test['test_name'];
+           
+           
+            
+            $result = [
+                'course_code' => $course_code,
+                'test_name' => $test_name
+                
+            ];
+
+            array_push($array, $result);
+        }
+
+        return $array;    
     }
 
     public function delete($id) {
-        //
+            $this->checkWritePermissions();
+        $test = Test::find($id);
+        if ($test != null) {
+            $test->delete();
+        } else {
+            throw new ErrorException("Invalid id!");
+        }
     }
 
     public function edit($id, $attributes) {
@@ -108,4 +146,21 @@ class TestModel implements TableRepository{
         }
         return $test->attributesToArray();
     }
+/*
+//try lang
+    public function indexData()
+    {
+        $course = TeacherCourse::find($id);
+        $test = Test::find($id);
+
+        $data = array(
+            'course'  => TeacherCourse::where('teacher_id', '=', ''),
+           //'index_feature' => IndexFeature::all(),
+            'test'  => Test::all(),
+        );
+
+        return $data;
+    }
+    */
+
 }

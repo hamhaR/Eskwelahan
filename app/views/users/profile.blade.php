@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="localhost:8000" style="padding-top:10px;"><h4><strong >Project Eskwelahan</strong></h4></a>
+                <a href="localhost:8000" style="padding-top:10px;"><h4><strong >P.E.</strong></h4></a>
                 
             </div>
             <div class="navbar-collapse collapse">
@@ -52,7 +52,7 @@
 
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
-                            <li><a href="test">Manage Tests</a></li>
+                            <li><a href="tests">Manage Tests</a></li>
                             <li><a href="courses">Manage Courses</a></li>
                             <li><a href="homeworks">Manage Homeworks</a></li>
                     @endif

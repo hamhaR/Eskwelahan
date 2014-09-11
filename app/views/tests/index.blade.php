@@ -1,133 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  <script type="text/javascript">var siteloc = "{{ url('/') }}"</script> -->
-    <title>Eskwelahan</title>
-    
-        <!-- Bootstrap core CSS -->
-        {{ HTML::style('bootflat/css/bootstrap.min.css')}}
-
-        <!-- Custom styles for this template -->
-        {{ HTML::style('bootflat/css/layout.css')}}
-    </head>
-
-    <body>
-
-<!-- navigation na part-->
-<nav>
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="localhost:8000" style="padding-top:10px;"><h4><strong >Project Eskwelahan</strong></h4></a>
-                
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if(Auth::check())
-                    @if(Request::is('editProf')) <li class="active">
-                        @else <li>
-                        @endif<a href="#">Edit Profile</a></li>
-
-                    @if(Auth::user()->role == 'admin')
-
-                    @if(Request::is('users*')) <li class="active">
-                        @else <li>
-                        @endif <a href="#">Users</a></li> 
-                    @endif
-
-                    @if(Request::is('sendMessage*')) 
-                    <li class="active">
-                        @else <li>
-
-                        @endif <a href="#">Send Message</a></li>     
-
-                    @if(Auth::check() && Auth::user()->role == 'teacher') 
-                            <li><a href="#">Post Educational Materials</a></li>
-                            <li><a href="tests">Manage Tests</a></li>
-                            <li><a href="courses">Manage Courses</a></li>
-                    @endif
-
-                    @endif
-                </ul>   
-                <ul class="nav navbar-nav navbar-right" style="padding-top:15px;">
-
-                    @if(Auth::check())
-                   
-                        {{ HTML::linkRoute('logout', 'Logout') }}
-                    @endif
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </div>
-</nav>
-<!--end of navigation-->
-
-        <div class="content">
-          <!--
-          <div id="header" style="text-align:center; padding-left:0px; padding-top:10px;">
-             <h2><strong>Project Eskwelahan</strong></h2>
-             <br>
-          </div>
-        -->
+@extends("layout")
+@section("content")
 <div class="container">
 
-
-
-<h3><strong>Tests</strong></h3>
 
 <!-- will be used to show any messages -->
 @if (Session::has('message'))
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <td>Course</td>
-            <td>Test Name</td>
-            <td>Options</td>
-        </tr>
-    </thead>
-    <tbody>
-    
-       
-   
-        @foreach ($tests as $test)
-            
-                 <tr> 
-                <td> {{ $test['course']['course_code']}} </td>
-                
-                <td> 
-                    <a  href="{{ URL::route('questions.index') }} "> {{ $test['test_name'] }} </a> </td>
-                <td>                  
-                    <p> <a style="height:30px; padding-up:0px; " class="btn btn-small btn-primary" href="{{ URL::route('tests.create') }} ">Create Test</a> </p>
-                    
-                </td> 
-                 </tr>
-            @endforeach
-           
-    
-    </tbody>
-</table>
+<div class="col-md-12" >
 
+
+
+
+    <strong><h2>Tests</h2></strong>
+
+    @if(Auth::check() && Auth::user()->role == 'teacher')
+        <a style="height:30px; padding:5px; " class="btn btn-primary" href="{{ URL::route('tests.create') }}"><span class="glyphicon glyphicon-plus"></span> Create Test</a>
+        <br>
+    @endif
+
+    <div id="table" style="padding:20px; text-align:center;">
+    <table class="table table-hover table-bordered" border="3" style="text-align:center;">
+            <thead style="text-align:center;">
+                <tr>
+                    <th>Course</th>
+                    <th>Test Name</th>
+                    <th>Date Created</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $length = count($tests); ?>
+                @for ($i = 0; $i < $length; $i++)
+                <tr>
+                    <td>{{ $tests[$i]->course_code }}</td>
+                    <td>{{ $tests[$i]->test_name }}</td>
+                    <td>{{ date('j F Y, h:i A',strtotime($tests[$i]->created_at)) }}</td>
+                    <td>  <a style="height:30px; padding-up:30px; " class="btn btn-primary" href="#"> Edit</a>
+
+                          <a style="height:30px; padding-up:30px; " class="btn btn-danger" href="#"> Delete</a> 
+                    </td>
+                </tr>
+                @endfor
+            </tbody>
+        </table>
+    </div>
+
+
+    </div>
 </div>
-        </div>
-    
-         <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="../bootflat/js/bootstrap.min.js"></script>
-        <script src="../bootflat/js/jquery-1.9.1.min.js"></script>
-
-     
-    </body>
-</html>

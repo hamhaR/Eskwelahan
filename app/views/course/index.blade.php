@@ -44,3 +44,5 @@
 			{{ Form::close() }}
 	</tbody>
 </table>
+
+</div>

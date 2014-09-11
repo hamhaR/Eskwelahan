@@ -9,6 +9,8 @@ class Test extends Eloquent{
     use SoftDeletingTrait;
   	protected $dates = ['deleted_at'];
 
+     protected $fillable = array('test_name', 'course_id');
+
 
    public function teacher(){
     return $this->belongsTo('User', 'teacher_id', 'id');
