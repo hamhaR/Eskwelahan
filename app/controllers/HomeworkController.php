@@ -93,8 +93,18 @@ class HomeworkController extends \BaseController
 	 */
 	public function show($id)
 	{
-		$displayData = Homework::find($id);
-		return View::make('homework.show')->with('rows', $displayData);
+		if (Auth::user()->role == 'teacher' || Auth::user()->role == 'student') 
+		{
+		//	$results = DB::select('SELECT * FROM homeworks WHERE id = ?', array($id));
+			$results = Homework::find($id);
+			return View::make('homeworks.show')->with('homeworks', $results);
+		} 
+		else 
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
+		
+		
 	}
 
 
@@ -106,7 +116,11 @@ class HomeworkController extends \BaseController
 	 */
 	public function edit($id)
 	{
-		//
+		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+
+		$homeworkData = Homework::find($id);
+		//return View::make('homeworks.edit')->with('homework', $homeworkData);
+		return View::make('homeworks.edit', array('homework' => $homeworkData, 'courses' => $results ));
 	}
 
 

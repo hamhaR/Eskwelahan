@@ -9,16 +9,17 @@ class CourseController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{		
-		// complicated man kaayo ni nga pamaagi
+	{	
 
-		// $course = new CourseRepository;
-		// $rows = $course->all();
-		// return View::make('course.index')->with('rows', $rows);
+		$course = new CourseRepository;
+		$rows = $course->all();
+		//$section = Section::where('section_id', '=', 4)->get();
+		return View::make('course.index')->with('rows', $rows);
+		//return View::make('course.test')->with('rows', $rows);
 
 		//mas sayon ni pramis
-		$courses = Course::all();
-		return View::make('course.index')->with('rows', $courses);
+		//$courses = Course::all();
+		//return View::make('course.index')->with('rows', $courses);
 
 	}
 
@@ -69,7 +70,7 @@ class CourseController extends \BaseController {
 			'course_description' => $attributes['course_description']
 		];
 
-		$c_section = $attributes['sec_name'];
+		$c_section = $attributes['section_name'];
 
 		$rules = [
 			'course_code' => 'required',
@@ -84,8 +85,10 @@ class CourseController extends \BaseController {
 							->withErrors($validator)
 							->withInput(Input::all());
 		} else{
-			$this->course->add($courseData, $c_section);
+			$course = new CourseRepository;
+			$rows = $course->add($courseData, $c_section);
 			return $this->index() ;
+			//return View::make('course.test')->with('rows', $rows);
 		}
 	}
 
@@ -162,10 +165,9 @@ class CourseController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-
-		$this->course->delete($id);
+		$course = new CourseRepository;
+		$rows = $course->delete($id);
 		return $this->index() ;
-
 	}
 
 

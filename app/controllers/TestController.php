@@ -22,16 +22,18 @@ class TestController extends Controller
 	public function index()
 	{
 		//for index views of tests
-		/*
-		$tests = Test::all();
+		if (Auth::user()->role == 'teacher') 
+		{
+		 	$tests = DB::select('SELECT tests.id, tests.course_id, tests.test_name, courses.course_code, tests.created_at FROM tests INNER JOIN courses ON (tests.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
 		
-		return View::make('tests.index')
-			->with('tests', $tests);
-			*/
-		return View::make('index')
-			->with('tests', Test::all())
-			->with('questions', Question::all());
+			return View::make('tests.index')->with('tests', $tests);
+		} 
+		else 
+		{
+			return Redirect::to('profile')->with('message', 'Error! Access denied.');
+		}
 	}
+
 
 
 	/**
@@ -41,7 +43,7 @@ class TestController extends Controller
 	 */
 	public function create()
 	{
-		//return View::make('tests.create');
+		return View::make('tests.create');
 	}
 
 
@@ -59,7 +61,7 @@ class TestController extends Controller
 		);
 
 		$test = new Test;
-		$test->test_name		= Input::get('teat_name');
+		$test->test_name		= Input::get('test_name');
 		$test->course_id 		= Input::get('course_id');
 		$test->teacher_id		= Input::get('teacher_id');
 		$test->save();
@@ -113,8 +115,10 @@ class TestController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
-	}
+            $this->tests->delete($id);
+        
+            return Redirect::route('tests.index');
+     }
 
 
 }

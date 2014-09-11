@@ -79,6 +79,8 @@ Route::group(["before" => "auth"], function() {
     */
    Route::resource('tests', 'TestController');
 
+   Route::resource('questions', 'QuestionController');
+
 });
 
 

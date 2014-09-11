@@ -1,3 +1,5 @@
+<!-- wala pa.. usbon pa ang db design-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -27,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="localhost:8000" style="padding-top:10px;"><h4><strong >P.E.</strong></h4></a>
+                <a href="localhost:8000" style="padding-top:10px;"><h4><strong >Project Eskwelahan</strong></h4></a>
                 
             </div>
             <div class="navbar-collapse collapse">
@@ -53,8 +55,7 @@
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
                             <li><a href="tests">Manage Tests</a></li>
-                            <li><a href="courses">Manage Courses</a></li>
-                            <li><a href="homeworks">Manage Homeworks</a></li>
+                            <li><a href="course">Manage Courses</a></li>
                     @endif
 
                     @endif
@@ -79,38 +80,45 @@
              <br>
           </div>
         -->
-            <div class="container">
-              <!--<div id="greet">
-                <h2><strong>Welcome to Eskwelahan!!</strong></h2>
-                 <br>
-                 <li><span style="display:block;margin: 10px 0px 3px 3px;width: 23px;"><img src='/image/meow.jpg' class="img-circle" width='30px' height='30px' padding-top='20px' /></span>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->username }}<b class="caret"></b>
+<div class="container">
 
-                            <li>{{ HTML::linkRoute('profile', 'USERNAME HERE') }}</li>
 
-                            <ul class="dropdown-menu">  -->
-                              <!--  {{ HTML::linkRoute('logout', 'Logout') }} -->
-                          <!--  </ul>
-                    </li> 
-                </div>-->
 
-                <!--start-->
-                <div class="row">
+<h3><strong>Tests</strong></h3>
 
-  <div class="col-md-1">
-      <img src="bootflat/img/default_user.jpg" width= "75px" height="auto"class="img-circle">
-  </div>
+<!-- will be used to show any messages -->
+@if (Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
 
-  <div class="col-md-6">
-    <span style="font-weight: bold; font-size: 24px;">Welcome {{ Auth::user()->fname }}! </span>
-    <br>
-    <i class="glyphicon glyphicon-user"></i>       <span style="text-transform:uppercase;">{{ Auth::user()->role }}
-  </div>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <td>Course</td>
+            <td>Test Name</td>
+            <td>Options</td>
+        </tr>
+    </thead>
+    <tbody>
+    
+        @foreach ($tests as $test)
+            
+                 <tr> 
+                <td> {{ $test['course']['course_code']}} </td>
+                
+                <td> {{ $test['test_name'] }} </td>
+                <td>                  
+                   <!--  <a class="btn btn-small btn-primary" href="{{ URL::route('questions.create') }} ">Add question</a> 
+                    -->
+                </td> 
+                 </tr>
+            @endforeach
+           
+    
+    </tbody>
+</table>
 
 </div>
-
-                <!--end-->
-            </div>
         </div>
     
          <!-- Bootstrap core JavaScript
@@ -122,3 +130,4 @@
      
     </body>
 </html>
+
