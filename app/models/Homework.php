@@ -2,6 +2,7 @@
 
 class Homework extends Eloquent 
 {
+	use SoftDeletingTrait;
 	/**
 	 * The database table used by the model.
 	 *
@@ -16,6 +17,10 @@ class Homework extends Eloquent
 	 * @var boolean
 	 */
     protected $softDelete = true;
+
+    public function teacher(){
+    	return $this->belongsTo('Teacher', 'teacher_id', 'id');
+    }
 
         
 }

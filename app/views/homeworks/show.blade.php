@@ -17,7 +17,8 @@
 
 
 	@if(Auth::user()->role == 'teacher' && $homeworks->teacher_id == Auth::user()->id)
-		<p>Buttons here.</p>
+		<a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a>
+		<a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</a>
 
 	@endif
 @endif
