@@ -165,10 +165,9 @@ class CourseController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-
-		$this->course->delete($id);
+		$course = new CourseRepository;
+		$rows = $course->delete($id);
 		return $this->index() ;
-
 	}
 
 
