@@ -79,8 +79,6 @@ Route::group(["before" => "auth"], function() {
     */
    Route::resource('tests', 'TestController');
 
-   Route::resource('questions', 'QuestionController');
-
 });
 
 
@@ -158,6 +156,13 @@ Route::resource('courses', 'CourseController');
 Route::resource('test', 'TestController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'TestController@update');
+
+/* 
+ * Homework Controller
+ */
+Route::resource('homeworks', 'HomeworkController');
+//Route::post('course/{id}/{attributes}', 'CourseController@update');
+Route::post('/update/{id}', 'HomeworkController@update');
 
 Route::resource('sections', 'SectionController');
 

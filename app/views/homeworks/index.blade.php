@@ -5,7 +5,9 @@
 <div class="row">
 	<div class="col-md-12">
 
-
+@if (Session::has('message'))
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
 
 @if(Auth::check() && Auth::user()->role == 'teacher')
 	<h1>Your Homeworks</h1>
