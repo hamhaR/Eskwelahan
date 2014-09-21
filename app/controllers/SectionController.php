@@ -42,8 +42,20 @@ class SectionController extends \BaseController {
 	 * @return Response
 	 */
 	public function create()
-	{
-		return View::make('section.create');
+	{	
+
+		$user = Auth::user();
+		if(Auth::check()){
+			if(($user->role == 'admin')||$user->role == 'teacher'){
+					return View::make('section.create');
+			}
+
+			else{
+				echo "not allowed";
+			}
+		}
+		
+		
 	}
 
 
@@ -87,8 +99,16 @@ class SectionController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$section = Section::find($id);
-		return View::make('section.show')->with('section',$section);
+		$user = Auth::user();
+		if(Auth::check()){
+			$section = Section::find($id);
+			return View::make('section.show')->with('section',$section);			
+		}
+
+		else{
+			echo "not allowed";
+		}
+		
 		
 	}
 
@@ -101,7 +121,8 @@ class SectionController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$section = Section::find($id);
+		return View::make('section.edit')->with('section',$section);
 	}
 
 
@@ -113,7 +134,25 @@ class SectionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$rules = array(
+			'section_name' => 'required'
+		);
+
+		$validator = Validator::make(Input::all(),$rules);
+
+		if($validator->fails()){
+			return Redirect::to('sections/' . $id . '/edit')
+				->withErrors($validator)
+				->withInput(Input::all());
+		}
+		else{
+			$section = Section::find($id);
+			$section->section_name = Input::get('section_name');
+			$section->save();
+
+			Session::flash('message', 'Successfully updated section!');
+			return Redirect::to('sections');
+		}
 	}
 
 

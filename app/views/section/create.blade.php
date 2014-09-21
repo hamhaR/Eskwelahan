@@ -1,6 +1,6 @@
 @extends("layout")
 @section("content")
-
+<div class="container">
 {{ Form::open(array('url' => 'sections')) }}
 
     <div class="form-group">
