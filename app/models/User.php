@@ -79,7 +79,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function sections(){
-		return $this->belongsToMany('Section','section_students','student_id','section_id')->withTimestamps();
+		return $this->belongsToMany('Section','section_students','student_id','section_id')->orderBy('section_id','asc')->withTimestamps();
 	}
 
 	public function course(){

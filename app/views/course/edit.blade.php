@@ -2,7 +2,7 @@
 @section("content")
 
 
-	{{ Form::open(array('url' => '/update/' . $course['id'] ,
+	{{ Form::open(array('url' => 'courses/' . $course['id'] ,
 			'autocomplete' => 'off',
 			'class' => 'form-horizontal'
 			)) }}
@@ -10,10 +10,6 @@
 		<div class="form-group">
         	<label class="col-md-4 control-label" for="course_code"><span style="font-family:sans-serif; font-size:13px ">Course Code</span></label>
             	{{ $course['course_code'] }}
-    	</div>
-    	<div class="form-group">
-        	<label class="col-md-4 control-label" for="course_section"><span style="font-family:sans-serif; font-size:13px ">Course Section</span></label>
-            	{{ $course['course_section'] }}
     	</div>
     	<div class="form-group">
         	<label class="col-md-4 control-label" for="course_title"><span style="font-family:sans-serif; font-size:13px ">Course Title</span></label>
@@ -29,7 +25,7 @@
 	    </div>
 		<tr>
 			<td>
-					{{ Form::hidden('_method', 'POST') }}
+					{{ Form::hidden('_method', 'PUT') }}
 					{{ Form::submit('Submit', ['class' => 'btn btn-default']) }}
 				{{ Form::close() }}
 			</td>

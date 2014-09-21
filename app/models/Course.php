@@ -9,7 +9,7 @@ class Course extends Eloquent{
 
 	
 	public function sections(){
-		return $this->hasMany('Section','section_id', 'section_id')->withTimestamps();
+		return $this->belongsToMany('Section','section_id', 'section_id')->withTimestamps();
 	}
 
 	public function teacher(){

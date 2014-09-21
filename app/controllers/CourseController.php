@@ -13,33 +13,8 @@ class CourseController extends \BaseController {
 
 		$course = new CourseRepository;
 		$rows = $course->all();
-		//$section = Section::where('section_id', '=', 4)->get();
 		return View::make('course.index')->with('rows', $rows);
-		//return View::make('course.test')->with('rows', $rows);
 
-		//mas sayon ni pramis
-		//$courses = Course::all();
-		//return View::make('course.index')->with('rows', $courses);
-
-	}
-
-	/*
-	 * Display the list of courses.
-	 */
-	public function student_index(){
-		$course = new CourseRepository;
-		$rows = $course->viewAll();
-		return View::make('course.student_index')
-					->with('rows', $rows);			
-	}
-
-	/*
-	 * Page with Enrol me button.
-	 */
-	public function student_enrol($id){
-		$displayData = $this->course->find($id);
-		return View::make('course.student_enrol')
-					->with('rows', $displayData);
 	}
 
 	/**
@@ -117,8 +92,8 @@ class CourseController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-
-		$courseData = $this->course->find($id);
+		$course = new CourseRepository;
+		$courseData = $course->find($id);
 		return View::make('course.edit')
 			->with('course', $courseData);
 	}
@@ -146,12 +121,12 @@ class CourseController extends \BaseController {
 
 		if ($validator->fails()) {
 			return Redirect::to('course/' . $id . '/edit')
-							->withErrors($validator);
+							->withErrors($validator);	
 		} else {
 			$course = Course::find($id);
 			$course->course_description = Input::get('course_description');
 			$course->save();
-			return $this->show($id);
+			return $this->index();
 		}
 
 	}

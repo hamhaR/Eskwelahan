@@ -31,7 +31,47 @@ class StudentController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$attributes = Input::all();
+
+		var_dump($attributes);
+// 		$student = $attributes['student'];
+// 		$section_id = $attributes['section_id'];
+
+// 		$rules = array(
+// 			'student' => 'required',
+// 			'section_id' => 'required'
+// 		);
+
+// 		$validator = Validator::make($attributes, $rules);
+				
+// 		if ($validator->fails()) {
+// 			return Redirect::to('classes/index')
+// 							->withErrors($validator)
+// 							->withInput(Input::all());
+// 		} else{
+// 			$section = Section::find($section_id);
+// 			$section->students()->attach($student->id);
+			
+// 			return Redirect::to('/classes');
+// 		}
+
+
+// $validator = Validator::make($attributes, $rules);
+				
+// 		if ($validator->fails()) {
+// 			return Redirect::to('classes/index')
+// 							->withErrors($validator)
+// 							->withInput(Input::all());
+// 		} else{
+// 			$section = new Section;
+// 			$section->section_name = $section_name;
+// 			$section->teacher_id = Auth::user()->id;
+// 			$section->save();
+
+// 			$course = Course::where('course_title', '=', $course_title )->first();
+// 			$section->courses()->attach($course->id);
+// 			return Redirect::to('/classes');
+// 		}
 	}
 
 

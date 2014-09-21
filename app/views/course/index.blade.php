@@ -37,11 +37,9 @@
 			</td>
 		</tr>
 		@endfor
-			{{ Form::open(array('url' => 'courses/create')) }}
-				{{ Form::hidden('_method', 'GET') }}
-				{{ Form::submit('Create Course') }}
-			{{ Form::close() }}
 	</tbody>
 </table>
+
+<a class="btn btn-primary" href="{{ URL::route('courses.create') }}"><span class="glyphicon glyphicon-plus"></span> Create Course</a>
 
 </div>

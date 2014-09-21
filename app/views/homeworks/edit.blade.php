@@ -1,16 +1,15 @@
 @extends("layout")
 @section("content")
    	
-<h1>Editing Homework: {{ $homework->homework_title }}</h1>
+<h1>Editing Homework: "{{ $homework->homework_title }}"</h1>
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
 <div class="col-md-4" >
-{{ Form::open([
-        "url"        => "homeworks",
-        "autocomplete" => "off",
-        "class" => "form-horizontal"
-    ]) }}
+{{ Form::open(array('url' => '/update/' . $homework->id,
+            'autocomplete' => 'off',
+            'class' => 'form-horizontal'
+            )) }}
     <div class="form-group">
     {{ Form::label('course_id', 'Course') }}
     <select name="course_id">

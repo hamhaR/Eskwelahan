@@ -1,21 +1,29 @@
 <?php
 
-class HomeworkModel implements TableRepository
+class HomeworkModel
 {
-	public function checkTeacher() 
-	{
-        if (Auth::user()->role != 'teacher') 
-        {
-            throw new UnauthorizedException('Access is denied!');
+    protected static $writePermissions = [
+        'teacher' => true,
+        'student' => false
+    ];
+
+    protected static $readPermissions = [
+        'teacher' => true,
+        'student' => true,
+        null => true
+    ];
+
+    public function checkWritePermissions() {
+        $role = Auth::user()->role;
+        if (self::$writePermissions[$role] != true) {
+            throw new UnauthorizedException('Access to table repository is denied!');
         }
     }
-
-    public function checkPermissions($id) 
-    {
-        $user = Auth::user();
-        if ($user->role != 'teacher' && $user->id != $id) 
-        {
-            throw new UnauthorizedException('Access is denied!');
+    
+    public function checkReadPermissions() {
+        $role = Auth::user()->role;
+        if (self::$readPermissions[$role] != true) {
+            throw new UnauthorizedException('Read access to table repository is denied!');
         }
     }
 
@@ -40,13 +48,29 @@ class HomeworkModel implements TableRepository
         }
     }
 
-    public function all(array $columns = ["*"]) 
+    public function all() 
     {
-       //
+       $role = Auth::user()->role;
+
+       if ($role == 'teacher') 
+       {
+           # code...
+       }
+       if ($role == 'student') 
+       {
+           # code...
+       }
     }
 
-    public function delete($id) {
-        //
+    public function delete($id) 
+    {
+        $homework = Homework::find($id);
+        if ($homework != null) {
+            DB::table('homeworks')->where('homework_id', $id)->delete();
+            $homework->delete();
+        } else {
+            throw new Exception("Invalid homework.");
+        }
     }
 
     public function edit($id, $attributes) 
@@ -63,10 +87,12 @@ class HomeworkModel implements TableRepository
             {
                 $h_instruction = $attributes['homework_instruction'];
                 $h_title = $attributes['homework_title'];
+                $c_id = $attributes['course_id'];
                 if ((gettype($h_instruction) == 'string') && (gettype($h_title) == 'string')) 
                 {
                     $homework->homework_instruction = $attributes['homework_instruction'];
                     $homework->homework_title = $attributes['homework_title'];
+                    $homework->course_id = $attributes['course_id'];
                 } 
                 else 
                 {

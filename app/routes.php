@@ -79,8 +79,6 @@ Route::group(["before" => "auth"], function() {
     */
    Route::resource('tests', 'TestController');
 
-   Route::resource('questions', 'QuestionController');
-
 });
 
 
@@ -150,8 +148,6 @@ Route::get('/profile', function()
  * Course Controller
  */
 Route::resource('courses', 'CourseController');
-//Route::post('course/{id}/{attributes}', 'CourseController@update');
-Route::post('/update/{id}', 'CourseController@update');
 
 
 /*
@@ -161,6 +157,15 @@ Route::resource('test', 'TestController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'TestController@update');
 
-Route::resource('sections', 'SectionController');
+/* 
+ * Homework Controller
+ */
+Route::resource('homeworks', 'HomeworkController');
+//Route::post('course/{id}/{attributes}', 'CourseController@update');
+Route::post('/update/{id}', 'HomeworkController@update');
 
 Route::resource('materials', 'MaterialController');
+
+Route::resource('sections', 'SectionController');
+Route::resource('classes','ClassController');
+Route::resource('students','StudentController');
