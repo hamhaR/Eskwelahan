@@ -13,15 +13,17 @@ class SectionController extends \BaseController {
 		if(Auth::check()){
 
 			if($user->role == 'student'){
-				$s = Section::where('section_id','=',3)->pluck('section_name');
-				echo $s;
-				//$sections = $user->sections;
-				//return View::make('section.index')->with('sections',$sections);
+				$sections = $user->sections;
+				return View::make('section.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'teacher'){
-				$sections = $user->sections;
+				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','asc')->get();
 				return View::make('section.index')->with('sections',$sections);
+			}
+
+			if($user->role == 'admin'){
+				return View::make('section.index')->with('sections', Section::all());
 			}
 			
 			
@@ -41,7 +43,7 @@ class SectionController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('section.create');
 	}
 
 
@@ -52,7 +54,28 @@ class SectionController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$attributes = Input::all();
+
+		$section_name = $attributes['section_name'];
+
+		$rules = [
+			'section_name' => 'required'
+		];
+
+		$validator = Validator::make($attributes, $rules);
+				
+		if ($validator->fails()) {
+			return Redirect::to('sections/create')
+							->withErrors($validator)
+							->withInput(Input::all());
+		} else{
+			$section = new Section;
+			$section->section_name = $section_name;
+			$section->teacher_id = Auth::user()->id;
+			$section->save();
+			return $this->index() ;
+			//return View::make('course.test')->with('rows', $rows);
+		}
 	}
 
 

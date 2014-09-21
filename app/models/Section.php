@@ -14,7 +14,7 @@ class Section extends Eloquent{
 	}
 
 	public function courses(){
-		return $this->belongsToMany('Course', 'course_id','id')->withTimestamps();
+		return $this->belongsToMany('Course','section_course' ,'section_id','course_id')->withTimestamps();
 	}
 
 	public function teacher(){
