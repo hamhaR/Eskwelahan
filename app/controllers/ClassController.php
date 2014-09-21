@@ -1,6 +1,6 @@
 <?php
 
-class SectionController extends \BaseController {
+class ClassController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -14,16 +14,16 @@ class SectionController extends \BaseController {
 
 			if($user->role == 'student'){
 				$sections = $user->sections;
-				return View::make('section.index')->with('sections',$sections);
+				return View::make('class.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'teacher'){
-				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','asc')->get();
-				return View::make('section.index')->with('sections',$sections);
+				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->get();
+				return View::make('class.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'admin'){
-				return View::make('section.index')->with('sections', Section::all());
+				return View::make('class.index')->with('sections', Section::all());
 			}
 			
 			
@@ -32,7 +32,6 @@ class SectionController extends \BaseController {
 			echo "not logged in";
 		}
 
-		
 	}
 
 
@@ -42,20 +41,8 @@ class SectionController extends \BaseController {
 	 * @return Response
 	 */
 	public function create()
-	{	
-
-		$user = Auth::user();
-		if(Auth::check()){
-			if(($user->role == 'admin')||$user->role == 'teacher'){
-					return View::make('section.create');
-			}
-
-			else{
-				echo "not allowed";
-			}
-		}
-		
-		
+	{
+		//
 	}
 
 
@@ -69,15 +56,17 @@ class SectionController extends \BaseController {
 		$attributes = Input::all();
 
 		$section_name = $attributes['section_name'];
+		$course_title = $attributes['course_title'];
 
-		$rules = [
-			'section_name' => 'required'
-		];
+		$rules = array(
+			'section_name' => 'required',
+			'course_title' => 'required'
+		);
 
 		$validator = Validator::make($attributes, $rules);
 				
 		if ($validator->fails()) {
-			return Redirect::to('sections/create')
+			return Redirect::to('classes/index')
 							->withErrors($validator)
 							->withInput(Input::all());
 		} else{
@@ -85,7 +74,10 @@ class SectionController extends \BaseController {
 			$section->section_name = $section_name;
 			$section->teacher_id = Auth::user()->id;
 			$section->save();
-			return Redirect::to('/sections');
+
+			$course = Course::where('course_title', '=', $course_title )->first();
+			$section->courses()->attach($course->id);
+			return Redirect::to('/classes');
 		}
 	}
 
@@ -101,14 +93,17 @@ class SectionController extends \BaseController {
 		$user = Auth::user();
 		if(Auth::check()){
 			$section = Section::find($id);
-			return View::make('section.show')->with('section',$section);			
+			return View::make('class.show')
+				->with(array(
+					'section' => $section,
+					'course_id' => Input::get('course_id')
+				)
+			);			
 		}
 
 		else{
 			echo "not allowed";
 		}
-		
-		
 	}
 
 
@@ -120,8 +115,7 @@ class SectionController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$section = Section::find($id);
-		return View::make('section.edit')->with('section',$section);
+		//
 	}
 
 
@@ -133,25 +127,7 @@ class SectionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$rules = array(
-			'section_name' => 'required'
-		);
-
-		$validator = Validator::make(Input::all(),$rules);
-
-		if($validator->fails()){
-			return Redirect::to('sections/' . $id . '/edit')
-				->withErrors($validator)
-				->withInput(Input::all());
-		}
-		else{
-			$section = Section::find($id);
-			$section->section_name = Input::get('section_name');
-			$section->save();
-
-			Session::flash('message', 'Successfully updated section!');
-			return Redirect::to('sections');
-		}
+		//
 	}
 
 

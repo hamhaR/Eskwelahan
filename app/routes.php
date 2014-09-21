@@ -165,4 +165,5 @@ Route::resource('homeworks', 'HomeworkController');
 Route::post('/update/{id}', 'HomeworkController@update');
 
 Route::resource('sections', 'SectionController');
-
+Route::resource('classes','ClassController');
+Route::resource('students','StudentController');
