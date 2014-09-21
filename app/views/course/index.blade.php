@@ -12,7 +12,6 @@
 	<thead>
 		<tr>
 			<td>Course Code </td>
-			<td>Course Section</td>
 			<td>Course Title</td>
 			<td>Course Description</td>
 			<td>Action</td>
