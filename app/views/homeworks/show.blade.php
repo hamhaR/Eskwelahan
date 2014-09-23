@@ -38,8 +38,14 @@
         <p>This cannot be undone.</p>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger">Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      <!--	<button type="button" class="btn btn-danger">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button> -->
+        {{ Form::open(array('url' => 'homeworks/' . $homeworks->id)) }}
+          {{ Form::hidden('_method', 'DELETE') }}
+          {{ Form::submit('Yes', ['class' => 'btn btn-danger']) }}
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        {{ Form::close() }}
       </div>
     </div>
   </div>

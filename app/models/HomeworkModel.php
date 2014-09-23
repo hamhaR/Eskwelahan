@@ -50,7 +50,7 @@ class HomeworkModel
 
     public function all() 
     {
-     $role = Auth::user()->role;
+        $role = Auth::user()->role;
 
      if ($role == 'teacher') 
      {
@@ -78,7 +78,7 @@ class HomeworkModel
         $homework_title = $row['homework_title'];
         $course_code = $row['course_code'];
         $created_at = $row['created_at'];
-        
+
         $result = [
         'id' => $homework_id,
         'homework_title' => $homework_title,
@@ -97,7 +97,7 @@ public function delete($id)
 {
     $homework = Homework::find($id);
     if ($homework != null) {
-        DB::table('homeworks')->where('homework_id', $id)->delete();
+        DB::table('homeworks')->where('id', $id)->delete();
         $homework->delete();
     } else {
         throw new Exception("Invalid homework.");
