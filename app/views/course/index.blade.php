@@ -2,7 +2,6 @@
 @section("content")
 <div class="container">
 
-
 <!-- will be used to show any messages -->
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -29,11 +28,34 @@
 					{{ Form::hidden('_method', 'GET') }}
 					{{ Form::submit('Edit Course', ['class' => 'btn btn-default']) }}
 				{{ Form::close() }}
-	
-				{{ Form::open(array('url' => 'courses/' . $rows[$i]['id'])) }}
-					{{ Form::hidden('_method', 'DELETE') }}
-					{{ Form::submit('Delete Course', ['class' => 'btn btn-default', 'data-toggle' => 'modal']) }}
-				{{ Form::close() }}
+
+				<button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete Course</button>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  					<div class="modal-dialog">
+    					<div class="modal-content">
+      						<div class="modal-header">
+        						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        						<h4 class="modal-title" id="myModalLabel">Warning</h4>
+      						</div>
+      						<div class="modal-body">
+        						<p>Are you sure you want to delete this course?</p>
+        						<p>This cannot be undone.</p>
+      						</div>
+      						<div class="modal-footer">
+        						{{ Form::open(array('url' => 'courses/' . $rows[$i]['id'])) }}
+          						{{ Form::hidden('_method', 'DELETE') }}
+          						{{ Form::submit('Yes', ['class' => 'btn btn-danger']) }}
+
+					          	<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        						{{ Form::close() }}
+      						</div>
+    					</div>
+  					</div>
+				</div>
+				<!-- end of Modal -->
+
 			</td>
 		</tr>
 		@endfor
