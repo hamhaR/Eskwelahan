@@ -52,16 +52,16 @@ Teacher: {{$section->teacher->fname}}<br><br>
         {{Form::open(array('url' => 'students'))}}
           <div class="form-group">
            {{ Form::label('student', 'Name') }}
-            <select class="form-control" id="student" name="student">
+            <select class="form-control" id="student_id" name="student_id">
               @foreach(User::where('role','=','student')->get() as $stud)
                 
-                <option>
+                <option value="{{$stud->id}}">
                   {{$stud->fname}} {{$stud->lname}} 
                 </option>
 
               @endforeach
             </select>
-            {{Form::hidden('student_id',$stud->id)}}
+            {{Form::hidden('student',User::where(array('fname' => $stud->fname,'lname' => $stud->lname))->get())}}
             {{Form::hidden('course_id',$course_id)}}
             {{Form::hidden('section_id',$section->section_id)}}
           </div>		  		 
