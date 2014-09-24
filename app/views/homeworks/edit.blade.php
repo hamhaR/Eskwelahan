@@ -29,7 +29,7 @@
 
     <div class="form-group">
     {{ Form::label('homework_instruction', 'Homework Guidelines') }}
-    {{ Form::textarea('homework_instruction', $homework->homework_instruction ,array('class' => 'ckeditor')) }}
+    {{ Form::textarea('homework_instruction', $homework->homework_instruction ,array('class' => 'ckeditor', 'id' => 'instructions_edit')) }}
     </div>
     {{ Form::submit('Update Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
