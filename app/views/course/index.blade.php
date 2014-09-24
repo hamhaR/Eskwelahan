@@ -2,7 +2,6 @@
 @section("content")
 <div class="container">
 
-
 <!-- will be used to show any messages -->
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -43,3 +42,4 @@
 <a class="btn btn-primary" href="{{ URL::route('courses.create') }}"><span class="glyphicon glyphicon-plus"></span> Create Course</a>
 
 </div>
+
