@@ -22,6 +22,7 @@ class TestController extends Controller
 	public function index()
 	{
 		//for index views of tests
+		/*
 		if (Auth::user()->role == 'teacher') 
 		{
 		 	$tests = DB::select('SELECT tests.id, tests.course_id, tests.test_name, courses.course_code, tests.created_at FROM tests INNER JOIN courses ON (tests.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
@@ -32,6 +33,12 @@ class TestController extends Controller
 		{
 			return Redirect::to('profile')->with('message', 'Error! Access denied.');
 		}
+		*/
+		
+		$tests = Test::all();
+		
+		return View::make('tests.index')
+		->with('tests', $tests);
 	}
 
 
@@ -43,7 +50,10 @@ class TestController extends Controller
 	 */
 	public function create()
 	{
-		return View::make('tests.create');
+
+		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+
+		return View::make('tests.create')->with('courses', $results);
 	}
 
 
@@ -57,17 +67,17 @@ class TestController extends Controller
 		$rules = array(
 			'test_name' 	=>	'required',
 			'course_id'		=> 'required',
-			'teacher_id'	=>	'required'
+			
 		);
 
 		$test = new Test;
 		$test->test_name		= Input::get('test_name');
 		$test->course_id 		= Input::get('course_id');
-		$test->teacher_id		= Input::get('teacher_id');
+		$test->teacher_id		= Auth::id();
 		$test->save();
 			
 		Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('');
+		return Redirect::to('tests');
 	}
 
 

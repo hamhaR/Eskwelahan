@@ -104,8 +104,8 @@ class CourseRepository  {
         //$this->checkWritePermissions;
         $course = Course::find($id);
         if ($course != null) {
-            DB::table('courses')->where('id', $id)->delete();
-            DB::table('teacher_courses')->where('course_id', $id)->delete();
+            $del = Course::find($id)->delete();
+            $del2 = DB::table('teacher_courses')->where('course_id', $id)->delete();
         } else {
             throw new Exception("Invalid course code.");
         }
