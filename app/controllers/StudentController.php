@@ -33,45 +33,30 @@ class StudentController extends \BaseController {
 	{
 		$attributes = Input::all();
 
-		var_dump($attributes);
-// 		$student = $attributes['student'];
-// 		$section_id = $attributes['section_id'];
+		echo Input::get('student_id');
 
-// 		$rules = array(
-// 			'student' => 'required',
-// 			'section_id' => 'required'
-// 		);
+		$student_id = $attributes['student_id'];
+		$section_id = $attributes['section_id'];
+		$course_id = $attributes['course_id'];
 
-// 		$validator = Validator::make($attributes, $rules);
+		$rules = array(
+			'student_id' => 'required',
+			'section_id' => 'required',
+			'course_id'	 =>	'required'
+		);
+
+		$validator = Validator::make($attributes, $rules);
 				
-// 		if ($validator->fails()) {
-// 			return Redirect::to('classes/index')
-// 							->withErrors($validator)
-// 							->withInput(Input::all());
-// 		} else{
-// 			$section = Section::find($section_id);
-// 			$section->students()->attach($student->id);
+		if ($validator->fails()) {
+			return Redirect::to('classes/index')
+							->withErrors($validator)
+							->withInput(Input::all());
+		} else{
+			$section = Section::find($section_id);
+			$section->students()->attach($student_id);
 			
-// 			return Redirect::to('/classes');
-// 		}
-
-
-// $validator = Validator::make($attributes, $rules);
-				
-// 		if ($validator->fails()) {
-// 			return Redirect::to('classes/index')
-// 							->withErrors($validator)
-// 							->withInput(Input::all());
-// 		} else{
-// 			$section = new Section;
-// 			$section->section_name = $section_name;
-// 			$section->teacher_id = Auth::user()->id;
-// 			$section->save();
-
-// 			$course = Course::where('course_title', '=', $course_title )->first();
-// 			$section->courses()->attach($course->id);
-// 			return Redirect::to('/classes');
-// 		}
+			return Redirect::to('/classes/'.$section_id. '?course_id=' . $course_id);
+		}
 	}
 
 
