@@ -35,6 +35,7 @@ class CourseRepository  {
                     ->join('courses', 'courses.id', '=', 'teacher_courses.course_id')
                     ->where('teacher_id', '=', $t_id)
                     ->select('courses.id', 'courses.course_code', 'courses.course_title', 'courses.course_description')
+                    ->orderBy('id', 'desc')
                     ->get();
 
         $array = [];
@@ -103,16 +104,8 @@ class CourseRepository  {
         //$this->checkWritePermissions;
         $course = Course::find($id);
         if ($course != null) {
-            $a = DB::table('section_course')->where('course_id', $id)->get();
-            $d = [];
-            foreach ($a as $b) {
-                array_push($d, $b->section_id);
-            }
-            $section_id = $d[0];
-
-            DB::table('section_course')->where('course_id', $id)->delete();
-            $section = Section::find($section_id)->delete();
-
+            DB::table('courses')->where('id', $id)->delete();
+            DB::table('teacher_courses')->where('course_id', $id)->delete();
         } else {
             throw new Exception("Invalid course code.");
         }
