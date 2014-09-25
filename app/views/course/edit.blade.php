@@ -6,7 +6,7 @@
 			'autocomplete' => 'off',
 			'class' => 'form-horizontal'
 			)) }}
-
+<form class="form-horizontal" role="form">
 		<div class="form-group">
         	<label class="col-md-4 control-label" for="course_code"><span style="font-family:sans-serif; font-size:13px ">Course Code</span></label>
             	{{ $course['course_code'] }}
@@ -30,3 +30,4 @@
 				{{ Form::close() }}
 			</td>
 		</tr>
+</form>

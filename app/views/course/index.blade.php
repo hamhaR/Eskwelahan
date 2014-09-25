@@ -24,14 +24,10 @@
 			<td>{{ $rows[$i]['course_title'] }}</td>
 			<td>{{ $rows[$i]['course_description'] }}</td>
 			<td>
-				{{ Form::open(array('url' => 'courses/' . $rows[$i]['id'] . '/edit')) }}
-					{{ Form::hidden('_method', 'GET') }}
-					{{ Form::submit('Edit Course', ['class' => 'btn btn-default']) }}
-				{{ Form::close() }}
-
+				<a class="btn btn-success" href="{{ URL::route('courses.edit', $rows[$i]['id']) }}"><span class="glyphicon glyphicon-pencil"></span> Edit Course</a>
 				<button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete Course</button>
 				
-				<!-- Modal -->
+				<!-- Modal for Delete Course-->
 				<div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   					<div class="modal-dialog">
     					<div class="modal-content">
@@ -54,7 +50,7 @@
     					</div>
   					</div>
 				</div>
-				<!-- end of Modal -->
+				<!-- end of Modal for Delete Course -->
 
 			</td>
 		</tr>
