@@ -38,7 +38,7 @@ class TestModel implements TableRepository{
         $this->checkWritePermissions();
         $rules = [ 
             'test_name'    => 'required|Unique',
-            'teacher_id'   => 'required',
+            'teacher_id'   => '',
             'course_id'  => 'required'
             ];
         $validator = Validator::make($attributes, $rules);

@@ -31,18 +31,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $length = count($tests); ?>
-                @for ($i = 0; $i < $length; $i++)
+                @foreach($tests as $test)
                 <tr>
-                    <td>{{ $tests[$i]->course_code }}</td>
-                    <td>{{ $tests[$i]->test_name }}</td>
-                    <td>{{ date('j F Y, h:i A',strtotime($tests[$i]->created_at)) }}</td>
+                    <td>{{ $test->course->course_code }}</td>
+                    <td>{{ $test->test_name }}</td>
+                    <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
                     <td>  <a style="height:30px; padding-up:30px; " class="btn btn-primary" href="#"> Edit</a>
 
                           <a style="height:30px; padding-up:30px; " class="btn btn-danger" href="#"> Delete</a> 
                     </td>
                 </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>

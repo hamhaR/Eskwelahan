@@ -137,9 +137,11 @@ class ClassController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($section_id)
 	{
-		//
+		$section = Section::find($section_id);
+		$section->delete();
+		return Redirect::to('classes');
 	}
 
 

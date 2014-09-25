@@ -28,15 +28,14 @@
                 <br>
                 
                 <br><br><br><br>
-                <div class="dropdown">
-                  <button class="btn btn-normal dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Edit</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete</a></li>
-                  </ul>
-                </div>
+                
+                {{ Form::open(array('url' => 'classes/' . $section->section_id, 'class' => 'pull-right')) }}
+                {{ Form::hidden('_method', 'DELETE') }}
+               <button type="submit" class="btn btn-danger">
+                 <span class="glyphicon glyphicon-trash"></span>
+               </button>
+                {{ Form::close() }}
+                
               </div>
             </div>
     </div>

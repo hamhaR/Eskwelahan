@@ -20,23 +20,9 @@ class HomeworkController extends \BaseController
 	public function index()
 	{
 		//for index views of homeworks
-		if (Auth::user()->role == 'student') 
-		{
-			$homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN student_courses ON (homeworks.course_id = student_courses.course_id) INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE student_courses.student_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
-		
+		$homework = new HomeworkModel;
+		$homeworks = $homework->all();
 		return View::make('homeworks.index')->with('homeworks', $homeworks);
-		}
-		elseif (Auth::user()->role == 'teacher') 
-		{
-		 	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE teacher_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
-		
-			return View::make('homeworks.index')->with('homeworks', $homeworks);
-		} 
-		else 
-		{
-			return Redirect::to('profile')->with('message', 'Access is restricted.');
-		}
-		
 	}
 
 
@@ -159,7 +145,9 @@ class HomeworkController extends \BaseController
 			$homework->homework_title = Input::get('homework_title');
 			$homework->homework_instruction	= Input::get('homework_instruction');
 			$homework->save();
-			return $this->show($id);
+		//	return $this->show($id);
+			Session::flash('message', 'Homework successfully updated.');
+			return Redirect::to('homeworks');
 		}
 	}
 
@@ -172,7 +160,9 @@ class HomeworkController extends \BaseController
 	 */
 	public function destroy($id)
 	{
-		//
+		$homework = new HomeworkModel;
+		$rows = $homework->delete($id);
+		return $this->index();
 	}
 
 

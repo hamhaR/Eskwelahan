@@ -45,8 +45,6 @@ class CourseController extends \BaseController {
 			'course_description' => $attributes['course_description']
 		];
 
-		$c_section = $attributes['section_name'];
-
 		$rules = [
 			'course_code' => 'required',
 			'course_title' => 'required',
@@ -61,7 +59,7 @@ class CourseController extends \BaseController {
 							->withInput(Input::all());
 		} else{
 			$course = new CourseRepository;
-			$rows = $course->add($courseData, $c_section);
+			$rows = $course->add($courseData);
 			return $this->index() ;
 			//return View::make('course.test')->with('rows', $rows);
 		}
