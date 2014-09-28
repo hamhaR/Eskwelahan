@@ -15,7 +15,11 @@ class CreateQuestionsTable extends Migration {
 	Schema::create('questions', function(Blueprint $table){
 			$table->increments('id');
 			$table->text('content');
-			$table->string('correct_answer');
+			$table->string('choice1');
+			$table->string('choice2');
+			$table->string('choice3');
+			$table->string('choice4');
+			$table->string('answer');
 
 			$table->integer('test_id');
 			$table->foreign('test_id')->references('id')->on('tests');

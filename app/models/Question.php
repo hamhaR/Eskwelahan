@@ -10,7 +10,10 @@ class Question extends Eloquent{
   	protected $dates = ['deleted_at'];
 
 
-    public function studentTest(){
+    public function test(){
         return $this->belongsTo('Test','test_id', 'id');
     }
+    public function teacher(){
+		return $this->belongsTo('User')->where('role','=','teacher');
+	}
 }

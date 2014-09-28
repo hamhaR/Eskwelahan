@@ -1,21 +1,6 @@
 <?php
 
-use Illuminate\Support\MessageBag;
-use Illuminate\Routing\Controller;
-
-class QuestionController extends Controller 
-{
-	private $questions;
-	//private $tests;
-
-	
-	public function __construct(QuestionModel $questions) 
-	{
-        $this->questions = $questions;
-        //$this->tests = $tests;
-    }
-
-
+class QuestionController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -23,15 +8,51 @@ class QuestionController extends Controller
 	 * @return Response
 	 */
 	public function index()
-	{
-		//for index views of questions
-		//$c = $courses->all();
-		$questions = Question::all();
-		//$tests = Test::where();
+	{/*
+		$user = Auth::user();
+
+		if(Auth::check()){
+
+			if($user->role == 'student'){
+				//moredirect sa take test na module
+			}
+
+			if($user->role == 'teacher'){
+				$questions = Question::where('test_id','=',$test->id)->orderBy('id','desc')->get();
+				return View::make('question.index')->with('questions',$questions);
+			}
+
+			if($user->role == 'admin'){
+				//do nothing
+			}
+			
+			
+		}
+		else{
+			echo "not logged in";
+		}
 		
-		return View::make('questions.index')
+		$tests = Test::find($id);
+		if (! is_null($tests)){
+			$questions = Question::all();
+			
+			return View::make('questions.index')
 			->with('questions', $questions);
-			//->with('tests', $tests);
+		}
+		else{
+			echo 'Test does not exist';
+		}
+		*/
+		$user = Auth::user();
+		$test = Test::find($id);
+
+		if(Auth::check()){
+					if($user->role == 'teacher'){
+				$questions = Question::where('test_id','=',$test->id)->orderBy('id','desc')->get();
+				return View::make('questions.index')->with('questions',$questions);
+			}
+		}
+
 	}
 
 
@@ -42,7 +63,17 @@ class QuestionController extends Controller
 	 */
 	public function create()
 	{
-		return View::make('questions.create');
+		$user = Auth::user();
+		if(Auth::check()){
+			if($user->role == 'teacher'){
+					return View::make('questions.index');
+			}
+
+			else{
+				echo "Access denied!";
+			}
+		}
+		
 	}
 
 
@@ -53,20 +84,48 @@ class QuestionController extends Controller
 	 */
 	public function store()
 	{
+		$attributes = Input::all();
+
+		if (! is_null($test_id)){
+			$content = $attributes['content'];
+			$choice1 = $attributes['choice1'];
+			$choice2 = $attributes['choice2'];
+			$choice3 = $attributes['choice3'];
+			$choice4 = $attributes['choice4'];
+			$answer  = $attributes['answer'];
+		}
+
 		$rules = array(
-			'content' 	=>	'required',
-			'correct_answer'		=> 'required',
-			'teacher_id'	=>	'required'
+			'content' => 'required',
+			'choice1' => 'required',
+			'choice2' => 'required',
+			'choice3' => 'required',
+			'choice4' => 'required',
+			'answer' => 'required'
 		);
 
-		$question = new Question;
-		$question->content				= Input::get('content');
-		$question->correct_answer 		= Input::get('correct_answer');
-		$question->teacher_id			= Input::get('teacher_id');
-		$question->save();
-			
-		//Session::flash('message', 'question/quiz successfully added.');
-		return Redirect::to('questions/index')->with('message', 'question is successfully added!');
+
+		$validator = Validator::make($attributes, $rules);
+				
+		if ($validator->fails()) {
+			return Redirect::to('questions/index')
+							->withErrors($validator)
+							->withInput(Input::all());
+		} else{
+			$question = new Question;
+			$question->content = $content;
+			$question->choice1 = $choice1;
+			$question->choice2 = $choice2;
+			$question->choice3 = $choice3;
+			$question->answer = $answer;
+			//$question->test_id = 
+			$question->teacher_id = Auth::user()->id;
+			$question->save();
+
+			$test = Test::where('test_name', '=', $test_name )->first();
+			$question->test()->attach($test->id);
+			return Redirect::to('/questions');
+		}
 	}
 
 
@@ -78,9 +137,25 @@ class QuestionController extends Controller
 	 */
 	public function show($id)
 	{
-		return View::make('questions.show', [
-                    'question' => $this->questions->find($id)
-        ]);
+		$user = Auth::user();
+		if(Auth::check()){
+			$test = Test::find($id);
+			return View::make('questions.show')
+				->with(array(
+					'test' => $test,
+					'content' => Input::get('content'),
+					'choice1' => Input::get('choice1'),
+					'choice2' => Input::get('choice2'),
+					'choice3' => Input::get('choice3'),
+					'choice4' => Input::get('choice4'),
+					'answer' => Input::get('answer')
+				)
+			);			
+		}
+
+		else{
+			echo "not allowed";
+		}
 	}
 
 
@@ -114,9 +189,9 @@ class QuestionController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($section_id)
 	{
-		//
+		
 	}
 
 
