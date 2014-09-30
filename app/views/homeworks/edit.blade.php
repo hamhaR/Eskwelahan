@@ -1,11 +1,14 @@
 @extends("layout")
 @section("content")
-   	
+
+<div class="container">
+<div class="row">
+    <div class="col-md-12">
+
 <h1>Editing Homework: "{{ $homework->homework_title }}"</h1>
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
-<div class="col-md-4" >
 {{ Form::open(array('url' => '/update/' . $homework->id,
             'autocomplete' => 'off',
             'class' => 'form-horizontal'
@@ -33,6 +36,8 @@
     </div>
     {{ Form::submit('Update Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
+    </div>
+</div>
 </div>
         <!-- Bootstrap core JavaScript
         ================================================== -->
