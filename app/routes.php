@@ -164,7 +164,8 @@ Route::resource('homeworks', 'HomeworkController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'HomeworkController@update');
 
-Route::resource('materials', 'MaterialController');
+//Route::resource('materials', 'MaterialController');
+//Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('sections', 'SectionController');
 Route::resource('classes','ClassController');
