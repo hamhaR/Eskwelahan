@@ -12,6 +12,9 @@
 
     <!-- Custom styles for this template -->
     {{ HTML::style('bootflat/css/layout.css')}}
+
+
+    
     </head>
     <body>
         

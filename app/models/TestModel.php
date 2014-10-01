@@ -38,6 +38,7 @@ class TestModel implements TableRepository{
         $this->checkWritePermissions();
         $rules = [ 
             'test_name'    => 'required|Unique',
+            'testDate'      => '',
             'teacher_id'   => '',
             'course_id'  => 'required'
             ];
@@ -45,6 +46,7 @@ class TestModel implements TableRepository{
         if ($validator->passes()) {
             $test = new Test;
             $test->test_name = $attributes['test_name'];
+            $test->testDate = $attributes['testDate'];
             $test->teacher_id = $attributes['teacher_id'];
             $test->course_id = $attributes['course_id'];
             $test->save();
@@ -63,7 +65,7 @@ class TestModel implements TableRepository{
                     ->join('courses', 'courses.id', '=', 'teacher_courses.course_id')
                     ->join('tests', 'tests.course_id', '=', 'courses.id')
                     ->where('teacher_courses.teacher_id', '=', $t_id)
-                    ->select( 'courses.course_code', 'tests.test_name')
+                    ->select( 'courses.course_code', 'tests.test_name', 'tests.testDate' )
                     ->get();
 
         $array = [];
@@ -72,12 +74,14 @@ class TestModel implements TableRepository{
             $test = get_object_vars($test);
             $course_code = $test['course_code'];
             $test_name = $test['test_name'];
+            $testDate = $test['testDate'];
            
            
             
             $result = [
                 'course_code' => $course_code,
-                'test_name' => $test_name
+                'test_name' => $test_name,
+                'testDate' => $testDate
                 
             ];
 

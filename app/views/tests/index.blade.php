@@ -27,6 +27,7 @@
                     <th>Course</th>
                     <th>Test Name</th>
                     <th>Date Created</th>
+                    <th>Test Date</th>
                     <th>Options</th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td>{{ $test->course->course_code }}</td>
                    <td> <a href="{{ URL::route('questions.index',array('id' => $test->test_id))}}">{{ $test->test_name }}</a></td>
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
+                    <td>{{ date('j F Y, h:i A',strtotime($test->testDate)) }}</td>
                     <td>  <a style="height:30px; padding-up:30px; " class="btn btn-primary" href="#"> Edit</a>
 
                           <a style="height:30px; padding-up:30px; " class="btn btn-danger" href="#"> Delete</a> 
