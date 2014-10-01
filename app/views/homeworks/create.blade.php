@@ -1,11 +1,15 @@
 @extends("layout")
 @section("content")
    	
-<h1>Add a Homework</h1>
+
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
-<div class="col-md-4" >
+<div class="container">
+<div class="row">
+    <div class="col-md-12">
+
+    <h1>Add a Homework</h1>
 {{ Form::open([
         "url"        => "homeworks",
         "autocomplete" => "off",
@@ -30,6 +34,8 @@
     </div>
     {{ Form::submit('Post Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
+    </div>
+</div>
 </div>
         <!-- Bootstrap core JavaScript
         ================================================== -->

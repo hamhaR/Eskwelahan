@@ -34,7 +34,7 @@
                 @foreach($tests as $test)
                 <tr>
                     <td>{{ $test->course->course_code }}</td>
-                    <td>{{ $test->test_name }}</td>
+                   <td> <a href="{{ URL::route('questions.index',array('id' => $test->test_id))}}">{{ $test->test_name }}</a></td>
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
                     <td>  <a style="height:30px; padding-up:30px; " class="btn btn-primary" href="#"> Edit</a>
 

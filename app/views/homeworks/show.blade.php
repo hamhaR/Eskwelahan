@@ -1,7 +1,9 @@
 @extends("layout")
 @section("content")
 
-<div class="col-md-6">
+<div class="container">
+<div class="row">
+    <div class="col-md-12">
 @if(Auth::check())
 
 		
@@ -23,6 +25,8 @@
 
 	@endif
 @endif
+  </div>
+</div>
 </div>
 
 <!-- Modal -->

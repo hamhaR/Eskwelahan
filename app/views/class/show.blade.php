@@ -3,11 +3,12 @@
 <div class="container">
 
 
-
+@if(Auth::user()->role == 'teacher')
 <!-- Button trigger modal -->
 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   Add Student
 </button><br><br>
+@endif
 
 Course:	{{Course::where('id','=', $course_id)->first()->course_title}}<br>
 Section: {{$section->section_name}}<br>

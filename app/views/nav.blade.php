@@ -33,9 +33,13 @@
 
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
-                            <li><a href="tests">Manage Tests</a></li>
+                    <!--        <li><a href="tests">Manage Tests</a></li>
                             <li><a href="courses">Manage Courses</a></li>
-                            <li><a href="homeworks">Manage Homeworks</a></li>
+                            <li><a href="homeworks">Manage Homeworks</a></li> -->
+                            <li>{{ HTML::linkRoute('tests.index', 'Manage Tests') }}</li>
+                            <li>{{ HTML::linkRoute('courses.index', 'Manage Courses') }}</li>
+                            <li>{{ HTML::linkRoute('homeworks.index', 'Manage Homeworks') }}</li>
+
                     @endif
 
                     @endif
