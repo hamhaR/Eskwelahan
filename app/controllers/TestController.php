@@ -66,13 +66,16 @@ class TestController extends Controller
 	{
 		$rules = array(
 			'test_name' 	=>	'required',
+			'testDate'		=> '',
 			'course_id'		=> 'required',
 			
 		);
 
 		$test = new Test;
 		$test->test_name		= Input::get('test_name');
+		$test->testDate			= Input::get('testDate');
 		$test->course_id 		= Input::get('course_id');
+
 		$test->teacher_id		= Auth::id();
 		$test->save();
 			

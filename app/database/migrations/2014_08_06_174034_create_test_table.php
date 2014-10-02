@@ -15,7 +15,7 @@ class CreateTestTable extends Migration {
 		Schema::create('tests', function(Blueprint $table){
 			$table->increments('id');
 			$table->string('test_name', 30);
-			//$table->date(format)
+			$table->DateTime('testDate');
 
 			$table->integer('teacher_id');
 			$table->foreign('teacher_id')->references('id')->on('users');
