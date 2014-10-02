@@ -1,5 +1,4 @@
 <?php
-
 namespace GuzzleHttp\Message;
 
 use GuzzleHttp\Event\ListenerAttacherTrait;
@@ -11,7 +10,7 @@ use GuzzleHttp\Subscriber\HttpError;
 use GuzzleHttp\Post\PostBody;
 use GuzzleHttp\Post\PostFile;
 use GuzzleHttp\Subscriber\Redirect;
-use GuzzleHttp\Stream;
+use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Query;
 use GuzzleHttp\Url;
 
@@ -44,7 +43,7 @@ class MessageFactory implements MessageFactoryInterface
         array $options = []
     ) {
         if (null !== $body) {
-            $body = Stream\create($body);
+            $body = Stream::factory($body);
         }
 
         return new Response($statusCode, $headers, $body, $options);
@@ -146,6 +145,10 @@ class MessageFactory implements MessageFactoryInterface
             }
         }
 
+        if ($request->getHeader('Content-Type') == 'multipart/form-data') {
+            $post->forceMultipartUpload(true);
+        }
+
         $request->setBody($post);
     }
 
@@ -191,7 +194,7 @@ class MessageFactory implements MessageFactoryInterface
             if (is_array($value)) {
                 $this->addPostData($request, $value);
             } else {
-                $request->setBody(Stream\create($value));
+                $request->setBody(Stream::factory($value));
             }
         }
     }
@@ -339,6 +342,19 @@ class MessageFactory implements MessageFactoryInterface
             $request->setHeader('Content-Type', 'application/json');
         }
 
-        $request->setBody(Stream\create(json_encode($value)));
+        $request->setBody(Stream::factory(json_encode($value)));
+    }
+
+    private function add_decode_content(RequestInterface $request, $value)
+    {
+        if ($value === false) {
+            return;
+        }
+
+        if ($value !== true) {
+            $request->setHeader('Accept-Encoding', $value);
+        }
+
+        $request->getConfig()['decode_content'] = true;
     }
 }

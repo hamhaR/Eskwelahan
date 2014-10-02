@@ -1,6 +1,6 @@
 <?php
-
 namespace GuzzleHttp\Stream;
+use GuzzleHttp\Stream\Exception\SeekException;
 
 /**
  * Stream decorator that can cache previously read bytes from a sequentially
@@ -37,7 +37,7 @@ class CachingStream implements StreamInterface, MetadataStreamInterface
 
     /**
      * {@inheritdoc}
-     * @throws \RuntimeException When seeking with SEEK_END or when seeking
+     * @throws SeekException When seeking with SEEK_END or when seeking
      *     past the total size of the buffer stream
      */
     public function seek($offset, $whence = SEEK_SET)
@@ -47,15 +47,17 @@ class CachingStream implements StreamInterface, MetadataStreamInterface
         } elseif ($whence == SEEK_CUR) {
             $byte = $offset + $this->tell();
         } else {
-            throw new \RuntimeException(__CLASS__ . ' supports only SEEK_SET'
-                    .' and SEEK_CUR seek operations');
+            return false;
         }
 
         // You cannot skip ahead past where you've read from the remote stream
         if ($byte > $this->stream->getSize()) {
-            throw new \RuntimeException(sprintf('Cannot seek to byte %d when '
-                . ' the buffered stream only contains %d bytes',
-                $byte, $this->stream->getSize()));
+            throw new SeekException(
+                $this,
+                $byte,
+                sprintf('Cannot seek to byte %d when the buffered stream only'
+                    . ' contains %d bytes', $byte, $this->stream->getSize())
+            );
         }
 
         return $this->stream->seek($byte);

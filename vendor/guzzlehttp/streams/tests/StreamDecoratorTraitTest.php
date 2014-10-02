@@ -1,5 +1,4 @@
 <?php
-
 namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\StreamInterface;
@@ -114,4 +113,33 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
         $this->b->write('foo');
         $this->assertEquals('foofoo', (string) $this->a);
     }
+
+    public function testWrapsFlush()
+    {
+        $this->b->flush();
+    }
+
+    /**
+     * @expectedException \UnexpectedValueException
+     */
+    public function testThrowsWithInvalidGetter()
+    {
+        $this->b->foo;
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testThrowsWhenGetterNotImplemented()
+    {
+        $s = new BadStream();
+        $s->stream;
+    }
+}
+
+class BadStream
+{
+    use StreamDecoratorTrait;
+
+    public function __construct() {}
 }

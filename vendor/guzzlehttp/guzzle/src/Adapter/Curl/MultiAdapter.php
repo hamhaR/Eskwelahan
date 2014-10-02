@@ -138,7 +138,9 @@ class MultiAdapter implements AdapterInterface, ParallelAdapterInterface
 
             $this->processMessages($context);
 
-            if (curl_multi_select($multi, $this->selectTimeout) === -1) {
+            if ($active &&
+                curl_multi_select($multi, $this->selectTimeout) === -1
+            ) {
                 // Perform a usleep if a select returns -1.
                 // See: https://bugs.php.net/bug.php?id=61141
                 usleep(250);
@@ -176,7 +178,7 @@ class MultiAdapter implements AdapterInterface, ParallelAdapterInterface
             ) {
                 RequestEvents::emitComplete($transaction, $info);
             }
-        } catch (RequestException $e) {
+        } catch (\Exception $e) {
             $this->throwException($e, $context);
         }
     }
@@ -231,16 +233,19 @@ class MultiAdapter implements AdapterInterface, ParallelAdapterInterface
                 ),
                 $stats
             );
-        } catch (RequestException $e) {
+        } catch (\Exception $e) {
             $this->throwException($e, $context);
         }
 
         return true;
     }
 
-    private function throwException(RequestException $e, BatchContext $context)
+    private function throwException(\Exception $e, BatchContext $context)
     {
-        if ($context->throwsExceptions()) {
+        if ($context->throwsExceptions()
+            || ($e instanceof RequestException && $e->getThrowImmediately())
+        ) {
+            $context->removeAll();
             $this->releaseMultiHandle($context->getMultiHandle());
             throw $e;
         }

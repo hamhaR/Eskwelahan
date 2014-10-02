@@ -11,6 +11,7 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Subscriber\Mock;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Query;
+use GuzzleHttp\Subscriber\History;
 
 /**
  * @covers GuzzleHttp\Message\MessageFactory
@@ -540,6 +541,53 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $request->getBody()->setAggregator(Query::duplicateAggregator());
         $request->getBody()->applyRequestHeaders($request);
         $this->assertEquals('foo=bar&foo=baz', $request->getBody());
+    }
+
+    public function testCanForceMultipartUploadWithContentType()
+    {
+        $client = new Client();
+        $client->getEmitter()->attach(new Mock([new Response(200)]));
+        $history = new History();
+        $client->getEmitter()->attach($history);
+        $client->post('http://foo.com', [
+            'headers' => ['Content-Type' => 'multipart/form-data'],
+            'body' => ['foo' => 'bar']
+        ]);
+        $this->assertContains(
+            'multipart/form-data; boundary=',
+            $history->getLastRequest()->getHeader('Content-Type')
+        );
+        $this->assertContains(
+            "Content-Disposition: form-data; name=\"foo\"\r\n\r\nbar",
+            (string) $history->getLastRequest()->getBody()
+        );
+    }
+
+    public function testDecodeDoesNotForceAcceptHeader()
+    {
+        $request = (new MessageFactory)->createRequest('POST', 'http://f.cn', [
+            'decode_content' => true
+        ]);
+        $this->assertEquals('', $request->getHeader('Accept-Encoding'));
+        $this->assertTrue($request->getConfig()->get('decode_content'));
+    }
+
+    public function testDecodeCanAddAcceptHeader()
+    {
+        $request = (new MessageFactory)->createRequest('POST', 'http://f.cn', [
+            'decode_content' => 'gzip'
+        ]);
+        $this->assertEquals('gzip', $request->getHeader('Accept-Encoding'));
+        $this->assertTrue($request->getConfig()->get('decode_content'));
+    }
+
+    public function testCanDisableDecoding()
+    {
+        $request = (new MessageFactory)->createRequest('POST', 'http://f.cn', [
+            'decode_content' => false
+        ]);
+        $this->assertEquals('', $request->getHeader('Accept-Encoding'));
+        $this->assertNull($request->getConfig()->get('decode_content'));
     }
 }
 

@@ -1,9 +1,9 @@
 <?php
-
 namespace GuzzleHttp\Post;
 
 use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Stream;
+use GuzzleHttp\Stream\StreamInterface;
+use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Query;
 
 /**
@@ -12,7 +12,7 @@ use GuzzleHttp\Query;
  */
 class PostBody implements PostBodyInterface
 {
-    /** @var Stream\StreamInterface */
+    /** @var StreamInterface */
     private $body;
 
     /** @var callable */
@@ -212,6 +212,11 @@ class PostBody implements PostBodyInterface
         return false;
     }
 
+    public function flush()
+    {
+        return false;
+    }
+
     /**
      * Return a stream object that is built from the POST fields and files.
      *
@@ -227,7 +232,7 @@ class PostBody implements PostBodyInterface
         } elseif ($this->fields) {
             return $this->body = $this->createUrlEncoded();
         } else {
-            return $this->body = Stream\create();
+            return $this->body = Stream::factory();
         }
     }
 
@@ -253,32 +258,20 @@ class PostBody implements PostBodyInterface
     private function createMultipart()
     {
         // Flatten the nested query string values using the correct aggregator
-        if (!$this->fields) {
-            $fields = [];
-        } else {
-            $query = (string) (new Query($this->fields))
-                ->setEncodingType(false)
-                ->setAggregator($this->getAggregator());
-
-            // Convert the flattened query string back into an array
-            $fields = [];
-            foreach (explode('&', $query) as $kvp) {
-                $parts = explode('=', $kvp, 2);
-                $fields[$parts[0]] = isset($parts[1]) ? $parts[1] : null;
-            }
-        }
-
-        return new MultipartBody($fields, $this->files);
+        return new MultipartBody(
+            call_user_func($this->getAggregator(), $this->fields),
+            $this->files
+        );
     }
 
     /**
      * Creates an application/x-www-form-urlencoded stream body
      *
-     * @return Stream\StreamInterface
+     * @return StreamInterface
      */
     private function createUrlEncoded()
     {
-        return Stream\create($this->getFields(true));
+        return Stream::factory($this->getFields(true));
     }
 
     /**

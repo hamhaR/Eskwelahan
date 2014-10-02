@@ -29,7 +29,7 @@
 
             <div class="input-group">
                  <span class="input-group-addon"> Test Date: </span>
-                    {{ Form::text('testDate', null,  ['class'=>'form-control', 'placeholder'=>'October 2, 2014,9:00 AM']) }}
+                    {{ Form::text('testDate', null,  ['class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time']) }}
             </div>
 
             <div class="input-group">

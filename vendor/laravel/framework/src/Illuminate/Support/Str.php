@@ -1,5 +1,6 @@
 <?php namespace Illuminate\Support;
 
+use Patchwork\Utf8;
 use Illuminate\Support\Traits\MacroableTrait;
 
 class Str {
@@ -14,7 +15,7 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		return \Patchwork\Utf8::toAscii($value);
+		return Utf8::toAscii($value);
 	}
 
 	/**
@@ -48,15 +49,15 @@ class Str {
 	/**
 	 * Determine if a given string ends with a given substring.
 	 *
-	 * @param string  $haystack
-	 * @param string|array  $needles
+	 * @param  string  $haystack
+	 * @param  string|array  $needles
 	 * @return bool
 	 */
 	public static function endsWith($haystack, $needles)
 	{
 		foreach ((array) $needles as $needle)
 		{
-			if ($needle == substr($haystack, -strlen($needle))) return true;
+			if ((string) $needle === substr($haystack, -strlen($needle))) return true;
 		}
 
 		return false;
@@ -169,7 +170,7 @@ class Str {
 	 * Get the plural form of an English word.
 	 *
 	 * @param  string  $value
-	 * @param  int  $count
+	 * @param  int     $count
 	 * @return string
 	 */
 	public static function plural($value, $count = 2)
@@ -180,7 +181,7 @@ class Str {
 	/**
 	 * Generate a more truly "random" alpha-numeric string.
 	 *
-	 * @param  int     $length
+	 * @param  int  $length
 	 * @return string
 	 *
 	 * @throws \RuntimeException
@@ -207,7 +208,7 @@ class Str {
 	 *
 	 * Should not be considered sufficient for cryptography, etc.
 	 *
-	 * @param  int     $length
+	 * @param  int  $length
 	 * @return string
 	 */
 	public static function quickRandom($length = 16)

@@ -1,5 +1,4 @@
 <?php
-
 namespace GuzzleHttp\Stream;
 
 /**
@@ -60,7 +59,7 @@ class AppendStream implements StreamInterface
 
     public function getContents($maxLength = -1)
     {
-        return copy_to_string($this, $maxLength);
+        return Utils::copyToString($this, $maxLength);
     }
 
     /**
@@ -86,7 +85,6 @@ class AppendStream implements StreamInterface
      */
     public function detach()
     {
-        $this->streams = [];
         $this->close();
     }
 
@@ -132,12 +130,8 @@ class AppendStream implements StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        if (!$this->seekable) {
+        if (!$this->seekable || $whence !== SEEK_SET) {
             return false;
-        } elseif ($whence !== SEEK_SET) {
-            throw new \InvalidArgumentException(
-                'AppendStream only supports SEEK_SET'
-            );
         }
 
         $success = true;
@@ -206,6 +200,11 @@ class AppendStream implements StreamInterface
     }
 
     public function write($string)
+    {
+        return false;
+    }
+
+    public function flush()
     {
         return false;
     }

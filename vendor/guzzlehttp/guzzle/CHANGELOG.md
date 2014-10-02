@@ -1,6 +1,68 @@
 CHANGELOG
 =========
 
+4.2.2 (2014-09-08)
+------------------
+
+* Fixed a memory leak in the CurlAdapter when reusing cURL handles.
+* No longer using `request_fulluri` in stream adapter proxies.
+* Relative redirects are now based on the last response, not the first response.
+
+4.2.1 (2014-08-19)
+------------------
+
+* Ensuring that the StreamAdapter does not always add a Content-Type header
+* Adding automated github releases with a phar and zip
+
+4.2.0 (2014-08-17)
+------------------
+
+* Now merging in default options using a case-insensitive comparison.
+  Closes https://github.com/guzzle/guzzle/issues/767
+* Added the ability to automatically decode `Content-Encoding` response bodies
+  using the `decode_content` request option. This is set to `true` by default
+  to decode the response body if it comes over the wire with a
+  `Content-Encoding`. Set this value to `false` to disable decoding the
+  response content, and pass a string to provide a request `Accept-Encoding`
+  header and turn on automatic response decoding. This feature now allows you
+  to pass an `Accept-Encoding` header in the headers of a request but still
+  disable automatic response decoding.
+  Closes https://github.com/guzzle/guzzle/issues/764
+* Added the ability to throw an exception immediately when transferring
+  requests in parallel. Closes https://github.com/guzzle/guzzle/issues/760
+* Updating guzzlehttp/streams dependency to ~2.1
+* No longer utilizing the now deprecated namespaced methods from the stream
+  package.
+
+4.1.8 (2014-08-14)
+------------------
+
+* Fixed an issue in the CurlFactory that caused setting the `stream=false`
+  request option to throw an exception.
+  See: https://github.com/guzzle/guzzle/issues/769
+* TransactionIterator now calls rewind on the inner iterator.
+  See: https://github.com/guzzle/guzzle/pull/765
+* You can now set the `Content-Type` header to `multipart/form-data`
+  when creating POST requests to force multipart bodies.
+  See https://github.com/guzzle/guzzle/issues/768
+
+4.1.7 (2014-08-07)
+------------------
+
+* Fixed an error in the HistoryPlugin that caused the same request and response
+  to be logged multiple times when an HTTP protocol error occurs.
+* Ensuring that cURL does not add a default Content-Type when no Content-Type
+  has been supplied by the user. This prevents the adapter layer from modifying
+  the request that is sent over the wire after any listeners may have already
+  put the request in a desired state (e.g., signed the request).
+* Throwing an exception when you attempt to send requests that have the
+  "stream" set to true in parallel using the MultiAdapter.
+* Only calling curl_multi_select when there are active cURL handles. This was
+  previously changed and caused performance problems on some systems due to PHP
+  always selecting until the maximum select timeout.
+* Fixed a bug where multipart/form-data POST fields were not correctly
+  aggregated (e.g., values with "&").
+
 4.1.6 (2014-08-03)
 ------------------
 

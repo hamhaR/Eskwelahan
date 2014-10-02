@@ -1,4 +1,11 @@
 <?php
+/*
+ * This file is deprecated and only included so that backwards compatibility
+ * is maintained for downstream packages.
+ *
+ * Use the functions available in the Utils class instead of the the below
+ * namespaced functions.
+ */
 namespace GuzzleHttp\Stream;
 
 if (!defined('GUZZLE_STREAMS_FUNCTIONS')) {
@@ -6,169 +13,56 @@ if (!defined('GUZZLE_STREAMS_FUNCTIONS')) {
     define('GUZZLE_STREAMS_FUNCTIONS', true);
 
     /**
-     * Create a new stream based on the input type
-     *
-     * @param resource|string|StreamInterface $resource Entity body data
-     * @param int $size Size of the data contained in the resource
-     *
-     * @return StreamInterface
-     * @throws \InvalidArgumentException if the $resource arg is not valid.
+     * @deprecated Moved to Stream::factory
      */
     function create($resource = '', $size = null)
     {
-        $type = gettype($resource);
-
-        if ($type == 'string') {
-            $stream = fopen('php://temp', 'r+');
-            if ($resource !== '') {
-                fwrite($stream, $resource);
-                fseek($stream, 0);
-            }
-            return new Stream($stream);
-        }
-
-        if ($type == 'resource') {
-            return new Stream($resource, $size);
-        }
-
-        if ($resource instanceof StreamInterface) {
-            return $resource;
-        }
-
-        if ($type == 'object' && method_exists($resource, '__toString')) {
-            return create((string) $resource, $size);
-        }
-
-        throw new \InvalidArgumentException('Invalid resource type: ' . $type);
+        return Stream::factory($resource, $size);
     }
 
     /**
-     * Copy the contents of a stream into a string until the given number of
-     * bytes have been read.
-     *
-     * @param StreamInterface $stream Stream to read
-     * @param int             $maxLen Maximum number of bytes to read. Pass -1
-     *                                to read the entire stream.
-     * @return string
+     * @deprecated Moved to Utils::copyToString
      */
     function copy_to_string(StreamInterface $stream, $maxLen = -1)
     {
-        $buffer = '';
-
-        if ($maxLen === -1) {
-            while (!$stream->eof()) {
-                $buf = $stream->read(1048576);
-                if ($buf === '' || $buf === false) {
-                    break;
-                }
-                $buffer .= $buf;
-            }
-        } else {
-            $len = 0;
-            while (!$stream->eof() && $len < $maxLen) {
-                $buf = $stream->read($maxLen - $len);
-                if ($buf === '' || $buf === false) {
-                    break;
-                }
-                $buffer .= $buf;
-                $len = strlen($buffer);
-            }
-        }
-
-        return $buffer;
+        return Utils::copyToString($stream, $maxLen);
     }
 
     /**
-     * Copy the contents of a stream into another stream until the given number
-     * of bytes have been read.
-     *
-     * @param StreamInterface $source Stream to read from
-     * @param StreamInterface $dest   Stream to write to
-     * @param int             $maxLen Maximum number of bytes to read. Pass -1
-     *                                to read the entire stream.
+     * @deprecated Moved to Utils::copyToStream
      */
     function copy_to_stream(
         StreamInterface $source,
         StreamInterface $dest,
         $maxLen = -1
     ) {
-        if ($maxLen === -1) {
-            while (!$source->eof()) {
-                if (!$dest->write($source->read(1048576))) {
-                    break;
-                }
-            }
-            return;
-        }
-
-        $bytes = 0;
-        while (!$source->eof()) {
-            $buf = $source->read($maxLen - $bytes);
-            if (!($len = strlen($buf))) {
-                break;
-            }
-            $bytes += $len;
-            $dest->write($buf);
-            if ($bytes == $maxLen) {
-                break;
-            }
-        }
+        Utils::copyToStream($source, $dest, $maxLen);
     }
 
     /**
-     * Calculate a hash of a Stream
-     *
-     * @param StreamInterface $stream    Stream to calculate the hash for
-     * @param string          $algo      Hash algorithm (e.g. md5, crc32, etc)
-     * @param bool            $rawOutput Whether or not to use raw output
-     *
-     * @return bool|string Returns false on failure or a hash string on success
+     * @deprecated Moved to Utils::hash
      */
     function hash(
         StreamInterface $stream,
         $algo,
         $rawOutput = false
     ) {
-        $pos = $stream->tell();
-        if (!$stream->seek(0)) {
-            return false;
-        }
-
-        $ctx = hash_init($algo);
-        while (!$stream->eof()) {
-            hash_update($ctx, $stream->read(1048576));
-        }
-
-        $out = hash_final($ctx, (bool) $rawOutput);
-        $stream->seek($pos);
-
-        return $out;
+        return Utils::hash($stream, $algo, $rawOutput);
     }
 
     /**
-     * Read a line from the stream up to the maximum allowed buffer length
-     *
-     * @param StreamInterface $stream    Stream to read from
-     * @param int             $maxLength Maximum buffer length
-     *
-     * @return string|bool
+     * @deprecated Moced to Utils::readline
      */
     function read_line(StreamInterface $stream, $maxLength = null)
     {
-        $buffer = '';
-        $size = 0;
+        return Utils::readline($stream, $maxLength);
+    }
 
-        while (!$stream->eof()) {
-            if (false === ($byte = $stream->read(1))) {
-                return $buffer;
-            }
-            $buffer .= $byte;
-            // Break when a new line is found or the max length - 1 is reached
-            if ($byte == PHP_EOL || ++$size == $maxLength - 1) {
-                break;
-            }
-        }
-
-        return $buffer;
+    /**
+     * @deprecated Moved to Utils::open()
+     */
+    function safe_open($filename, $mode)
+    {
+        return Utils::open($filename, $mode);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace GuzzleHttp\Stream;
 
 /**
@@ -96,6 +95,13 @@ interface StreamInterface
      *                  success or false on failure.
      */
     public function write($string);
+
+    /**
+     * Flush the write buffers of the stream.
+     *
+     * @return bool Returns true on success and false on failure
+     */
+    public function flush();
 
     /**
      * Returns whether or not the stream is readable
