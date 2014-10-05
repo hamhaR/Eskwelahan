@@ -61,6 +61,10 @@ Route::group(["before" => "auth"], function() {
         "as" => "profile",
         "uses" => "AuthenticationController@getProfile"
     ]);
+    Route::any("/editprofile", [
+        "as" => "editprofile",
+        "uses" => "AuthenticationController@editProfile"
+    ]);
     Route::any("/logout", [
         "as" => "logout",
         "uses" => "AuthenticationController@getLogout"

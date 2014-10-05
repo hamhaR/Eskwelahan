@@ -56,4 +56,9 @@ public function postLogin() {
         return View::make('users.profile');
     }
 
+    public function editProfile()
+    {
+        return View::make('users.editprofile');
+    }
+
 }
