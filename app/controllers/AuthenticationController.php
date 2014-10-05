@@ -61,4 +61,38 @@ public function postLogin() {
         return View::make('users.editprofile');
     }
 
+    public function profileSaveChanges($id)
+    {
+        // validate
+        $rules = [
+            'fname'         =>  'required',
+            'mname'         =>  'required',
+            'lname'         =>  'required',
+            'gender'        =>  'required',
+            'address'       =>  'required',
+            'email'         =>  'required|email'
+        ];
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) 
+        {
+            return Redirect::to('editprofile')->withErrors($validator);
+        } 
+        else 
+        {
+            $user = User::find($id);
+            $user->fname        = Input::get('fname');
+            $user->mname        = Input::get('mname');
+            $user->lname        = Input::get('lname');
+            $user->gender       = Input::get('gender');
+            $user->address      = Input::get('address');
+            $user->email        = Input::get('email');
+            $user->save();
+        //  return $this->show($id);
+            Session::flash('message', 'Profile updated.');
+            return Redirect::to('profile');
+        }
+    }
+
 }
