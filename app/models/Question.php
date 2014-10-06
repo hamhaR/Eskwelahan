@@ -16,4 +16,8 @@ class Question extends Eloquent{
     public function teacher(){
 		return $this->belongsTo('User')->where('role','=','teacher');
 	}
+
+    public function section(){
+        return $this->belongsTo('Section', 'section_id');
+    }
 }

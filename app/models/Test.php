@@ -24,5 +24,9 @@ class Test extends Eloquent{
     	return $this->hasMany('Question', 'question_id', 'id');
     }
 
+  public function section(){
+    return $this->belongsTo('Section', 'section_id');
+  }
+
 }
 

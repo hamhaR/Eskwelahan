@@ -92,7 +92,10 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+	$results = DB::select('SELECT questions.id, questions.content, questions.choice1, questions.choice2, questions.choice3, questions.choice4, questions.answer, questions.test_id FROM questions INNER JOIN tests ON (questions.test_id = tests.id) WHERE teacher_id = ?', array(Auth::user()->id));
+
+	return View::make('tests.show')->with('questions', $results);
+	
 	}
 
 
@@ -104,7 +107,8 @@ class TestController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$testData = $this->tests->find($id);
+        return View::make('tests.edit', $testData);
 	}
 
 
@@ -116,7 +120,30 @@ class TestController extends Controller
 	 */
 	public function update($id)
 	{
-		//
+				$testData = [
+			'course_id' => Input::get('course_id'),
+			'test_name' => Input::get('test_name'),
+			'testDate' => Input::get('testDate')
+        ];
+        $rules = [
+            'course_id' => '',
+			'test_name' => '',
+			'testDate' => ''
+        ];
+        $validator = Validator::make($testData, $rules);
+		try{
+			if ($validator->passes()) {
+				$this->tests->edit($id, $testData);
+				return Redirect::route('tests.index');
+				Session::flash('message', 'Successfully edited test!');
+				
+			}
+		}
+		catch(\Exception $e){
+			return Redirect::to('tests/' . $id . '/edit');
+			//echo 'Error!! Invalid input!';
+			Session::flash('message', 'Error!! Invalid input!');
+		}
 	}
 
 

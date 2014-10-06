@@ -20,4 +20,12 @@ class Section extends Eloquent{
 	public function teacher(){
 		return $this->belongsTo('User')->where('role','=','teacher');
 	}
+
+	public function tests(){
+		return $this->hasMany('Test', 'test_id');
+	}
+
+	public function sections(){
+		return $this->hasMany('Question', 'question_id')
+	}
 }

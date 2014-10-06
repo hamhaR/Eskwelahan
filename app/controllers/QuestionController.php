@@ -8,51 +8,11 @@ class QuestionController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{/*
-		$user = Auth::user();
-
-		if(Auth::check()){
-
-			if($user->role == 'student'){
-				//moredirect sa take test na module
-			}
-
-			if($user->role == 'teacher'){
-				$questions = Question::where('test_id','=',$test->id)->orderBy('id','desc')->get();
-				return View::make('question.index')->with('questions',$questions);
-			}
-
-			if($user->role == 'admin'){
-				//do nothing
-			}
-			
-			
-		}
-		else{
-			echo "not logged in";
-		}
+	{
+		$questions = Question::all();
 		
-		$tests = Test::find($id);
-		if (! is_null($tests)){
-			$questions = Question::all();
-			
-			return View::make('questions.index')
-			->with('questions', $questions);
-		}
-		else{
-			echo 'Test does not exist';
-		}
-		*/
-		$user = Auth::user();
-		$test = Test::find($id);
-
-		if(Auth::check()){
-					if($user->role == 'teacher'){
-				$questions = Question::where('test_id','=',$test->id)->orderBy('id','desc')->get();
-				return View::make('questions.index')->with('questions',$questions);
-			}
-		}
-
+		return View::make('questions.index')
+		->with('questions', $questions);
 	}
 
 
@@ -84,48 +44,32 @@ class QuestionController extends \BaseController {
 	 */
 	public function store()
 	{
-		$attributes = Input::all();
-
-		if (! is_null($test_id)){
-			$content = $attributes['content'];
-			$choice1 = $attributes['choice1'];
-			$choice2 = $attributes['choice2'];
-			$choice3 = $attributes['choice3'];
-			$choice4 = $attributes['choice4'];
-			$answer  = $attributes['answer'];
-		}
-
 		$rules = array(
-			'content' => 'required',
-			'choice1' => 'required',
-			'choice2' => 'required',
-			'choice3' => 'required',
-			'choice4' => 'required',
-			'answer' => 'required'
+			'content' 	=>	'required',
+			'choice1'		=> 'required',
+			'choice2'		=> 'required',
+			'choice3' 	=>	'required',
+			'choice4'		=> 'required',
+			'answer'		=> 'required',
+			'test_id'		=> 'required',
+			//'teacher_id'	=> 'required'
+			
 		);
 
+		$question = new Question;
+		$question->content 		= Input::get('content');
+		$question->choice1		= Input::get('choice1');
+		$question->choice2		= Input::get('choice2');
+		$question->choice3 		= Input::get('choice3');
+		$question->choice4		= Input::get('choice1');
+		$question->answer		= Input::get('answer');
+		$question->test_id 		= Input::get('test_id');
+		//$question->teacher_id		= Auth::id();
+		$question->save();
+			
+		Session::flash('message', 'question successfully added.');
+		return Redirect::to('/tests/'. '?test_id=' . $test_id);
 
-		$validator = Validator::make($attributes, $rules);
-				
-		if ($validator->fails()) {
-			return Redirect::to('questions/index')
-							->withErrors($validator)
-							->withInput(Input::all());
-		} else{
-			$question = new Question;
-			$question->content = $content;
-			$question->choice1 = $choice1;
-			$question->choice2 = $choice2;
-			$question->choice3 = $choice3;
-			$question->answer = $answer;
-			//$question->test_id = 
-			$question->teacher_id = Auth::user()->id;
-			$question->save();
-
-			$test = Test::where('test_name', '=', $test_name )->first();
-			$question->test()->attach($test->id);
-			return Redirect::to('/questions');
-		}
 	}
 
 
@@ -149,6 +93,7 @@ class QuestionController extends \BaseController {
 					'choice3' => Input::get('choice3'),
 					'choice4' => Input::get('choice4'),
 					'answer' => Input::get('answer')
+
 				)
 			);			
 		}
