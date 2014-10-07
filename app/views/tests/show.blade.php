@@ -36,8 +36,11 @@
                 <br>
                 d.) {{ $question->choice4 }}
                 <br>
+                @if(Auth::user()->role == 'teacher' )
+                <!--ayha ra idisplay ang answer if role== ''teacher-->
                 Answer: {{ $question->answer }}
                 <br>
+                @endif
                 
                 <br><br>
                 @if(Auth::user()->role == 'teacher')
@@ -94,7 +97,7 @@
       </div>
       <div class="modal-body">
       
-             {{Form::open(array('url' => 'questions'))}}
+             {{Form::open(['route' => 'questions.store'])}}
         <div class="input-group">
                  <span class="input-group-addon"> Question: </span>
                     {{ Form::text('content', null, ['class'=>'form-control', 'placeholder'=>'Put your question']) }}
@@ -132,6 +135,7 @@
 
               <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        {{Form::hidden('test_id', $test_id)}}
         {{ Form::submit('Create', array('class' => 'btn btn-primary')) }}
         {{Form::close()}}
         </div>

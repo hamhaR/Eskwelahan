@@ -8,9 +8,13 @@
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 
-    <strong><h2>Tests</h2></strong>
+@if(Auth::check() && Auth::user()->role == 'student')
+  <strong><h2>Pending Tests</h2></strong>
+@endif
 
     @if(Auth::check() && Auth::user()->role == 'teacher')
+
+    <strong><h2>Tests</h2></strong>
   
 <!-- Button trigger modal -->
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -26,7 +30,7 @@
                     <th>Course</th>
                     <th>Test Name</th>
                     <th>Date Created</th>
-                    <th>Test Date</th>
+                    <th>Schedule</th>
                     <th>Options</th>
                 </tr>
             </thead>
@@ -39,12 +43,17 @@
                     <td>{{ date('j F Y, h:i A',strtotime($test->testDate)) }}</td>
                     <td>
                       @if(Auth::check() && Auth::user()->role == 'teacher')
-                      <a class="btn btn-primary" href="{{ URL::route('tests.edit', $test->id)}}">
-                       <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                      
-                      <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-                       <span class="glyphicon glyphicon-trash">Delete</span>
-                      </button>
+                        <a class="btn btn-primary" href="{{ URL::route('tests.edit', $test->id)}}">
+                         <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                        
+                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                         <span class="glyphicon glyphicon-trash">Delete</span>
+                        </button>
+                      @endif
+                      @if(Auth::user()->role == 'student')
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#">
+                         <span class="glyphicon glyphicon-pencil"> Take Test</span>
+                        </button>
                       @endif
                     </td>
                 </tr>
@@ -53,29 +62,30 @@
         </table>
     </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Delete</h4>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete</p>
-               
+<!--delete test-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">Delete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete</p>
+                 
 
-      </div>
-      <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
 
-         {{ Form::open(array('url' => 'tests/')) }}
-        {{ Form::hidden('_method', 'DELETE') }}
-         {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        {{ Form::close() }}
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+           {{ Form::open(array('url' => 'tests')) }}
+          {{ Form::hidden('_method', 'DELETE') }}
+           {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          {{ Form::close() }}
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 <!--edit test-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

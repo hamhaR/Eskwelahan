@@ -26,7 +26,7 @@ class QuestionController extends \BaseController {
 		$user = Auth::user();
 		if(Auth::check()){
 			if($user->role == 'teacher'){
-					return View::make('questions.index');
+					//return Redirect::{{}}('/');
 			}
 
 			else{
@@ -51,7 +51,7 @@ class QuestionController extends \BaseController {
 			'choice3' 	=>	'required',
 			'choice4'		=> 'required',
 			'answer'		=> 'required',
-			'test_id'		=> 'required',
+			'test_id'		=> ''
 			//'teacher_id'	=> 'required'
 			
 		);
@@ -68,7 +68,7 @@ class QuestionController extends \BaseController {
 		$question->save();
 			
 		Session::flash('message', 'question successfully added.');
-		return Redirect::to('/tests/'. '?test_id=' . $test_id);
+		return Redirect::to('/tests/'. $question->test_id );
 
 	}
 

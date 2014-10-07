@@ -25,7 +25,7 @@ class Section extends Eloquent{
 		return $this->hasMany('Test', 'test_id');
 	}
 
-	public function sections(){
-		return $this->hasMany('Question', 'question_id')
+	public function questions(){
+		return $this->hasMany('Question', 'question_id');
 	}
 }

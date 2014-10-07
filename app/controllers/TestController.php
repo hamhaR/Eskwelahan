@@ -51,7 +51,11 @@ class TestController extends Controller
 	public function create()
 	{
 
-		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title 
+			-> FROM teacher_courses 
+			-> INNER JOIN courses 
+			-> ON (teacher_courses.course_id = courses.id) 
+			-> WHERE teacher_id = ?', array(Auth::user()->id));
 
 		return View::make('tests.create')->with('courses', $results);
 	}
@@ -92,9 +96,12 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
-	$results = DB::select('SELECT questions.id, questions.content, questions.choice1, questions.choice2, questions.choice3, questions.choice4, questions.answer, questions.test_id FROM questions INNER JOIN tests ON (questions.test_id = tests.id) WHERE teacher_id = ?', array(Auth::user()->id));
-
-	return View::make('tests.show')->with('questions', $results);
+	//$results = DB::select('SELECT questions.id, questions.content, questions.choice1, questions.choice2, questions.choice3, questions.choice4, questions.answer, questions.test_id FROM questions INNER JOIN tests ON (questions.test_id = tests.id) WHERE teacher_id = ?', array(Auth::user()->id));
+	$result = Question::where('test_id' , '=', $id)->get();
+	return View::make('tests.show')->with(array(
+		'questions'=> $result,
+		'test_id' => $id
+		));
 	
 	}
 

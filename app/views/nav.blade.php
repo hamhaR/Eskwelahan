@@ -29,7 +29,7 @@
                     <li class="active">
                         @else <li>
 
-                        @endif <a href="#">Send Message</a></li>     
+                    @endif <a href="#">Send Message</a></li>     
 
                     @if(Auth::check() && Auth::user()->role == 'teacher') 
                             <li><a href="#">Post Educational Materials</a></li>
@@ -40,6 +40,12 @@
                             <li>{{ HTML::linkRoute('courses.index', 'Manage Courses') }}</li>
                             <li>{{ HTML::linkRoute('homeworks.index', 'Manage Homeworks') }}</li>
 
+                    @endif
+
+                    @if(Auth::check() && Auth::user()->role == 'student')
+                        <li>{{ HTML::linkRoute('tests.index', 'Manage Tests') }}</li>
+                        <li>{{ HTML::linkRoute('courses.index', 'Manage Courses') }}</li>
+                        <li>{{ HTML::linkRoute('homeworks.index', 'Manage Homeworks') }}</li>
                     @endif
 
                     @endif
