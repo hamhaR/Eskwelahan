@@ -10,27 +10,39 @@
 			)) }}
 			<div class="form-group">
 				{{ Form::label('fname', 'First Name') }}
-				{{ Form::text('fname',Auth::user()->fname) }}
+				{{ Form::text('fname',Auth::user()->fname,array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('mname', 'Middle Name') }}
-				{{ Form::text('mname',Auth::user()->mname) }}
+				{{ Form::text('mname',Auth::user()->mname,array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('lname', 'Last Name') }}
-				{{ Form::text('lname', Auth::user()->lname) }}
+				{{ Form::text('lname', Auth::user()->lname,array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('gender', 'Gender') }}
-				{{ Form::text('gender', Auth::user()->gender) }}
+			<!--	{{ Form::text('gender', Auth::user()->gender) }} -->
+				<select class="form-control" name="gender">
+					<option
+					@if(Auth::user()->gender == 'female')
+					 selected="selected"
+					@endif 
+					 value="female">Female</option>
+					<option
+					@if(Auth::user()->gender == 'male')
+					 selected="selected"
+					@endif  
+					 value="male">Male</option>
+				</select>
 			</div>
 			<div class="form-group">
 				{{ Form::label('address', 'Address') }}
-				{{ Form::text('address', Auth::user()->address) }}
+				{{ Form::text('address', Auth::user()->address,array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('email', 'Email') }}
-				{{ Form::text('email', Auth::user()->email) }}
+				{{ Form::text('email', Auth::user()->email,array('class' => 'form-control')) }}
 			</div>
 			{{ Form::submit('Update Profile', array('class' => 'btn btn-primary')) }}
 			{{ Form::close() }}
