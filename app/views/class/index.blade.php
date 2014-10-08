@@ -13,8 +13,9 @@
 @endif
 <br>
 <div class="row">
-@foreach($sections as $section)
+@foreach($sections as $key => $section)
   @foreach($section->courses as $course)
+    <!-- panel -->
     <div class="col-md-3">
 
             <div class="panel panel-primary">
@@ -28,23 +29,26 @@
                Prof. {{$section->teacher->fname}}
                 {{$section->teacher->lname}}
                 <br>
+                {{$key}}
+                <br>
+                {{$sections[$key]->section_id}}
                 
                 <br><br><br><br>
                 @if(Auth::user()->role == 'teacher')
-               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$key}}">
                  <span class="glyphicon glyphicon-trash"></span>
                </button>
-               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal{{$key}}">
                  <span class="glyphicon glyphicon-pencil"></span>
                </button>
                 @endif
                 
               </div>
             </div>
-    </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -58,37 +62,52 @@
       </div>
       <div class="modal-footer">
 
-         {{ Form::open(array('url' => 'classes/' . $section->section_id, 'class' => 'pull-right')) }}
-        {{ Form::hidden('_method', 'DELETE') }}
-         {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
+         {{ Form::open(array('method' => 'DELETE', 'route' => array('classes.destroy',$section->section_id))) }}
+         {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        {{ Form::close() }}
+         {{ Form::close() }}
+         
+        
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- edit modal-->
+<div class="modal fade" id="editModal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit</h4>
+        <h4 class="modal-title" id="myModalLabel">Edit Section</h4>
       </div>
       <div class="modal-body">
-        {{Form::open(array('url' => 'classes/'.$section->section_id, 'class' => 'pull-right'))}}
-        {{Form::text('section_name')}}        
+        {{Form::model($section,array('route' => array('classes.update', $section->section_id), 'method' => 'PUT'))}}
+
+          <div class="form-group">
+            {{ Form::label('section_name', 'Section') }}
+            {{ Form::text('section_name', Input::old('section_name'), array('class' => 'form-control', 'placeholder' => $section->section_name)) }}
+          </div>
 
       </div>
       <div class="modal-footer">
-         {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        {{ Form::close() }}
+        {{ Form::submit('Create', array('class' => 'btn btn-primary')) }}
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      
+        {{Form::close()}}
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
+
+
+
+
+    </div>  <!-- end of panel -->
+
+
+
+
 
 
 
@@ -97,6 +116,8 @@
 @endforeach
 
 </div>
+
+<?php echo $sections->links(); ?>
 
 
 <!-- Modal -->

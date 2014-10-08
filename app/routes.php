@@ -176,3 +176,4 @@ Route::resource('sections', 'SectionController');
 Route::resource('classes','ClassController');
 Route::resource('students','StudentController');
 Route::resource('questions', 'QuestionController');
+Route::resource('friends', 'FriendController');

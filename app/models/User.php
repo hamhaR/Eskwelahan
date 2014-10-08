@@ -11,8 +11,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'users';
-        
+	protected $table = 'users';        
         protected $fillable = array('username', 'password', 'role');
         /**
 	 * Set whether soft deletion is enabled or not.
@@ -79,7 +78,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function sections(){
-		return $this->belongsToMany('Section','section_students','student_id','section_id')->orderBy('section_id','asc')->withTimestamps();
+		return $this->belongsToMany('Section','section_students','student_id','section_id')->orderBy('section_id','desc')->withTimestamps();
 	}
 
 	public function course(){
@@ -88,6 +87,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function test(){
 		return $this->belongsToMany('Test', 'test_id', 'id');
+	}
+
+	public function friends(){
+		return $this->belongsToMany('User', 'friends', 'user_id', 'f_id')->withTimestamps();
 	}
 
 

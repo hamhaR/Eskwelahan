@@ -18,6 +18,7 @@ class CreateSectionsTable extends Migration {
 			$table->string('section_name');
 			$table->integer('teacher_id');
 			$table->foreign('teacher_id')->references('id')->on('users');
+			$table->string('section_code');
 			$table->timestamps();
 			$table->softDeletes();
 		});
