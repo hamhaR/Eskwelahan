@@ -92,11 +92,13 @@ class TestModel implements TableRepository{
     }
 
     public function delete($id) {
-            $this->checkWritePermissions();
+        $this->checkWritePermissions();
         $test = Test::find($id);
         if ($test != null) {
-            $test->delete();
-        } else {
+            $result1 = DB::table('questions')->where('test_id', $id)->delete();
+            $result2 = Test::find($id)->delete();
+        } 
+        else {
             throw new ErrorException("Invalid id!");
         }
     }
