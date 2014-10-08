@@ -100,6 +100,13 @@ class QuestionModel implements TableRepository{
     }
 
     public function delete($id) {
+        $this->checkWritePermissions();
+        $question = Question::find($id);
+        if ($question != null) {
+            $result = Question::find($id)->delete();
+        } 
+        else {
+            throw new ErrorException("Invalid id!");
 
     }
 

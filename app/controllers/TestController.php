@@ -127,23 +127,23 @@ class TestController extends Controller
 	 */
 	public function update($id)
 	{
-				$testData = [
-			'course_id' => Input::get('course_id'),
+		$testData = [
 			'test_name' => Input::get('test_name'),
 			'testDate' => Input::get('testDate')
         ];
         $rules = [
-            'course_id' => '',
 			'test_name' => '',
 			'testDate' => ''
         ];
         $validator = Validator::make($testData, $rules);
 		try{
 			if ($validator->passes()) {
-				$this->tests->edit($id, $testData);
-				return Redirect::route('tests.index');
+				$test = Test::find($id);
+				$test->testDate = Input::get('testDate');
+				$test->test_name = Input::get('test_name');
+				$test->save();
 				Session::flash('message', 'Successfully edited test!');
-				
+				return Redirect::to('tests');
 			}
 		}
 		catch(\Exception $e){
@@ -162,9 +162,9 @@ class TestController extends Controller
 	 */
 	public function destroy($id)
 	{
-            $this->tests->delete($id);
-        
-            return Redirect::route('tests.index');
+        $test = Test::find($id);
+		$test->delete();
+		return Redirect::to('tests');
      }
 
 

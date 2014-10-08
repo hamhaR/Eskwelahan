@@ -134,9 +134,11 @@ class QuestionController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($section_id)
+	public function destroy($id)
 	{
-		
+		$question = Question::find($id);
+		$question->delete();
+
 	}
 
 
