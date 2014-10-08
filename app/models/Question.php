@@ -14,6 +14,10 @@ class Question extends Eloquent{
         return $this->belongsTo('Test','test_id', 'id');
     }
     public function teacher(){
-		return $this->belongsTo('User')->where('role','=','teacher');
+		return $this->belongsTo('User', 'user_id', 'id')/*->where('role','=','teacher')*/;
 	}
+
+    public function section(){
+        return $this->belongsTo('Section', 'section_id');
+    }
 }

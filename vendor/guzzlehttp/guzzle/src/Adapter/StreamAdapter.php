@@ -5,9 +5,14 @@ namespace GuzzleHttp\Adapter;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Exception\AdapterException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Message\AbstractMessage;
 use GuzzleHttp\Message\MessageFactoryInterface;
 use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Stream;
+use GuzzleHttp\Stream\InflateStream;
+use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Stream\LazyOpenStream;
+use GuzzleHttp\Stream\StreamInterface;
+use GuzzleHttp\Stream\Utils;
 
 /**
  * HTTP adapter that uses PHP's HTTP stream wrapper.
@@ -55,47 +60,23 @@ class StreamAdapter implements AdapterInterface
     {
         $request = $transaction->getRequest();
         $stream = $this->createStream($request, $http_response_header);
-
-        if (!$request->getConfig()['stream']) {
-            $stream = $this->getSaveToBody($request, $stream);
-        }
-
-        // Track the response headers of the request
-        $this->createResponseObject($http_response_header, $transaction, $stream);
-    }
-
-    /**
-     * Drain the steam into the destination stream
-     */
-    private function getSaveToBody(RequestInterface $request, $stream)
-    {
-        if ($saveTo = $request->getConfig()['save_to']) {
-            // Stream the response into the destination stream
-            $saveTo = is_string($saveTo)
-                ? new Stream\LazyOpenStream($saveTo, 'r+')
-                : Stream\create($saveTo);
-        } else {
-            // Stream into the default temp stream
-            $saveTo = Stream\create();
-        }
-
-        while (!feof($stream)) {
-            $saveTo->write(fread($stream, 8096));
-        }
-
-        fclose($stream);
-        $saveTo->seek(0);
-
-        return $saveTo;
+        $this->createResponseObject(
+            $request,
+            $http_response_header,
+            $transaction,
+            new Stream($stream)
+        );
     }
 
     private function createResponseObject(
+        RequestInterface $request,
         array $headers,
         TransactionInterface $transaction,
-        $stream
+        StreamInterface $stream
     ) {
         $parts = explode(' ', array_shift($headers), 3);
         $options = ['protocol_version' => substr($parts[0], -3)];
+
         if (isset($parts[2])) {
             $options['reason_phrase'] = $parts[2];
         }
@@ -103,14 +84,54 @@ class StreamAdapter implements AdapterInterface
         $response = $this->messageFactory->createResponse(
             $parts[1],
             $this->headersFromLines($headers),
-            $stream,
+            null,
             $options
         );
 
+        // Automatically decode responses when instructed.
+        if ($request->getConfig()->get('decode_content')) {
+            switch ($response->getHeader('Content-Encoding')) {
+                case 'gzip':
+                case 'deflate':
+                    $stream = new InflateStream($stream);
+                    break;
+            }
+        }
+
+        // Drain the stream immediately if 'stream' was not enabled.
+        if (!$request->getConfig()['stream']) {
+            $stream = $this->getSaveToBody($request, $stream);
+        }
+
+        $response->setBody($stream);
         $transaction->setResponse($response);
         RequestEvents::emitHeaders($transaction);
 
         return $response;
+    }
+
+    /**
+     * Drain the stream into the destination stream
+     */
+    private function getSaveToBody(
+        RequestInterface $request,
+        StreamInterface $stream
+    ) {
+        if ($saveTo = $request->getConfig()['save_to']) {
+            // Stream the response into the destination stream
+            $saveTo = is_string($saveTo)
+                ? new Stream(Utils::open($saveTo, 'r+'))
+                : Stream::factory($saveTo);
+        } else {
+            // Stream into the default temp stream
+            $saveTo = Stream::factory();
+        }
+
+        Utils::copyToStream($stream, $saveTo);
+        $saveTo->seek(0);
+        $stream->close();
+
+        return $saveTo;
     }
 
     private function headersFromLines(array $lines)
@@ -199,33 +220,37 @@ class StreamAdapter implements AdapterInterface
 
     private function getDefaultOptions(RequestInterface $request)
     {
-        $headers = '';
-        foreach ($request->getHeaders() as $name => $values) {
-            $headers .= $name . ': ' . implode(', ', $values) . "\r\n";
-        }
+        $headers = AbstractMessage::getHeadersAsString($request);
 
-        return [
+        $context = [
             'http' => [
                 'method'           => $request->getMethod(),
                 'header'           => trim($headers),
                 'protocol_version' => $request->getProtocolVersion(),
                 'ignore_errors'    => true,
-                'follow_location'  => 0,
-                'content'          => (string) $request->getBody()
+                'follow_location'  => 0
             ]
         ];
+
+        if ($body = $request->getBody()) {
+            $context['http']['content'] = (string) $body;
+            // Prevent the HTTP adapter from adding a Content-Type header.
+            if (!$request->hasHeader('Content-Type')) {
+                $context['http']['header'] .= "\r\nContent-Type:";
+            }
+        }
+
+        return $context;
     }
 
     private function add_proxy(RequestInterface $request, &$options, $value, &$params)
     {
         if (!is_array($value)) {
             $options['http']['proxy'] = $value;
-            $options['http']['request_fulluri'] = true;
         } else {
             $scheme = $request->getScheme();
             if (isset($value[$scheme])) {
                 $options['http']['proxy'] = $value[$scheme];
-                $options['http']['request_fulluri'] = true;
             }
         }
     }
@@ -332,10 +357,6 @@ class StreamAdapter implements AdapterInterface
         &$http_response_header
     ) {
         $url = $request->getUrl();
-        // Add automatic gzip decompression
-        if (strpos($request->getHeader('Accept-Encoding'), 'gzip') !== false) {
-            $url = 'compress.zlib://' . $url;
-        }
 
         return $this->createResource(
             function () use ($url, &$http_response_header, $context) {

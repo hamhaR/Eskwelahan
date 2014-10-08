@@ -13,17 +13,18 @@ class ClassController extends \BaseController {
 		if(Auth::check()){
 
 			if($user->role == 'student'){
-				$sections = $user->sections;
+				$sections = $user->sections()->paginate(4);
 				return View::make('class.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'teacher'){
-				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->get();
+				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->paginate(4);
 				return View::make('class.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'admin'){
-				return View::make('class.index')->with('sections', Section::all());
+				$sections = Section::orderBy('section_id', 'desc')->paginate(4);
+				return View::make('class.index')->with('sections', $sections);
 			}
 			
 			
@@ -127,7 +128,25 @@ class ClassController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$rules = array(
+			'section_name' => 'required'
+		);
+
+		$validator = Validator::make(Input::all(),$rules);
+
+		if($validator->fails()){
+			return Redirect::to('classes/' . $id . '/edit')
+				->withErrors($validator)
+				->withInput(Input::all());
+		}
+		else{
+			$section = Section::find($id);
+			$section->section_name = Input::get('section_name');
+			$section->save();
+
+			Session::flash('message', 'Successfully updated section!');
+			return Redirect::to('classes');
+		}
 	}
 
 
@@ -140,6 +159,7 @@ class ClassController extends \BaseController {
 	public function destroy($section_id)
 	{
 		$section = Section::find($section_id);
+
 		$section->delete();
 		return Redirect::to('classes');
 	}

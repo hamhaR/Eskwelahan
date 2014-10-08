@@ -61,6 +61,14 @@ Route::group(["before" => "auth"], function() {
         "as" => "profile",
         "uses" => "AuthenticationController@getProfile"
     ]);
+    Route::any("/editprofile", [
+        "as" => "editprofile",
+        "uses" => "AuthenticationController@editProfile"
+    ]);
+    Route::any("/profileSaveChanges/{id}", [
+        "as" => "profileSaveChanges",
+        "uses" => "AuthenticationController@profileSaveChanges"
+    ]);
     Route::any("/logout", [
         "as" => "logout",
         "uses" => "AuthenticationController@getLogout"
@@ -169,5 +177,8 @@ Route::resource('classes','ClassController');
 Route::resource('students','StudentController');
 Route::resource('questions', 'QuestionController');
 
+
 Route::resource('materials', 'MaterialController');
 Route::post('/update/{id}', 'MaterialController@update');
+
+Route::resource('friends', 'FriendController');

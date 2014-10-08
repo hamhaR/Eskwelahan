@@ -74,10 +74,10 @@ class Builder {
 	{
 		if (is_array($id))
 		{
-		    return $this->findMany($id, $columns);
+			return $this->findMany($id, $columns);
 		}
 
-		$this->query->where($this->model->getKeyName(), '=', $id);
+		$this->query->where($this->model->getQualifiedKeyName(), '=', $id);
 
 		return $this->first($columns);
 	}
@@ -93,7 +93,7 @@ class Builder {
 	{
 		if (empty($id)) return $this->model->newCollection();
 
-		$this->query->whereIn($this->model->getKeyName(), $id);
+		$this->query->whereIn($this->model->getQualifiedKeyName(), $id);
 
 		return $this->get($columns);
     }
@@ -105,13 +105,13 @@ class Builder {
 	 * @param  array  $columns
 	 * @return \Illuminate\Database\Eloquent\Model|static
 	 *
-	 * @throws ModelNotFoundException
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
 	 */
 	public function findOrFail($id, $columns = array('*'))
 	{
 		if ( ! is_null($model = $this->find($id, $columns))) return $model;
 
-		throw with(new ModelNotFoundException)->setModel(get_class($this->model));
+		throw (new ModelNotFoundException)->setModel(get_class($this->model));
 	}
 
 	/**
@@ -131,13 +131,13 @@ class Builder {
 	 * @param  array  $columns
 	 * @return \Illuminate\Database\Eloquent\Model|static
 	 *
-	 * @throws ModelNotFoundException
+	 * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
 	 */
 	public function firstOrFail($columns = array('*'))
 	{
 		if ( ! is_null($model = $this->first($columns))) return $model;
 
-		throw with(new ModelNotFoundException)->setModel(get_class($this->model));
+		throw (new ModelNotFoundException)->setModel(get_class($this->model));
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Builder {
 	 * @param  callable  $callback
 	 * @return void
 	 */
-	public function chunk($count, $callback)
+	public function chunk($count, callable $callback)
 	{
 		$results = $this->forPage($page = 1, $count)->get();
 
@@ -290,7 +290,6 @@ class Builder {
 	 *
 	 * This is more efficient on larger data-sets, etc.
 	 *
-	 * @param  \Illuminate\Pagination\Factory  $paginator
 	 * @param  int    $perPage
 	 * @param  array  $columns
 	 * @return \Illuminate\Pagination\Paginator
@@ -406,7 +405,7 @@ class Builder {
 	 * Get the hydrated models without eager loading.
 	 *
 	 * @param  array  $columns
-	 * @return array|static[]
+	 * @return \Illuminate\Database\Eloquent\Model[]
 	 */
 	public function getModels($columns = array('*'))
 	{
@@ -557,7 +556,7 @@ class Builder {
 	 * @param  string  $operator
 	 * @param  mixed   $value
 	 * @param  string  $boolean
-	 * @return \Illuminate\Database\Eloquent\Builder|static
+	 * @return $this
 	 */
 	public function where($column, $operator = null, $value = null, $boolean = 'and')
 	{
@@ -712,8 +711,8 @@ class Builder {
 	/**
 	 * Set the relationships that should be eager loaded.
 	 *
-	 * @param  dynamic  $relations
-	 * @return \Illuminate\Database\Eloquent\Builder|static
+	 * @param  mixed  $relations
+	 * @return $this
 	 */
 	public function with($relations)
 	{
@@ -856,7 +855,7 @@ class Builder {
 	 * Set a model instance for the model being queried.
 	 *
 	 * @param  \Illuminate\Database\Eloquent\Model  $model
-	 * @return \Illuminate\Database\Eloquent\Builder
+	 * @return $this
 	 */
 	public function setModel(Model $model)
 	{

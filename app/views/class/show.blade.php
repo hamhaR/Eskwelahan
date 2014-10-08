@@ -23,6 +23,9 @@ Teacher: {{$section->teacher->fname}}<br><br>
 			<th>Gender</th>
 			<th>Address</th>
 			<th>Email</th>
+      @if(Auth::user()->role == 'student')
+      <th>Action</th>
+      @endif
 		</tr>
 	</thead>
 	<tbody>
@@ -34,6 +37,14 @@ Teacher: {{$section->teacher->fname}}<br><br>
 				<td>{{$student->gender}}</td>
 				<td>{{$student->address}}</td>
 				<td>{{$student->email}}</td>
+        @if(Auth::user()->role == 'student')
+        {{Form::open(array('url' => 'friends'))}}
+        {{Form::hidden('friend_id',$student->id)}}
+        <td>
+          <button class='btn btn-primary'>Add Friend</button>
+        </td>
+        {{Form::close()}}
+        @endif
 			</tr>
 			@endforeach
 		
