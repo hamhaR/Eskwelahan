@@ -89,6 +89,7 @@ class FriendController extends \BaseController {
 		$user->friends()->detach($id);
 		$user->save();
 		return Redirect::to('friends');
+
 	}
 
 
