@@ -16,7 +16,7 @@
                     @if(Auth::check())
                     @if(Request::is('editProf')) <li class="active">
                         @else <li>
-                        @endif<a href="#">Edit Profile</a></li>
+                        @endif<a href="editprofile">Edit Profile</a></li>
 
                     @if(Auth::user()->role == 'admin')
 
@@ -43,9 +43,6 @@
                     @endif
 
                     @if(Auth::check() && Auth::user()->role == 'student')
-                        <li>{{ HTML::linkRoute('tests.index', 'Manage Tests') }}</li>
-                        <li>{{ HTML::linkRoute('courses.index', 'Manage Courses') }}</li>
-                        <li>{{ HTML::linkRoute('homeworks.index', 'Manage Homeworks') }}</li>
                     @endif
 
                     @endif

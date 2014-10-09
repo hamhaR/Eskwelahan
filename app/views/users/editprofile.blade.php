@@ -44,6 +44,17 @@
 				{{ Form::label('email', 'Email') }}
 				{{ Form::text('email', Auth::user()->email,array('class' => 'form-control')) }}
 			</div>
+
+			<div class="form-group">
+				{{ Form::label('password', 'Password') }}
+				{{ Form::password('password', array('class' => 'form-control')) }}
+			</div>
+
+			<div class="form-group">
+				{{ Form::label('confirm', 'Confirm Password') }}
+				{{ Form::password('confirm', array('class' => 'form-control')) }}
+			</div>
+
 			{{ Form::submit('Update Profile', array('class' => 'btn btn-primary')) }}
 			{{ Form::close() }}
 		</div>
