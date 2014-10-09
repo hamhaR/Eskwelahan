@@ -70,8 +70,7 @@ public function postLogin() {
             'lname'         =>  'required',
             'gender'        =>  'required',
             'address'       =>  'required',
-            'email'         =>  'required|email',
-            'password'      =>  'required'
+            'email'         =>  'required|email'
         ];
 
         $pass = Input::get('password');
@@ -102,6 +101,11 @@ public function postLogin() {
             Session::flash('message', Input::get('password'));
             return Redirect::to('editprofile')->withInput()->withErrors('$validator');
         }
+    }
+    
+    public function profilechangepass($id)
+    {
+    	
     }
 
 }
