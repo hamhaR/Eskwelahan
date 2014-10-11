@@ -1,6 +1,8 @@
 @extends("layout")
 @section("content")
+
 @foreach($questions as $question)
+
  
     <div class="col-md-12">
 
@@ -31,10 +33,10 @@
                 
                 <br><br>
                 @if(Auth::user()->role == 'teacher')
-               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}">
                  <span class="glyphicon glyphicon-trash"></span>
                </button>
-               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#edit{{$key}}">
                  <span class="glyphicon glyphicon-pencil"></span>
                </button>
                 @endif
@@ -44,7 +46,7 @@
     </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -58,8 +60,10 @@
       </div>
       <div class="modal-footer">
 
-         {{ Form::open(array('url' => 'questions', 'class' => 'pull-right')) }}
-        {{ Form::hidden('_method', 'DELETE') }}
+        <!-- 
+         {{ Form::open(array('url' => 'questions', 'class' => 'pull-right')) }} -->
+         {{ Form::open(array('method' => 'DELETE', 'route' => array('questions.destroy', $question->id))) }}
+       
          {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         {{ Form::close() }}
@@ -67,6 +71,68 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+                      <!-- Edit Question-->
+                      <div class="modal fade" id="edit{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                              <h4 class="modal-title" id="myModalLabel">Edit Question</h4>
+                            </div>
+                            <div class="modal-body">
+                             {{Form::model($question,array('route' => array('questions.update', $question->id), 'method' => 'PUT'))}}
+
+                            
+                              <!--content-->
+                              <div class="form-group">
+                                {{ Form::label('content', 'Question:') }}
+                                {{ Form::text('content', Input::old('content'), array('class' => 'form-control', 'placeholder' => $question->content)) }}
+                              </div>
+
+                              <!--choice1-->
+                              <div class="form-group">
+                                {{ Form::label('choice1', 'a:') }}
+                                {{ Form::text('choice1', Input::old('choice1'), array('class' => 'form-control', 'placeholder' => $question->choice1)) }}
+                              </div>
+
+                              <!--choice2-->
+                              <div class="form-group">
+                                {{ Form::label('choice2', 'b:') }}
+                                {{ Form::text('choice2', Input::old('choice2'), array('class' => 'form-control', 'placeholder' => $question->choice2)) }}
+                              </div>
+
+                              <!--choice3-->
+                              <div class="form-group">
+                                {{ Form::label('choice3', 'c:') }}
+                                {{ Form::text('choice3', Input::old('choice3'), array('class' => 'form-control', 'placeholder' => $question->choice3)) }}
+                              </div>
+
+                              <!--choice4-->
+                              <div class="form-group">
+                                {{ Form::label('choice4', 'd:') }}
+                                {{ Form::text('choice4', Input::old('choice4'), array('class' => 'form-control', 'placeholder' => $question->choice4)) }}
+                              </div>
+
+                              <!--answer-->
+                              <div class="form-group">
+                                {{ Form::label('answer', 'Answer:') }}
+                                {{ Form::text('answer', Input::old('answer'), array('class' => 'form-control', 'placeholder' => $question->answer)) }}
+                              </div>
+                             
+                            </div>
+                            <div class="modal-footer">
+                              {{ Form::hidden('_method', 'PUT') }}
+                              {{ Form::submit('Submit', ['class' => 'btn btn-default']) }}
+
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              {{ Form::close() }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--end for edit test-->
 
 
 
