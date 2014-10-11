@@ -3,6 +3,7 @@
     @include("header")
         <body>
             <div class='container'>
+                
                 <div class='row'>
                     <!-- will be used to show any messages -->
                     @if (Session::has('message'))
