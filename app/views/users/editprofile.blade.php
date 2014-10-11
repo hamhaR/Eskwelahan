@@ -1,9 +1,5 @@
 @extends("layout")
 @section("content")
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
 		
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -84,7 +80,4 @@
 			{{ Form::close() }}
   			</div>
 		</div>
-
-		</div>
-	</div>
-</div>
+@stop
