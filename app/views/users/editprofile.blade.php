@@ -66,8 +66,13 @@
 			)) }}
 			
 			<div class="form-group">
-				{{ Form::label('password', 'Password') }}
+				{{ Form::label('password', 'Current Password') }}
 				{{ Form::password('password', array('class' => 'form-control')) }}
+			</div>
+			
+			<div class="form-group">
+				{{ Form::label('newpassword', 'New Password') }}
+				{{ Form::password('newpassword', array('class' => 'form-control')) }}
 			</div>
 
 			<div class="form-group">
@@ -75,6 +80,7 @@
 				{{ Form::password('confirm', array('class' => 'form-control')) }}
 			</div>
 			
+			{{ Form::submit('Change Password', array('class' => 'btn btn-primary')) }}
 			{{ Form::close() }}
   			</div>
 		</div>

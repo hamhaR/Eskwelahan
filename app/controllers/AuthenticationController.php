@@ -73,8 +73,7 @@ public function postLogin() {
             'email'         =>  'required|email'
         ];
 
-        $pass = Input::get('password');
-        $confirm = Input::get('confirm');
+        
 
         $validator = Validator::make(Input::all(), $rules);
 
@@ -82,7 +81,7 @@ public function postLogin() {
         {
             return Redirect::to('editprofile')->withErrors($validator);
         } 
-        if( $pass == $confirm ) 
+        else 
         {
             $user = User::find($id);
             $user->fname        = Input::get('fname');
@@ -91,21 +90,38 @@ public function postLogin() {
             $user->gender       = Input::get('gender');
             $user->address      = Input::get('address');
             $user->email        = Input::get('email');
-            $user->password     = Hash::make(Input::get('password'));
             $user->save();
-        //  return $this->show($id);
             Session::flash('message', 'Profile updated.');
             return Redirect::to('profile');
-        }
-        else{
-            Session::flash('message', Input::get('password'));
-            return Redirect::to('editprofile')->withInput()->withErrors('$validator');
         }
     }
     
     public function profilechangepass($id)
     {
+    	$pass = Input::get('password');
+    	$newPassword = Input::get('newpassword');
+    	$confirm = Input::get('confirm');
     	
+    	$user = DB::table('users')->where('id', $id)->first();
+    	if (Hash::check(Input::get('password'), $user->password)) 
+    	{
+    		// The passwords match...
+    		if ($newPassword == $confirm) 
+    		{
+    			$user = User::find($id);
+    			$user->password = Hash::make($newPassword);
+    			$user->save();
+    			Session::flash('message', 'Password successfully changed.');
+    			return Redirect::to('profile');
+    		}
+    		else 
+    		{
+    			return Redirect::to('editprofile')->with('message', 'Passwords do not match.');
+    		}
+    	}
+    	else {
+    		return Redirect::to('editprofile')->with('message', 'Please enter your current password.');
+    	}
     }
 
 }
