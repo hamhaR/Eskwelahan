@@ -1,6 +1,7 @@
 <div class=" sidebar">
   <ul class="nav nav-sidebar">
     <li><a href="/">Home</a></li>
+    <li><a href="/editprofile">Edit Profile</a></li>
     <li><a href="/friends">Friends</a></li>
     <li><a href="/classes">Classes</a></li>
     <li><a href="/tests">Tests</a></li>
