@@ -69,6 +69,10 @@ Route::group(["before" => "auth"], function() {
         "as" => "profileSaveChanges",
         "uses" => "AuthenticationController@profileSaveChanges"
     ]);
+    Route::any("/profilechangepass/{id}", [
+    "as" => "profilechangepass",
+    "uses" => "AuthenticationController@profilechangepass"
+    		]);
     Route::any("/logout", [
         "as" => "logout",
         "uses" => "AuthenticationController@getLogout"
