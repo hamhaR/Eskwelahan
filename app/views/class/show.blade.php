@@ -1,8 +1,14 @@
 @extends("layout")
 @section("content")
+@if(Auth::user()->role == 'student')
+<h5>Classmates</h5>
+@endif
+@if(Auth::user()->role == 'teacher')
+<h5>Students</h5>
+@endif
 <div class='list'>
   @foreach($section->students as $student)
-    <a href="/users/{{$student->id}}" class="list-group-item">{{$student->fname ."". $student->lname}}</a>
+    <a href="/users/{{$student->id}}" class="list-group-item">{{$student->fname ." ". $student->lname}}</a>
   @endforeach
 </div>
 

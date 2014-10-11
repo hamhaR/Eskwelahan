@@ -1,18 +1,19 @@
 @extends("layout")
 @section("content")
-
+  <h5>Friends</h5>
+    <div class="list">
 		@foreach($friends as $key => $friend)
-		<div class='col-md-6'>
-		<div class="panel panel-primary">
-              <div class="panel-heading">
-                <a href="/users/{{$friend->id}}"><h3 class="panel-title">{{$friend->fname . " " . $friend->lname }}</h3></a>
-              </div>
-              <div class="panel-body">
-              	
-                
-              	
-              </div>
-    </div>
-		</div>
+                <a href="/users/{{$friend->id}}" class="list-group-item">{{$friend->fname . " " . $friend->lname }}</a>
+      
 		@endforeach
+  </div>
+@stop
+
+@section("rightsidebar")
+<form class="navbar-form" role="search">
+                        <div class="form-search search-only">
+                          <i class="search-icon glyphicon glyphicon-search"></i>
+                          <input type="text" class="form-control search-query">
+                        </div>
+                      </form>
 @stop

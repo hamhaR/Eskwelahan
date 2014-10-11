@@ -1,7 +1,8 @@
 @extends("layout")
 @section("content")
-
+    
     <div class='row'>
+     
 <div class="list">
 
 @foreach($sections as $key => $section)
@@ -18,9 +19,7 @@
      <span class="glyphicon glyphicon-pencil pull-right" data-toggle="modal" data-target="#editModal{{$key}}"></span>
 
     @endif
-
-   Prof. {{$section->teacher->fname}}<br>
-  {{$section->teacher->lname}}</p>
+</p>
 
   </div>
   <!-- end of panel -->
@@ -91,6 +90,7 @@
 @stop
 
 @section("rightsidebar")
+
   <div class='col-md-2'>
     @if(Auth::user()->role == 'teacher')
      <div class="row"> 
