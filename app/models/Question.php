@@ -11,7 +11,7 @@ class Question extends Eloquent{
 
 
     public function test(){
-        return $this->belongsTo('Test','test_id', 'id');
+        return $this->belongsTo('Test','test_id');
     }
     public function teacher(){
 		return $this->belongsTo('User', 'user_id', 'id')/*->where('role','=','teacher')*/;

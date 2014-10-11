@@ -124,7 +124,42 @@ class QuestionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$questionData = [
+			'content' => Input::get('content'),
+			'choice1' => Input::get('choice1'),
+			'choice2' => Input::get('choice2'),
+			'choice3' => Input::get('choice3'),
+			'choice4' => Input::get('choice4'),
+			'answer' => Input::get('answer')
+        ];
+        $rules = [
+			'content' => '',
+			'choice1' => '',
+			'choice2' => '',
+			'choice3' => '',
+			'choice4' => '',
+			'answer' => ''
+        ];
+        $validator = Validator::make($questionData, $rules);
+		try{
+			if ($validator->passes()) {
+				$question = Question::find($id);
+				$question->content = Input::get('content');
+				$question->choice1 = Input::get('choice1');
+				$question->choice2 = Input::get('choice2');
+				$question->choice3 = Input::get('choice3');
+				$question->choice4 = Input::get('choice4');
+				$question->answer  = Input::get('answer');
+				$question->save();
+				Session::flash('message', 'Successfully edited question!');
+				return Redirect::to('tests/' . $question->test_id);
+			}
+		}
+		catch(\Exception $e){
+			return Redirect::to('tests/' .$question->test_id);
+			//echo 'Error!! Invalid input!';
+			Session::flash('message', 'Error!! Invalid input!');
+		}
 	}
 
 
@@ -138,8 +173,10 @@ class QuestionController extends \BaseController {
 	{
 		$question = Question::find($id);
 		$question->delete();
+		return Redirect::to('tests/' . $question->test_id);
+		//echo $question->id;
+
 
 	}
-
 
 }

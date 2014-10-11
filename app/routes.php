@@ -162,12 +162,12 @@ Route::get('/profile', function()
 Route::resource('courses', 'CourseController');
 
 
-/*
- * Test Controller
- */
-Route::resource('test', 'TestController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'TestController@update');
+
+//Route::post('/destroy/{id}', 'QuestionController@destroy');
+
+//Route::resource('questions', 'QuestionController');
 
 /* 
  * Homework Controller
@@ -180,6 +180,10 @@ Route::resource('sections', 'SectionController');
 Route::resource('classes','ClassController');
 Route::resource('students','StudentController');
 Route::resource('questions', 'QuestionController');
+Route::post('/destroy/{id}', array('uses' => 'QuestionController@destroy'));
+Route::post('/update/{id}', 'QuestionController@update');
+//Route::post('questions/{id}', array('uses' => 'QuestionController@store'));
+
 
 
 Route::resource('materials', 'MaterialController');

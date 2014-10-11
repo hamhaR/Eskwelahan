@@ -1,9 +1,5 @@
 @extends("layout")
 @section("content")
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
 		
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -66,8 +62,13 @@
 			)) }}
 			
 			<div class="form-group">
-				{{ Form::label('password', 'Password') }}
+				{{ Form::label('password', 'Current Password') }}
 				{{ Form::password('password', array('class' => 'form-control')) }}
+			</div>
+			
+			<div class="form-group">
+				{{ Form::label('newpassword', 'New Password') }}
+				{{ Form::password('newpassword', array('class' => 'form-control')) }}
 			</div>
 
 			<div class="form-group">
@@ -75,10 +76,8 @@
 				{{ Form::password('confirm', array('class' => 'form-control')) }}
 			</div>
 			
+			{{ Form::submit('Change Password', array('class' => 'btn btn-primary')) }}
 			{{ Form::close() }}
   			</div>
 		</div>
-
-		</div>
-	</div>
-</div>
+@stop
