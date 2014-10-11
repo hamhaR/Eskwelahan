@@ -1,7 +1,6 @@
 @extends("layout")
 @section("content")
-<div class='container'>
-	<div class='row'>
+
 		@foreach($friends as $key => $friend)
 		<div class='col-md-6'>
 		<div class="panel panel-primary">
@@ -13,7 +12,7 @@
                 <button type="submit" class='btn btn-danger' data-toggle="modal" data-target="#unfriendModal{{$key}}">Unfriend</button>
               	
               </div>
-            </div>
+    </div>
 		</div>
 		<!-- Delete Modal -->
 <div class="modal fade" id="unfriendModal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -41,6 +40,4 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 		@endforeach
-	</div>
-</div>
-
+@stop

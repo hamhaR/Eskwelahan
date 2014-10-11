@@ -1,18 +1,5 @@
 @extends("layout")
 @section("content")
-<div class="container">
-
-
-@if(Auth::user()->role == 'teacher')
-<!-- Button trigger modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  Add Student
-</button><br><br>
-@endif
-
-Course:	{{Course::where('id','=', $course_id)->first()->course_title}}<br>
-Section: {{$section->section_name}}<br>
-Teacher: {{$section->teacher->fname}}<br><br>
 
 
 <table class="table table-hover table-bordered">
@@ -50,7 +37,21 @@ Teacher: {{$section->teacher->fname}}<br><br>
 		
 	</tbody>
 </table>
+@stop
 
+@section("rightsidebar")
+@if(Auth::user()->role == 'teacher')
+<!-- Button trigger modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Add Student
+</button><br><br>
+@endif
+
+Course: {{Course::where('id','=', $course_id)->first()->course_title}}<br>
+Section: {{$section->section_name}}<br>
+Teacher: {{$section->teacher->fname}}<br><br>
+
+@stop
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,10 +77,10 @@ Teacher: {{$section->teacher->fname}}<br><br>
             {{Form::hidden('student',User::where(array('fname' => $stud->fname,'lname' => $stud->lname))->get())}}
             {{Form::hidden('course_id',$course_id)}}
             {{Form::hidden('section_id',$section->section_id)}}
-          </div>		  		 
+          </div>           
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
          {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
         {{Form::close()}}
       </div>

@@ -1,37 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript">var siteloc = "{{ url('/') }}"</script>
-    <title>Eskwelahan</title>
-    
-    <!-- Bootstrap core CSS -->
-    {{ HTML::style('bootflat/css/bootstrap.min.css')}}
-    {{ HTML::style('bootflat/bootflat/css/bootflat.css')}}
-
-    <!-- Custom styles for this template -->
-    {{ HTML::style('bootflat/css/layout.css')}}
-
-
-    
-    </head>
-    <body>
-        
-        @include("header")
-        <div class="content">
-            <div class="container">
-                @yield("content")
-            </div>
-        </div>
-    
-        @include("footer")
-
-        {{HTML::script('/bootflat/js/jquery-1.9.1.min.js')}}
-        {{HTML::script('/bootflat/js/bootstrap.min.js')}}
-        {{HTML::script('/bootflat/bootflat/js/jquery.fs.selecter.min.js')}}
-        {{HTML::script('/bootflat/bootflat/js/jquery.fs.stepper.min.js')}}
-         {{HTML::script('/bootflat/bootflat/js/icheck.min.js')}}
-
-    </body>
+    @include("header")
+        <body>
+            <div class='container'>
+                <div class='row'>
+                    <!-- will be used to show any messages -->
+                    @if (Session::has('message'))
+                        <div class="alert alert-info">{{ Session::get('message') }}</div>
+                    @endif
+                </div>
+                <div class="row">
+                    <div class='col-md-2'>
+                        @include("sidebar")
+                    </div>
+                    <div class='col-md-8'>
+                        @yield("content")
+                    </div>
+                    <div class='col-md-2'>
+                        @yield("rightsidebar")
+                    </div><!--end of right sidebar-->
+                </div><!--row-->
+            </div><!--container-->
+        </body>
+    @include("footer")
 </html>

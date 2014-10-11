@@ -1,22 +1,11 @@
 @extends("layout")
 @section("content")
-<div class="container">
-@if(Auth::user()->role == 'teacher')
- <div class="row"> 
-  <div class="col-md-3">
-<!-- Button trigger modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  + Add Class
-</button>
-</div>
-</div>
-@endif
-<br>
-<div class="row">
+
+    <div class='row'>
 @foreach($sections as $key => $section)
   @foreach($section->courses as $course)
     <!-- panel -->
-    <div class="col-md-3">
+    <div class="col-md-6">
 
             <div class="panel panel-primary">
               <div class="panel-heading">
@@ -100,24 +89,32 @@
   </div>
 </div>
 
-
-
-
-    </div>  <!-- end of panel -->
-
-
-
-
-
-
-
+  </div>  <!-- end of panel -->
 
   @endforeach
 @endforeach
-
 </div>
+  <div class='row'>
+    <?php echo $sections->links(); ?>
+  </div>
+@stop
 
-<?php echo $sections->links(); ?>
+@section("rightsidebar")
+  <div class='col-md-2'>
+    @if(Auth::user()->role == 'teacher')
+     <div class="row"> 
+      <div class="col-md-12">
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      + Add Class
+    </button>
+    </div>
+    </div>
+    @endif
+  </div>
+  @stop
+</div> <!--end of row-->
+
 
 
 <!-- Modal -->
@@ -159,8 +156,4 @@
   </div>
 </div>
 
-
-
-
-
-</div>
+@include("footer")

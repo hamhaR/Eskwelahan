@@ -1,20 +1,6 @@
 @extends("layout")
 @section("content")
 
-<div class="container">
-<div class="row">
-	<div class="col-md-12">
-
-@if (Session::has('message'))
-	<div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
-
-@if(Auth::check() && Auth::user()->role == 'teacher')
-	<h1>Your Homeworks</h1>
-@endif
-@if(Auth::check() && Auth::user()->role == 'student')
-	<h1>Latest Homeworks</h1>
-@endif
 	<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
@@ -39,10 +25,10 @@
 			</tbody>
 		</table>
 
+
+@stop<!--end of content-->
+@section("rightsidebar")
 	@if(Auth::check() && Auth::user()->role == 'teacher')
 		<a class="btn btn-primary" href="{{ URL::route('homeworks.create') }}"><span class="glyphicon glyphicon-plus"></span> Add New Homework</a>
 	@endif
-
-	</div>
-</div>
-</div>
+@stop<!--end of rightsidebar-->

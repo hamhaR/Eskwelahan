@@ -1,26 +1,5 @@
 @extends("layout")
 @section("content")
-<div class="container">
-
-
-<!-- will be used to show any messages -->
-@if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
-
-@if(Auth::check() && Auth::user()->role == 'student')
-  <strong><h2>Pending Tests</h2></strong>
-@endif
-
-    @if(Auth::check() && Auth::user()->role == 'teacher')
-
-    <strong><h2>Tests</h2></strong>
-  
-<!-- Button trigger modal -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  + Create Test
-</button>
-    @endif
 
 <!--Index page-->
     <div id="table" style="padding:20px; text-align:center;">
@@ -167,5 +146,18 @@
     </div>
   </div>
 </div>
+@stop
 
-</div>
+@section("rightsidebar")
+  @if(Auth::check() && Auth::user()->role == 'student')
+   <strong><h2>Pending Tests</h2></strong>
+  @endif
+
+  @if(Auth::check() && Auth::user()->role == 'teacher')
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      + Create Test
+    </button>
+  @endif
+
+@stop

@@ -1,21 +1,8 @@
 @extends("layout")
 @section("content")
-<div class="container">
-
-
-@if(Auth::check() && Auth::user()->role == 'teacher')
-<!-- Button trigger modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  + Add Question
-</button><br><br>
-@endif
-
-
-
-<div class="row">
 @foreach($questions as $question)
  
-    <div class="col-md-3">
+    <div class="col-md-12">
 
             <div class="panel panel-primary">
               <div class="panel-heading">
@@ -85,7 +72,16 @@
 
 @endforeach
 
-</div>
+@stop
+
+@section("rightsidebar")
+  @if(Auth::check() && Auth::user()->role == 'teacher')
+  <!-- Button trigger modal -->
+  <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    + Add Question
+  </button><br><br>
+  @endif
+@stop
 
 <!-- add question -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -142,4 +138,3 @@
       </div>
     </div>
   </div>
-</div>

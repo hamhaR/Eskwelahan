@@ -1,13 +1,10 @@
 @extends("layout")
 @section("content")
 
-<div class="container">
-<div class="row">
-    <div class="col-md-12">
 @if(Auth::check())
 
 		
-			<h2>{{ $homeworks->homework_title }}</h2>
+			<h3>{{ $homeworks->homework_title }}</h3>
 			<p>Posted on {{ date('j F Y, h:i A',strtotime($homeworks->created_at)) }}</p>
 			@if($homeworks->created_at != $homeworks->updated_at)
 				<p>Last edit: {{ date('j F Y, h:i A',strtotime($homeworks->updated_at)) }}</p>
@@ -18,16 +15,18 @@
 
 
 
-	@if(Auth::user()->role == 'teacher' && $homeworks->teacher_id == Auth::user()->id)
-		<a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a>
-	<!--	<a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</a> -->
-		<button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</button>
 
-	@endif
 @endif
-  </div>
-</div>
-</div>
+@stop
+
+@section("rightsidebar")
+  @if(Auth::user()->role == 'teacher' && $homeworks->teacher_id == Auth::user()->id)
+    <a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a>
+  <!--  <a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</a> -->
+    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</button>
+
+  @endif
+@stop
 
 <!-- Modal -->
 <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
