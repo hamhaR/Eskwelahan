@@ -1,42 +1,12 @@
 @extends("layout")
 @section("content")
+<div class='list'>
+  @foreach($section->students as $student)
+    <a href="/users/{{$student->id}}" class="list-group-item">{{$student->fname ."". $student->lname}}</a>
+  @endforeach
+</div>
 
 
-<table class="table table-hover table-bordered">
-	<thead>
-		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Gender</th>
-			<th>Address</th>
-			<th>Email</th>
-      @if(Auth::user()->role == 'student')
-      <th>Action</th>
-      @endif
-		</tr>
-	</thead>
-	<tbody>
-		
-			@foreach($section->students as $student)
-			<tr>
-				<td>{{$student->fname}}</td>
-				<td>{{$student->lname}}</td>
-				<td>{{$student->gender}}</td>
-				<td>{{$student->address}}</td>
-				<td>{{$student->email}}</td>
-        @if(Auth::user()->role == 'student')
-        {{Form::open(array('url' => 'friends'))}}
-        {{Form::hidden('friend_id',$student->id)}}
-        <td>
-          <button class='btn btn-primary'>Add Friend</button>
-        </td>
-        {{Form::close()}}
-        @endif
-			</tr>
-			@endforeach
-		
-	</tbody>
-</table>
 @stop
 
 @section("rightsidebar")
