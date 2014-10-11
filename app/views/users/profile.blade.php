@@ -11,3 +11,4 @@
     <i class="glyphicon glyphicon-user"></i>       <span style="text-transform:uppercase;">{{ Auth::user()->role }}
   </div>
 
+@stop
