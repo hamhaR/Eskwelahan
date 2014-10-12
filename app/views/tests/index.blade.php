@@ -17,7 +17,10 @@
                 @foreach($tests as $key=> $test)
                 <tr>
                     <td>{{ $test->course->course_code }}</td>
-                   <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+                    
+                      <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+                
+
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
                     <td>{{ date('j F Y, h:i A',strtotime($test->testDate)) }}</td>
                     <td>
@@ -26,9 +29,7 @@
                         <button class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}"><span class="glyphicon glyphicon-remove"></span> Delete Test</button>
                       @endif
                       @if(Auth::user()->role == 'student')
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#">
-                         <span class="glyphicon glyphicon-pencil"> Take Test</span>
-                        </button>
+                        
                       @endif
 
                       <!--delete test-->
@@ -46,9 +47,7 @@
                             </div>
                             <div class="modal-footer">
 
-                               {{ Form::open(array('route' => array('tests.destroy',$test->id))) }}
-                              {{ Form::hidden('_method', 'DELETE') }}
-                               {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
+                                {{Form::model($test,array('route' => array('tests.destroy', $test->id), 'method' => 'PUT'))}}
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                               {{ Form::close() }}
                             </div>
@@ -149,10 +148,7 @@
 @stop
 
 @section("rightsidebar")
-  @if(Auth::check() && Auth::user()->role == 'student')
-   <strong><h2>Pending Tests</h2></strong>
-  @endif
-
+  
   @if(Auth::check() && Auth::user()->role == 'teacher')
     <!-- Button trigger modal -->
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">

@@ -190,3 +190,5 @@ Route::resource('materials', 'MaterialController');
 Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
+Route::get('/taketest/{id}', 'TestController@taketest');
+Route::get('testfrontview/{id}', 'TestController@testfrontview');

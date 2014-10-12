@@ -36,10 +36,10 @@ class TestController extends Controller
 		*/
 		
 		$tests = Test::all();
-		
-		return View::make('tests.index')
-		->with('tests', $tests);
+	
+		return View::make('tests.index')->with('tests', $tests);
 	}
+
 
 
 
@@ -97,12 +97,22 @@ class TestController extends Controller
 	public function show($id)
 	{
 	//$results = DB::select('SELECT questions.id, questions.content, questions.choice1, questions.choice2, questions.choice3, questions.choice4, questions.answer, questions.test_id FROM questions INNER JOIN tests ON (questions.test_id = tests.id) WHERE teacher_id = ?', array(Auth::user()->id));
-	$result = Question::where('test_id' , '=', $id)->get();
-	return View::make('tests.show')->with(array(
-		'questions'=> $result,
-		'test_id' => $id
-		));
-	
+		if(Auth::user()->role == 'teacher'){
+			$result = Question::where('test_id' , '=', $id)->get();
+			return View::make('tests.show')->with(array(
+				'questions'=> $result,
+				'test_id' => $id
+				));
+		}
+		else if(Auth::user()->role == 'student'){
+			return View::make('tests.testfrontview', [
+                    'test' => $this->tests->find($id)
+       		 ]);
+		}
+		else{
+			return Redirect::to('tests');
+			Session::flash('message', 'Access denied!');
+		}
 	}
 
 
@@ -166,6 +176,22 @@ class TestController extends Controller
 		$test->delete();
 		return Redirect::to('tests');
      }
+
+    /**
+	* Allows students to take test
+    */
+
+    public function taketest($id){
+    	$questions = Question::where('test_id', '=', $id)->get();
+    	return View::make('tests.taketest')-> with('questions', $questions);
+	}
+
+	public function testfrontview($id){
+		return View::make('tests.testfrontview', [
+                    'test' => $this->tests->find($id)
+        ]);
+	}
+    
 
 
 }

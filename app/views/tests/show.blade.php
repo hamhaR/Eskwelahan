@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-@foreach($questions as $question)
+@foreach($questions as $key => $question)
 
  
     <div class="col-md-12">
@@ -132,7 +132,7 @@
                           </div>
                         </div>
                       </div>
-                      <!--end for edit test-->
+                      <!--end for edit question-->
 
 
 
