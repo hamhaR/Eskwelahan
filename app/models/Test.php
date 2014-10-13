@@ -21,11 +21,15 @@ class Test extends Eloquent{
    }
 
     public function question(){
-    	return $this->hasMany('Question', 'question_id');
+    	return $this->hasMany('Question', 'id');
     }
 
   public function section(){
     return $this->belongsTo('Section', 'section_id');
+  }
+
+  public function take(){
+    return $this->hasMany('TakeTest', 'test_id');
   }
 
 }
