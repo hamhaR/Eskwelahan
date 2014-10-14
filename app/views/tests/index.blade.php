@@ -10,7 +10,9 @@
                     <th>Test Name</th>
                     <th>Date Created</th>
                     <th>Schedule</th>
+                    @if(Auth::check() && Auth::user()->role == 'teacher')
                     <th>Options</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
