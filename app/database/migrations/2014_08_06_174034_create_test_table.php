@@ -15,12 +15,11 @@ class CreateTestTable extends Migration {
 		Schema::create('tests', function(Blueprint $table){
 			$table->increments('id');
 			$table->string('test_name', 30);
-			$table->DateTime('testDate');
 
-			$table->integer('teacher_id');
-			$table->foreign('teacher_id')->references('id')->on('users');
-			$table->integer('course_id');
-			$table->foreign('course_id')->references('id')->on('courses');
+			$table->integer('section_id');
+			$table->foreign('section_id')->references('section_id')->on('sections');
+			$table->dateTime('time_start');
+			$table->dateTime('time_end');
 
 			$table->timestamps();
             $table->softDeletes();
