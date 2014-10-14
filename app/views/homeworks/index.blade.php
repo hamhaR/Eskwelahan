@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-	<table class="table table-hover table-bordered">
+	<table id="homeworks" class="table table-hover table-bordered">
 			<thead>
 				<tr>
 					<th>Course</th>
