@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 <h1>Account Management</h1>
-<table class="table table-hover table-bordered">
+<table id="usertable" class="table table-hover table-bordered">
 	<thead>
 		<tr>
 			<th>Name (Username)</th>
@@ -25,4 +25,5 @@
 @stop
 
 @section("rightsidebar")
+	<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-plus"></span> Add New User</a>
 @stop
