@@ -137,6 +137,13 @@ class UserController extends Controller {
 		//
 	}
 
-
-
+	/**
+	 * Admin Panel - Manage Account - Show all users' info on a table
+	 *
+	 * @return Response
+	 */
+	public function showAllUsers()
+	{
+		//
+	}
 }

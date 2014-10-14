@@ -78,6 +78,13 @@ Route::group(["before" => "auth"], function() {
         "uses" => "AuthenticationController@getLogout"
     ]);
 
+    /**
+     * Manage User Accounts (Administrator)
+     */
+    Route::any("/manageaccounts", [
+    "as" => "manageaccounts",
+    "uses" => "UserController@showAllUsers"
+    ]);
     
 
 
@@ -90,7 +97,8 @@ Route::group(["before" => "auth"], function() {
     * TestController
     */
    Route::resource('tests', 'TestController');
-
+   
+   
 });
 
 
