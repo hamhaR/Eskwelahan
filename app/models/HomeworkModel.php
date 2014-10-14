@@ -62,7 +62,7 @@ class HomeworkModel
      }
      if ($role == 'admin')
      {
-
+     	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
      }
      if (!Auth::check())
      {
@@ -79,12 +79,30 @@ class HomeworkModel
         $course_code = $row['course_code'];
         $created_at = $row['created_at'];
 
-        $result = [
-        'id' => $homework_id,
-        'homework_title' => $homework_title,
-        'course_code' => $course_code,
-        'created_at' => $created_at
-        ];
+        if ($role == 'admin')
+        {
+        	$lname = $row['lname'];
+        	$fname = $row['fname'];
+        	
+        	$result = [
+        	'id' => $homework_id,
+        	'homework_title' => $homework_title,
+        	'course_code' => $course_code,
+        	'lname' => $lname,
+        	'fname' => $fname,
+        	'created_at' => $created_at
+        	];
+        }
+        else 
+        {
+        	$result = [
+        	'id' => $homework_id,
+        	'homework_title' => $homework_title,
+        	'course_code' => $course_code,
+        	'created_at' => $created_at
+        	];
+        }
+        
 
         array_push($array, $result);
     }
