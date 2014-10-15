@@ -30,6 +30,8 @@
 
     <div class="form-group">
     {{ Form::label('material_instruction', 'Description') }}
+	</div>
+	<div class="form-group">
     {{ Form::textarea('material_instruction', "" ,array('id' => 'instructions_create')) }}
     </div>
     {{ Form::submit('Post Material', array('class' => 'btn btn-primary')) }}
