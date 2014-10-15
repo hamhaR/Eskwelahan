@@ -1,6 +1,6 @@
 @extends("layout")
 @section("content")
-
+<!-- MATERIALS INDEX!! -->
 <div class="container">
 <div class="row">
 	<div class="col-md-12">
@@ -10,7 +10,7 @@
 @endif
 
 @if(Auth::check() && Auth::user()->role == 'teacher')
-	<h1>Materials</h1>
+	<h2>Materials</h2>
 @endif
 @if(Auth::check() && Auth::user()->role == 'student')
 	<h1>Materials for Grabs</h1>
@@ -30,7 +30,7 @@
 				@for ($i = 0; $i < $length; $i++)
 				<tr>
 					<td>{{ $materials[$i]['course_code'] }}</td>
-					<td>{{ $materials[$i]['homework_title'] }}</td>
+					<td>{{ $materials[$i]['material_title'] }}</td>
 					<td>{{ date('j F Y, h:i A',strtotime($materials[$i]['created_at'])) }}</td>
 					<td>New Material</td>
 					<td><a class="btn btn-primary" href="materials/{{ $materials[$i]['id'] }}"><span class="glyphicon glyphicon-search"></span> View Material</a></td>

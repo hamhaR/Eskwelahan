@@ -5,4 +5,11 @@
         {{HTML::script('/bootflat/bootflat/js/jquery.fs.selecter.min.js')}}
         {{HTML::script('/bootflat/bootflat/js/jquery.fs.stepper.min.js')}}
          {{HTML::script('/bootflat/bootflat/js/icheck.min.js')}}
+         
+        <!-- DataTables plugin for table pagination -->
+        {{HTML::script('/dataTables/jQuery.dataTables.js')}}
+        {{HTML::script('/dataTables/dataTables.bootstrap.js')}}
+        
+        <!-- Document ready for the DataTables plugin -->
+        {{HTML::script('/ready.js')}}
 </footer>

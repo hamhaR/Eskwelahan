@@ -26,6 +26,8 @@
     <button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</button>
 
   @endif
+  
+  <a class="btn btn-primary" href="{{ URL::route('homeworks.index') }}"><span class="glyphicon glyphicon-chevron-left"></span> Back to Homework Index</a>
 @stop
 
 <!-- Modal -->

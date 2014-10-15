@@ -46,11 +46,11 @@ class QuestionController extends \BaseController {
 	{
 		$rules = array(
 			'content' 	=>	'required',
-			'choice1'		=> 'required',
-			'choice2'		=> 'required',
-			'choice3' 	=>	'required',
-			'choice4'		=> 'required',
-			'answer'		=> 'required',
+			'a'		=> 'required',
+			'b'		=> 'required',
+			'c' 	=>	'required',
+			'd'		=> 'required',
+			'correct_answer'		=> 'required',
 			'test_id'		=> ''
 			//'teacher_id'	=> 'required'
 			
@@ -58,11 +58,11 @@ class QuestionController extends \BaseController {
 
 		$question = new Question;
 		$question->content 		= Input::get('content');
-		$question->choice1		= Input::get('choice1');
-		$question->choice2		= Input::get('choice2');
-		$question->choice3 		= Input::get('choice3');
-		$question->choice4		= Input::get('choice1');
-		$question->answer		= Input::get('answer');
+		$question->a		= Input::get('a');
+		$question->b		= Input::get('b');
+		$question->c 		= Input::get('c');
+		$question->d		= Input::get('a');
+		$question->correct_answer		= Input::get('correct_answer');
 		$question->test_id 		= Input::get('test_id');
 		//$question->teacher_id		= Auth::id();
 		$question->save();
@@ -88,11 +88,11 @@ class QuestionController extends \BaseController {
 				->with(array(
 					'test' => $test,
 					'content' => Input::get('content'),
-					'choice1' => Input::get('choice1'),
-					'choice2' => Input::get('choice2'),
-					'choice3' => Input::get('choice3'),
-					'choice4' => Input::get('choice4'),
-					'answer' => Input::get('answer')
+					'a' => Input::get('a'),
+					'b' => Input::get('b'),
+					'c' => Input::get('c'),
+					'd' => Input::get('d'),
+					'correct_answer' => Input::get('correct_answer')
 
 				)
 			);			
@@ -126,30 +126,30 @@ class QuestionController extends \BaseController {
 	{
 		$questionData = [
 			'content' => Input::get('content'),
-			'choice1' => Input::get('choice1'),
-			'choice2' => Input::get('choice2'),
-			'choice3' => Input::get('choice3'),
-			'choice4' => Input::get('choice4'),
-			'answer' => Input::get('answer')
+			'a' => Input::get('a'),
+			'b' => Input::get('b'),
+			'c' => Input::get('c'),
+			'd' => Input::get('d'),
+			'correct_answer' => Input::get('correct_answer')
         ];
         $rules = [
 			'content' => '',
-			'choice1' => '',
-			'choice2' => '',
-			'choice3' => '',
-			'choice4' => '',
-			'answer' => ''
+			'a' => '',
+			'b' => '',
+			'c' => '',
+			'd' => '',
+			'correct_answer' => ''
         ];
         $validator = Validator::make($questionData, $rules);
 		try{
 			if ($validator->passes()) {
 				$question = Question::find($id);
 				$question->content = Input::get('content');
-				$question->choice1 = Input::get('choice1');
-				$question->choice2 = Input::get('choice2');
-				$question->choice3 = Input::get('choice3');
-				$question->choice4 = Input::get('choice4');
-				$question->answer  = Input::get('answer');
+				$question->a = Input::get('a');
+				$question->b = Input::get('b');
+				$question->c = Input::get('c');
+				$question->d = Input::get('d');
+				$question->correct_answer  = Input::get('correct_answer');
 				$question->save();
 				Session::flash('message', 'Successfully edited question!');
 				return Redirect::to('tests/' . $question->test_id);

@@ -9,6 +9,9 @@
     {{ HTML::style('bootflat/bootflat/css/bootflat.css')}}
 
     <!-- Custom styles for this template -->
-    {{ HTML::style('bootflat/css/layout.css')}}    
+    {{ HTML::style('bootflat/css/layout.css')}}  
+    
+    <!-- Style for DataTables plugin -->
+    {{ HTML::style('dataTables/dataTables.bootstrap.css')}}  
 </head>
 

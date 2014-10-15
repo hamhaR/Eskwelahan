@@ -19,4 +19,5 @@ class Course extends Eloquent{
 	public function test(){
 		return $this->hasOne('Test', 'test_id', 'id');
 	}
+
 }
