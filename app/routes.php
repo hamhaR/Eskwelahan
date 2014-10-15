@@ -205,7 +205,7 @@ Route::resource('students','StudentController');
 Route::resource('questions', 'QuestionController');
 Route::post('/destroy/{id}', array('uses' => 'QuestionController@destroy'));
 Route::post('/update/{id}', 'QuestionController@update');
-//Route::post('questions/{id}', array('uses' => 'QuestionController@store'));
+Route::post('questions/{id}', array('uses' => 'QuestionController@store'));
 
 
 
@@ -214,7 +214,10 @@ Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
+Route::post('/taketest/{id}', 'TestController@testanswer_store');
+Route::post('/taketest/{id}', array('uses' => 'TestController@testanswer_store'));
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
+
 
 Route::resource('messages','MessageController');
 Route::resource('conversations','ConversationController');
