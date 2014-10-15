@@ -28,4 +28,8 @@ class Section extends Eloquent{
 	public function questions(){
 		return $this->hasMany('Question', 'question_id');
 	}
+
+	
+
+	
 }

@@ -38,17 +38,21 @@ class TestModel implements TableRepository{
         $this->checkWritePermissions();
         $rules = [ 
             'test_name'    => 'required|Unique',
-            'testDate'      => '',
+            'instructions'      => '',
+            'time_start'    => 'required',
+            'time_end'      => 'required',
             'teacher_id'   => '',
-            'course_id'  => 'required'
+            'section_course_id'  => 'required'
             ];
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) {
             $test = new Test;
             $test->test_name = $attributes['test_name'];
-            $test->testDate = $attributes['testDate'];
+            $test->instructions = $attributes['instructions'];
+            $test->time_start = $attributes['time_start'];
+            $test->time_end = $attributes['time_end'];
             $test->teacher_id = $attributes['teacher_id'];
-            $test->course_id = $attributes['course_id'];
+            $test->section_course_id = $attributes['section_course_id'];
             $test->save();
             return $test->id;
         } else {
@@ -57,6 +61,7 @@ class TestModel implements TableRepository{
     }
     
     public function all(array $columns = ["*"]) {
+        /*
          $this->checkReadPermissions();
        // return Test::orderBy('id')->get($columns);
           $t_id = Auth::id();   //teacher id
@@ -88,7 +93,7 @@ class TestModel implements TableRepository{
             array_push($array, $result);
         }
 
-        return $array;    
+        return $array;    */
     }
 
     public function delete($id) {

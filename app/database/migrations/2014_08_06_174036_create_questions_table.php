@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestAnswerTable extends Migration {
+class CreateQuestionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,20 +12,20 @@ class CreateTestAnswerTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('testanswers', function(Blueprint $table)
-		{
+	Schema::create('questions', function(Blueprint $table){
 			$table->increments('id');
+			$table->text('content');
+			$table->string('a');
+			$table->string('b');
+			$table->string('c');
+			$table->string('d');
+			$table->char('correct_answer');
 
-			$table->integer('student_id');
-			$table->foreign('student_id')->references('id')->on('users');
 			$table->integer('test_id');
 			$table->foreign('test_id')->references('id')->on('tests');
-			$table->integer('question_id');
-			$table->foreign('question_id')->references('id')->on('questions');
-			$table->char('chosenanswer');
-
+			
 			$table->timestamps();
-			$table->softDeletes();
+            $table->softDeletes();
 		});
 	}
 
@@ -36,7 +36,6 @@ class CreateTestAnswerTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('testanswers');
+		Schema::dropIfExists('questions');
 	}
-
 }

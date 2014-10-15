@@ -7,6 +7,7 @@
 
 @foreach($sections as $key => $section)
   @foreach($section->courses as $course)
+ 
   <div class="list-group-item">
 
     
