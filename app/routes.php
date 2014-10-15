@@ -85,6 +85,14 @@ Route::group(["before" => "auth"], function() {
     "as" => "manageaccounts",
     "uses" => "UserController@showAllUsers"
     ]);
+    Route::any("/createaccountadmin", [
+    "as" => "createaccountadmin",
+    "uses" => "UserController@createAccountAdminPanel"
+    ]);
+    Route::any("/addnewacct", [
+    "as" => "addnewacct",
+    "uses" => "UserController@createAcctAdminHelper"
+    		]);
     
 
 

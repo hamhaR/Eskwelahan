@@ -156,4 +156,28 @@ class UserController extends Controller {
 			return Redirect::to('profile')->with('message', 'Access is restricted.');
 		}
 	}
+	
+	/**
+	 * Admin Panel - Add New Account
+	 */
+	public function createAccountAdminPanel()
+	{
+		$role = Auth::user()->role;
+		if ($role == 'admin')
+		{
+			return View::make('users.managecreate');
+		}
+		else
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
+	}
+	
+	/**
+	 * Used for POSTs in Add New Account.
+	 */
+	public function createAcctAdminHelper()
+	{
+		//
+	}
 }
