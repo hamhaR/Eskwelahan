@@ -136,7 +136,7 @@ class TestController extends Controller
 		}
 		else if(Auth::user()->role == 'student'){
 			return View::make('tests.testfrontview', [
-                    'test' => $this->tests->find($id)
+                    'test' => Test::find($id)
        		 ]);
 		}
 		else{

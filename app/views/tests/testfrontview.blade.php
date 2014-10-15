@@ -1,7 +1,9 @@
 @extends("layout")
 @section("content")
 
-Good day ! If you want to take this test, click on strart test button on the rightside.
+<p>If you want to take this test, click on start test button on the rightside.</p>
+<p>Test is available from {{date("d F Y, g:h a", strtotime($test->time_start))}} to {{date("d F Y, g:h a", strtotime($test->time_end))}}</p>
+<p>Instructions: {{$test->test_instructions}}</p>
 
 
 
