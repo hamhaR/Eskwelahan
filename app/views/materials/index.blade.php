@@ -30,7 +30,7 @@
 				@for ($i = 0; $i < $length; $i++)
 				<tr>
 					<td>{{ $materials[$i]['course_code'] }}</td>
-					<td>{{ $materials[$i]['homework_title'] }}</td>
+					<td>{{ $materials[$i]['material_title'] }}</td>
 					<td>{{ date('j F Y, h:i A',strtotime($materials[$i]['created_at'])) }}</td>
 					<td>New Material</td>
 					<td><a class="btn btn-primary" href="materials/{{ $materials[$i]['id'] }}"><span class="glyphicon glyphicon-search"></span> View Material</a></td>

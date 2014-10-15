@@ -54,21 +54,31 @@ class MaterialController extends \BaseController {
 	 */
 	public function store()
 	{
+	/**
+		$attributes = Input::all();
+		$courseData = [
+			'course_id' => $attributes['course_id'],
+			'material_title' => $attributes['material_title'],
+			'material_instruction' => $attributes['material_instruction']
+			
+		];
+		*/
 		$rules = array(
 			'course_id' => 'required',
 			'material_title' => 'required',
 			'material_instruction' => 'required'
 		);
-
-		$material = new Material;
+/****************************************/
+		$material = new Materials;
 		$material->course_id = Input::get('course_id');
 		$material->material_title = Input::get('material_title');
 		$material->material_instruction	= Input::get('material_instruction');
 		$material->teacher_id = Auth::user()->id;
 		$material->save();
-			
+	/********************************************/
+	
 		Session::flash('message', 'Material successfully added.');
-		return Redirect::to('material');
+		return Redirect::to('materials');
 		//
 	}
 
@@ -83,7 +93,7 @@ class MaterialController extends \BaseController {
 	{
 		if (Auth::user()->role == 'teacher' || Auth::user()->role == 'student') 
 		{
-			$results = Material::find($id);
+			$results = Materials::find($id);
 			return View::make('materials.show')->with('materials', $results);
 		} 
 		else 
@@ -105,7 +115,7 @@ class MaterialController extends \BaseController {
 	{
 		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
 
-		$homeworkData = Material::find($id);
+		$materialData = Materials::find($id);
 		return View::make('materials.edit', array('material' => $materialData, 'courses' => $results ));
 		//
 	}
@@ -140,7 +150,7 @@ class MaterialController extends \BaseController {
 		} 
 		else 
 		{
-			$material = Material::find($id);
+			$material = Materials::find($id);
 			$material->course_id = Input::get('course_id');
 			$material->material_title = Input::get('material_title');
 			$material->material_instruction	= Input::get('material_instruction');
