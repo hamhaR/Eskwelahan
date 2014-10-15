@@ -243,4 +243,21 @@ class UserController extends Controller {
 			return Redirect::to('profile')->with('message', 'Access is restricted.');
 		}
 	}
+	
+	/**
+	 * Admin Panel - Edit Account
+	 */
+	public function editAccountAdminPanel($id)
+	{
+		$role = Auth::user()->role;
+		$user = User::find($id);
+		if ($role == 'admin')
+		{
+			return View::make('users.manageedit')->with('user', $user);
+		}
+		else
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
+	}
 }
