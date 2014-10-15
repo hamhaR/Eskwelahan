@@ -1,6 +1,6 @@
 @extends("layout")
 @section("content")
-
+<!-- MATERIALS INDEX!! -->
 <div class="container">
 <div class="row">
 	<div class="col-md-12">
@@ -10,7 +10,7 @@
 @endif
 
 @if(Auth::check() && Auth::user()->role == 'teacher')
-	<h1>Materials</h1>
+	<h2>Materials</h2>
 @endif
 @if(Auth::check() && Auth::user()->role == 'student')
 	<h1>Materials for Grabs</h1>
