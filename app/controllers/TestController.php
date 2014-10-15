@@ -34,7 +34,7 @@ class TestController extends Controller
 			//}
 
 
-			if(($user->role == 'teacher' ) || ($user->role == 'student' )){
+			if($user->role == 'teacher' ) {
 				
 				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->paginate(4);
 				//$tests 	= Test::where('teacher_id', '=', $user->id)->orderBy('id', 'desc');
@@ -46,6 +46,10 @@ class TestController extends Controller
 					'tests'	=> $tests,
 					'courses' => $courses
 					));
+			}
+			if($user->role == 'student' ){
+				$sections = $user->sections;
+				return View::make('tests.index')->with('sections',$sections);
 			}
 
 			if($user->role == 'admin'){
@@ -274,7 +278,7 @@ class TestController extends Controller
     			echo 'Access denied! Time has already passed! Bleeeh. :P ';
     		}
     	}
-*/
+
 	}
 	*/
 

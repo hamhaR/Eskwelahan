@@ -22,6 +22,7 @@ class CreateTakeTestTable extends Migration {
 			$table->integer('student_id');
 			$table->foreign('student_id')->references('id')->on('users');
 
+
 			$table->dateTime('date_taken');
 
 			$table->timestamps();

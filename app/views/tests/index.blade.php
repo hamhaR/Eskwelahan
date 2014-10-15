@@ -1,48 +1,19 @@
 @extends("layout")
 @section("content")
-
-<!--Index page-->
-    <div id="table" style="padding:20px; text-align:center;">
-    <table class="table table-hover table-bordered" border="3" style="text-align:left;">
-            <thead style="text-align:center;">
-                <tr>
-                    <th>Course</th>
-                    <th>Test Name</th>
-                    @if(Auth::check() && Auth::user()->role == 'teacher')
-                    <th>Date Created</th>
-                    @endif
-                    
-                    <th>Take From</th>
-                    <th>To</th>
-                    @if(Auth::check() && Auth::user()->role == 'teacher')
-                    <th>Options</th>
-                    @endif
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($tests as $key=> $test)
+<div class="list">
+@foreach($sections as $key=> $section)
+  @foreach(Test::where('section_id','=',$section->section_id)->get() as $test)
+<a class="list-group-item" href="{{ URL::route('tests.show', $test->id)}}">
               
-                <tr>
-                    <td>{{ $test->section_id}} </td>
+   {{ $test->test_name }}
 
-                  @endforeach
-
-                      <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+      @if(Auth::check() && Auth::user()->role == 'teacher')
+         <span class="glyphicon glyphicon-small glyphicon-trash pull-right" data-toggle="modal" data-target="#delete{{$key}}"></span>
+        <span class="glyphicon glyphicon-small  glyphicon-pencil pull-right"  data-toggle="modal" data-target="#edit{{$key}}"></span>
        
-                    @if(Auth::check() && Auth::user()->role == 'teacher')
-                    <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
-                    @endif
-                  
-                    <td>{{ date('j F Y, h:i A',strtotime($test->time_start)) }}</td>
-                    <td>{{ date('j F Y, h:i A',strtotime($test->time_end)) }}</td>
-                    <td>
-                      @if(Auth::check() && Auth::user()->role == 'teacher')
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit{{$key}}"><span class="glyphicon glyphicon-small  glyphicon-pencil"></span> </button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}"><span class="glyphicon glyphicon-small glyphicon-remove"></span></button>
-                      @endif
-                      @if(Auth::user()->role == 'student')
-                        
-                      @endif
+      @endif
+
+</a>
 
                       <!--delete test-->
                       <div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -110,13 +81,10 @@
                       <!--end for edit test-->
                     </td>
                 </tr>
-                   @endforeach
+    @endforeach
+  @endforeach
                   
-
-            </tbody>
-        </table>
-    </div>
-
+</div>
 
 
 <!-- Modal -->

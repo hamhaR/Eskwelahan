@@ -22,7 +22,7 @@ class Section extends Eloquent{
 	}
 
 	public function tests(){
-		return $this->hasMany('Test', 'test_id');
+		return $this->hasMany('Test', 'id');
 	}
 
 	public function questions(){
