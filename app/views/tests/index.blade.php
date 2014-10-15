@@ -25,8 +25,7 @@
                 <tr>
                     <td>{{ $test->section_id}} </td>
 
-                  @endforeach
-
+                 
                       <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
        
                     @if(Auth::check() && Auth::user()->role == 'teacher')
@@ -44,7 +43,7 @@
                         
                       @endif
 
-                      <!--delete test-->
+                      <!-- Delete Modal -->
                       <div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -53,15 +52,18 @@
                               <h4 class="modal-title" id="myModalLabel">Delete</h4>
                             </div>
                             <div class="modal-body">
-                              <p>Are you sure you want to delete</p>
+                              <p>Are you sure you want to delete this test?</p>
                                      
 
                             </div>
                             <div class="modal-footer">
 
-                                {{Form::model($test,array('route' => array('tests.destroy', $test->id), 'method' => 'PUT'))}}
+                               {{ Form::open(array('method' => 'DELETE', 'route' => array('tests.destroy',$test->id))) }}
+                               {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                              {{ Form::close() }}
+                               {{ Form::close() }}
+                               
+                              
                             </div>
                           </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -80,21 +82,48 @@
 
                                 <!--uneditable course-->
                               <div class="form-group">
-                                {{ Form::label('section_id', 'Course:') }}
-                                {{ $test['  section_id']  }}
-                              </div>
-
-                              <!--testDate-->
-                              <div class="form-group">
-                                {{ Form::label('testDate', 'Schedule:') }}
-                                {{ Form::text('testDate', Input::old('testDate'), array('class' => 'form-control', 'placeholder' => $test->testDate)) }}
-                              </div>
+                                 {{ Form::label('course_title', 'Course') }}
+                                  <select class="form-control" id="section_id" name="section_id" readonly>
+                                    
+                                    @foreach($sections as $section)
+                                    @foreach($section->courses as $course)
+                                    
+                                      
+                                      <option value="{{$section->section_id}}" >
+                                        {{$course->course_title}} - {{$section->section_name}} 
+                                      </option>
+                                    
+                                    @endforeach
+                                    @endforeach
+                                  </select>
+                                </div>
 
                               <!--test name-->
                               <div class="form-group">
                                 {{ Form::label('test_name', 'Test Name:') }}
                                 {{ Form::text('test_name', Input::old('test_name'), array('class' => 'form-control', 'placeholder' => $test->test_name)) }}
                               </div>
+
+                              <!--test instructions-->
+                              <div class="form-group">
+                                {{ Form::label('test_instructions', 'Test Instructions:') }}
+                                {{ Form::text('test_instructions', Input::old('test_instructions'), array('class' => 'form-control', 'placeholder' => $test->test_instructions)) }}
+                              </div>
+
+                              <!--time start-->
+                              Schedule:<br>
+                              <div class="form-group">
+                                {{ Form::label('time_start', 'From:') }}
+                                {{ Form::text('time_start', Input::old('time_start'), array('class' => 'form-control', 'placeholder' => $test->time_start)) }}
+                              </div>
+
+                              <!--time_end-->
+                              <div class="form-group">
+                                {{ Form::label('time_end', 'To:') }}
+                                {{ Form::text('time_end', Input::old('time_end'), array('class' => 'form-control', 'placeholder' => $test->time_end)) }}
+                              </div>
+
+                              
                              
                             </div>
                             <div class="modal-footer">
