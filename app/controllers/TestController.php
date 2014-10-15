@@ -154,8 +154,8 @@ class TestController extends Controller
 	 */
 	public function edit($id)
 	{
-		$testData = $this->tests->find($id);
-        return View::make('tests.edit', $testData);
+		//$testData = $this->tests->find($id);
+        //return View::make('tests.edit', $testData);
 	}
 
 
@@ -169,18 +169,27 @@ class TestController extends Controller
 	{
 		$testData = [
 			'test_name' => Input::get('test_name'),
-			'testDate' => Input::get('testDate')
+			'test_instructions' => Input::get('test_instructions'),
+			'time_start'	=> Input::get('time_start'),
+			'time_end'	=> Input::get('time_end'),
+
         ];
         $rules = [
 			'test_name' => '',
-			'testDate' => ''
+			'test_instructions' => '',
+			'time_start'	=> '',
+			'time_end'	=> '',
+
         ];
         $validator = Validator::make($testData, $rules);
 		try{
 			if ($validator->passes()) {
 				$test = Test::find($id);
-				$test->testDate = Input::get('testDate');
 				$test->test_name = Input::get('test_name');
+				$test->test_instructions = Input::get('test_instructions');
+				$test->time_start 	=	Input::get('time_start');
+				$test->time_end 	=	Input::get('time_end');
+				
 				$test->save();
 				Session::flash('message', 'Successfully edited test!');
 				return Redirect::to('tests');
@@ -281,6 +290,7 @@ class TestController extends Controller
 
 	}
 	*/
+
 
 	public function taketest($id){
 		$questions = Question::where('test_id', '=', $id)->get();
