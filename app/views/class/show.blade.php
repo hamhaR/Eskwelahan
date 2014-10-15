@@ -25,7 +25,7 @@
 
 Course: {{Course::where('id','=', $course_id)->first()->course_title}}<br>
 Section: {{$section->section_name}}<br>
-Teacher: {{$section->teacher->fname}}<br><br>
+Teacher: <a href="/users/{{$section->teacher->id}}">{{$section->teacher->fname}}</a><br><br>
 
 @stop
 

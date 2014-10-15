@@ -36,6 +36,10 @@ class FriendController extends \BaseController {
 		$user = Auth::user();
 		$user->friends()->attach(Input::get('friend_id'));
 		$user->save();
+		$friend = User::find(Input::get('friend_id'));
+		$friend->friends()->attach($user->id);
+		$friend->save();
+		
 		return Redirect::to('friends');
 
 	}
@@ -88,6 +92,10 @@ class FriendController extends \BaseController {
 		$user = Auth::user();
 		$user->friends()->detach($id);
 		$user->save();
+
+		$friend = User::find($id);
+		$friend->friends()->detach($user->id);
+		$friend->save();
 		return Redirect::to('friends');
 
 	}
