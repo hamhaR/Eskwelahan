@@ -39,6 +39,14 @@
 				</select>
 			</div>
 			<div class="form-group">
+				{{ Form::label('role', 'Role') }}
+				<select class="form-control" name="role">
+					<option value="student">Student</option>
+					<option value="teacher">Teacher</option>
+					<option value="admin">Administrator</option>
+				</select>
+			</div>
+			<div class="form-group">
 				{{ Form::label('address', 'Address') }}
 				{{ Form::text('address','', array('class' => 'form-control')) }}
 			</div>

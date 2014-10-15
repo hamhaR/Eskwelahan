@@ -178,6 +178,69 @@ class UserController extends Controller {
 	 */
 	public function createAcctAdminHelper()
 	{
-		//
+		$role = Auth::user()->role;
+		if ($role == 'admin')
+		{
+			$pass = Input::get('password');
+			$confirm = Input::get('confirm');
+					
+			if ($pass == $confirm)
+			{
+				
+				$passHashed = Hash::make($pass);
+				
+				$rules = array(
+						'username'		=>	'required',
+						'password'		=>	'required',
+						'confirm'		=> 	'required',
+						'role'			=>	'required',
+						'fname'			=>	'required',
+						'mname'			=>	'required',
+						'lname'			=>	'required',
+						'gender'		=> 	'required',
+						'address'		=> 	'required',
+						'email'			=> 	'required|email'
+				);
+				
+				$validator = Validator::make(Input::all(), $rules);
+				
+				//do again
+				if ($validator->fails()){
+					return Redirect::to('createaccountadmin')
+					->withErrors($validator)
+					->withInput(Input::except(array('password','confirm')));
+				}
+				
+				else {
+					//store
+					$user = new User;
+					$user->username		= Input::get('username');
+					$user->password     = $passHashed;
+					$user->role			= Input::get('role');
+					$user->fname		= Input::get('fname');
+					$user->mname		= Input::get('mname');
+					$user->lname		= Input::get('lname');
+					$user->gender		= Input::get('gender');
+					$user->address		= Input::get('address');
+					$user->email		= Input::get('email');
+					$user->save();
+				
+						
+						
+					return Redirect::to('manageaccounts')->with('message','User added.');
+				}
+				
+				
+			}
+			else
+			{
+				return Redirect::to('createaccountadmin')->with('message', 'Passwords do not match.');
+			}
+
+		}
+		else
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
 	}
 }
