@@ -227,6 +227,8 @@ class TestController extends Controller
 		return Redirect::to('tests');
     }
 
+   
+/*
     public function taketest($id){
     	$questions = Question::where('test_id', '=', $id)->get();
     	$date_taken = TakeTest::find($id);
@@ -242,12 +244,38 @@ class TestController extends Controller
     		}
     	}
 	}
+	*/
+
+	public function taketest($id){
+		$questions = Question::where('test_id', '=', $id)->get();
+		return View::make('tests.taketest')->with('questions', $questions);
+	}
 
 	public function testfrontview($id){
 		return View::make('tests.testfrontview', [
                     'test' => $this->tests->find($id)
         ]);
 	}
+
+	 public function testanswer_store(){
+    	$rules = array(
+			'student_id' 			=>	'',
+			'question_id'			=> '',
+			'user_answer'			=> 'required'			
+		);
+
+		$testanswer = new TestAnswer;
+		
+		$testanswer->question_id		= Input::get('question_id');
+		$testanswer->user_answer		= Input::get('user_answer');	
+		$testanswer->student_id			= Auth::id();		
+
+		//$test->teacher_id		= Auth::id();
+		$testanswer->save();
+
+		//Session::flash('message', 'Test/quiz successfully added.');
+		return Redirect::to('tests.testfrontview');//dili pa ni sure
+    }
     /*
     function check_in_range($id)
 	{

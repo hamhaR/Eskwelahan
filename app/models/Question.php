@@ -20,4 +20,12 @@ class Question extends Eloquent{
     public function section(){
         return $this->belongsTo('Section', 'section_id');
     }
+
+    public function testanswer(){
+        return $this->belongsTo('TestAnswer', 'testanswer_id');
+    }
+
+    public function taketest(){
+        return $this->belongsTo('TakeTest', 'taketest_id');
+    }
 }

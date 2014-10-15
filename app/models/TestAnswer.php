@@ -2,27 +2,27 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class TakeTest extends Eloquent{
-    protected $table = 'take_tests';
+class TestAnswer extends Eloquent{
+    protected $table = 'testanswers';
     protected $primaryKey = 'id';
     //protected $softDelete = true;
     use SoftDeletingTrait;
   	protected $dates = ['deleted_at'];
 
-  	public function testanswers(){
-  		return $this->belongsTo('TestAnswer', 'testanswer_id');
+  	public function taketest(){
+  		return $this->belongsTo('TakeTest', 'taketest_id');
   	}
 
   	public function questions(){
-  		return $this->hasMany('Question', 'question_id');
+  		return $this->belongsTo('Question', 'question_id');
   	}
 
   	public function tests(){
-  		return $this->hasOne('Test', 'test_id');
+  		return $this->belongsTo('Test', 'test_id');
   	}
 
   	public function student(){
-  		return $this->hasMany('User', 'student_id');
+  		return $this->belongsTo('User', 'student_id');
   	}
 
   	public function course(){
@@ -32,7 +32,5 @@ class TakeTest extends Eloquent{
   	public function section(){
   		return $this->belongsTo('Section', 'section_id');
   	}
-
-  
 
 }
