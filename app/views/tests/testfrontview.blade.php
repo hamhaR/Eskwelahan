@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-Good day ! If you want to tae this test, click on strart test button on the rightside.
+Good day ! If you want to take this test, click on strart test button on the rightside.
 
 
 

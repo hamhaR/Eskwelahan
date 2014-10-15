@@ -21,17 +21,14 @@
             </thead>
             <tbody>
                 @foreach($tests as $key=> $test)
-                @foreach($test->taketests as $taketest)
               
                 <tr>
                     <td>{{ $test->section_id}} </td>
-                   
-                {{Form::model($test,array('route' => array('tests.taketest_store', $test->id), 'method' => 'PUT'))}} 
-                  {{ Form::hidden('taketests', 'date_taken', array('id' => 'date_taken')) }}
+
                   @endforeach
 
                       <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
-                {{Form::close()}}
+       
                     @if(Auth::check() && Auth::user()->role == 'teacher')
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
                     @endif

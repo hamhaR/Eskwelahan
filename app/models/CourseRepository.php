@@ -87,12 +87,6 @@ class CourseRepository  {
                 $course->save();
                 $c_id = $course->id;        // course id
 
-                // insert teacher id to teacher_course table
-                $t_c = new TeacherCourse;
-                $t_c->teacher_id = Auth::id();
-                $t_c->course_id = $c_id;
-                $t_c->save();
-
                 return $course->id;
             } else{
                 return print 'Invalid data.';
@@ -105,7 +99,7 @@ class CourseRepository  {
         $course = Course::find($id);
         if ($course != null) {
             $del = Course::find($id)->delete();
-            $del2 = DB::table('teacher_courses')->where('course_id', $id)->delete();
+            //$del2 = DB::table('teacher_courses')->where('course_id', $id)->delete();
         } else {
             throw new Exception("Invalid course code.");
         }

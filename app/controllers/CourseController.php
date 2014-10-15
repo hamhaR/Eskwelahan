@@ -11,8 +11,9 @@ class CourseController extends \BaseController {
 	public function index()
 	{	
 
-		$course = new CourseRepository;
-		$rows = $course->all();
+		//$course = new CourseRepository;
+		//$rows = $course->all();
+		$rows = Course::orderBy('id', 'desc')->get();
 		return View::make('course.index')->with('rows', $rows);
 
 	}

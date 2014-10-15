@@ -227,11 +227,44 @@ class TestController extends Controller
 		return Redirect::to('tests');
     }
 
+   
+/*
     public function taketest($id){
+    	$data = [
+    		'test_id' => $id,
+    		'student_id' => Auth::id(),
+    		'date_taken' => new DateTime
+    	];
+
+    	$rules = array(
+			'test_id' 			=>	'required',
+			'student_id'		=> 'required',
+			'date_taken'			=> 'required'			
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if($validator->fails()){
+			return 'Error';
+		} else{
+	    	$taketest = new TakeTest;
+	    	$taketest->test_id = $id;
+	    	$taketest->student_id = Auth::id();
+	    	$taketest->date_taken = new DateTime;
+	    	$taketest->save();
+	    	$t_id = $taketest->id;
+
+	    	$date_taken = $taketest->date_taken;
+	    	$time_start = TakeTest::where('test_id', '=', $id)->get();
+	    	return $time_start;
+    	}
+
+/*
     	$questions = Question::where('test_id', '=', $id)->get();
     	$date_taken = TakeTest::find($id);
     	$time_start = Test::find($id);
     	$time_end = Test::find($id);
+
     	if($date_taken != null){
     		if (($date_taken >= $time_start) && ($date_taken <= $time_end)){
     			return View::make('tests.taketest')-> with('questions', $questions);
@@ -241,6 +274,13 @@ class TestController extends Controller
     			echo 'Access denied! Time has already passed! Bleeeh. :P ';
     		}
     	}
+*/
+	}
+	*/
+
+	public function taketest($id){
+		$questions = Question::where('test_id', '=', $id)->get();
+		return View::make('tests.taketest')->with('questions', $questions);
 	}
 
 	public function testfrontview($id){
@@ -248,6 +288,26 @@ class TestController extends Controller
                     'test' => $this->tests->find($id)
         ]);
 	}
+
+	 public function testanswer_store(){
+    	$rules = array(
+			'student_id' 			=>	'',
+			'question_id'			=> '',
+			'user_answer'			=> 'required'			
+		);
+
+		$testanswer = new TestAnswer;
+		
+		$testanswer->question_id		= Input::get('question_id');
+		$testanswer->user_answer		= Input::get('user_answer');	
+		$testanswer->student_id			= Auth::id();		
+
+		//$test->teacher_id		= Auth::id();
+		$testanswer->save();
+
+		//Session::flash('message', 'Test/quiz successfully added.');
+		return Redirect::to('tests.testfrontview');//dili pa ni sure
+    }
     /*
     function check_in_range($id)
 	{
