@@ -95,7 +95,7 @@ class MaterialModel
 
 public function delete($id) 
 {
-    $material = Material::find($id);
+    $material = Materials::find($id);
     if ($material != null) {
         DB::table('materials')->where('id', $id)->delete();
         $material->delete();

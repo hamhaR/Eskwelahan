@@ -49,12 +49,12 @@
 	
 	<div class="form-group">
 		{{ Form::label('role', 'Role') }}
-		{{ Form::text('role', Input::old('role'), array('class' => 'form-control')) }}
+		{{ Form::select('role', array('student' => 'Student', 'teacher' => 'Teacher'), 'student') }}
 	</div>
 	
 	<div class="form-group">
 		{{ Form::label('gender', 'Gender') }}
-		{{ Form::text('gender', Input::old('gender'), array('class' => 'form-control')) }}
+		{{ Form::select('gender', array('male' => 'Male', 'female' => 'Female'), 'male') }}
 	</div>
 	
 	<div class="form-group">

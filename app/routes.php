@@ -93,7 +93,14 @@ Route::group(["before" => "auth"], function() {
     "as" => "addnewacct",
     "uses" => "UserController@createAcctAdminHelper"
     		]);
-    
+    Route::any("/editinfoadmin/{id}", [
+    "as" => "editinfoadmin",
+    "uses" => "UserController@editAccountAdminPanel"
+            ]);
+/*    Route::any("/editinfoadminhelper/{id}", [
+            "as" => "editinfoadminhelper",
+            "uses" => "AuthenticationController@profilechangepass"
+            ]); */
 
 
    /*
