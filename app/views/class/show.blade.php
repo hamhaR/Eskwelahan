@@ -1,8 +1,21 @@
 @extends("layout")
 @section("content")
-<div class="container">
+@if(Auth::user()->role == 'student')
+<h5>Classmates</h5>
+@endif
+@if(Auth::user()->role == 'teacher')
+<h5>Students</h5>
+@endif
+<div class='list'>
+  @foreach($section->students as $student)
+    <a href="/users/{{$student->id}}" class="list-group-item">{{$student->fname ." ". $student->lname}}</a>
+  @endforeach
+</div>
 
 
+@stop
+
+@section("rightsidebar")
 @if(Auth::user()->role == 'teacher')
 <!-- Button trigger modal -->
 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -10,47 +23,11 @@
 </button><br><br>
 @endif
 
-Course:	{{Course::where('id','=', $course_id)->first()->course_title}}<br>
+Course: {{Course::where('id','=', $course_id)->first()->course_title}}<br>
 Section: {{$section->section_name}}<br>
 Teacher: {{$section->teacher->fname}}<br><br>
 
-
-<table class="table table-hover table-bordered">
-	<thead>
-		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Gender</th>
-			<th>Address</th>
-			<th>Email</th>
-      @if(Auth::user()->role == 'student')
-      <th>Action</th>
-      @endif
-		</tr>
-	</thead>
-	<tbody>
-		
-			@foreach($section->students as $student)
-			<tr>
-				<td>{{$student->fname}}</td>
-				<td>{{$student->lname}}</td>
-				<td>{{$student->gender}}</td>
-				<td>{{$student->address}}</td>
-				<td>{{$student->email}}</td>
-        @if(Auth::user()->role == 'student')
-        {{Form::open(array('url' => 'friends'))}}
-        {{Form::hidden('friend_id',$student->id)}}
-        <td>
-          <button class='btn btn-primary'>Add Friend</button>
-        </td>
-        {{Form::close()}}
-        @endif
-			</tr>
-			@endforeach
-		
-	</tbody>
-</table>
-
+@stop
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,10 +53,10 @@ Teacher: {{$section->teacher->fname}}<br><br>
             {{Form::hidden('student',User::where(array('fname' => $stud->fname,'lname' => $stud->lname))->get())}}
             {{Form::hidden('course_id',$course_id)}}
             {{Form::hidden('section_id',$section->section_id)}}
-          </div>		  		 
+          </div>           
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
          {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
         {{Form::close()}}
       </div>

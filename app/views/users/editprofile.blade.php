@@ -1,10 +1,17 @@
 @extends("layout")
 @section("content")
+		
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+  			<li class="active"><a href="#editinfo" role="tab" data-toggle="tab">Edit Personal Information</a></li>
+  			<li><a href="#changepass" role="tab" data-toggle="tab">Change Password</a></li>
+		</ul>
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			{{ Form::open(array('url' => '/profileSaveChanges/' . Auth::user()->id,
+		<!-- Tab panes -->
+		<div class="tab-content">
+  			<div class="tab-pane active" id="editinfo">
+
+  				{{ Form::open(array('url' => '/profileSaveChanges/' . Auth::user()->id,
 			'autocomplete' => 'off',
 			'class' => 'form-horizontal'
 			)) }}
@@ -45,18 +52,32 @@
 				{{ Form::text('email', Auth::user()->email,array('class' => 'form-control')) }}
 			</div>
 
+			{{ Form::submit('Update Profile', array('class' => 'btn btn-primary')) }}
+			{{ Form::close() }}
+  			</div>
+  			<div class="tab-pane" id="changepass">
+  			{{ Form::open(array('url' => '/profilechangepass/' . Auth::user()->id,
+			'autocomplete' => 'off',
+			'class' => 'form-horizontal'
+			)) }}
+			
 			<div class="form-group">
-				{{ Form::label('password', 'Password') }}
+				{{ Form::label('password', 'Current Password') }}
 				{{ Form::password('password', array('class' => 'form-control')) }}
+			</div>
+			
+			<div class="form-group">
+				{{ Form::label('newpassword', 'New Password') }}
+				{{ Form::password('newpassword', array('class' => 'form-control')) }}
 			</div>
 
 			<div class="form-group">
 				{{ Form::label('confirm', 'Confirm Password') }}
 				{{ Form::password('confirm', array('class' => 'form-control')) }}
 			</div>
-
-			{{ Form::submit('Update Profile', array('class' => 'btn btn-primary')) }}
+			
+			{{ Form::submit('Change Password', array('class' => 'btn btn-primary')) }}
 			{{ Form::close() }}
+  			</div>
 		</div>
-	</div>
-</div>
+@stop

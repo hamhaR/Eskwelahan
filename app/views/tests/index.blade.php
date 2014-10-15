@@ -1,26 +1,5 @@
 @extends("layout")
 @section("content")
-<div class="container">
-
-
-<!-- will be used to show any messages -->
-@if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
-
-@if(Auth::check() && Auth::user()->role == 'student')
-  <strong><h2>Pending Tests</h2></strong>
-@endif
-
-    @if(Auth::check() && Auth::user()->role == 'teacher')
-
-    <strong><h2>Tests</h2></strong>
-  
-<!-- Button trigger modal -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  + Create Test
-</button>
-    @endif
 
 <!--Index page-->
     <div id="table" style="padding:20px; text-align:center;">
@@ -31,14 +10,19 @@
                     <th>Test Name</th>
                     <th>Date Created</th>
                     <th>Schedule</th>
+                    @if(Auth::check() && Auth::user()->role == 'teacher')
                     <th>Options</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
                 @foreach($tests as $key=> $test)
                 <tr>
                     <td>{{ $test->course->course_code }}</td>
-                   <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+                    
+                      <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+                
+
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
                     <td>{{ date('j F Y, h:i A',strtotime($test->testDate)) }}</td>
                     <td>
@@ -47,9 +31,7 @@
                         <button class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}"><span class="glyphicon glyphicon-remove"></span> Delete Test</button>
                       @endif
                       @if(Auth::user()->role == 'student')
-                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#">
-                         <span class="glyphicon glyphicon-pencil"> Take Test</span>
-                        </button>
+                        
                       @endif
 
                       <!--delete test-->
@@ -67,9 +49,7 @@
                             </div>
                             <div class="modal-footer">
 
-                               {{ Form::open(array('route' => array('tests.destroy',$test->id))) }}
-                              {{ Form::hidden('_method', 'DELETE') }}
-                               {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
+                                {{Form::model($test,array('route' => array('tests.destroy', $test->id), 'method' => 'PUT'))}}
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                               {{ Form::close() }}
                             </div>
@@ -167,5 +147,15 @@
     </div>
   </div>
 </div>
+@stop
 
-</div>
+@section("rightsidebar")
+  
+  @if(Auth::check() && Auth::user()->role == 'teacher')
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      + Create Test
+    </button>
+  @endif
+
+@stop

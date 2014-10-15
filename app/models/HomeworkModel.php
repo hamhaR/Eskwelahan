@@ -58,11 +58,11 @@ class HomeworkModel
      }
      if ($role == 'student') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN student_courses ON (homeworks.course_id = student_courses.course_id) INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE student_courses.student_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, homeworks.created_at, courses.course_code FROM section_students INNER JOIN section_course ON (section_students.section_id = section_course.section_id) INNER JOIN homeworks ON (section_course.course_id = homeworks.course_id) INNER JOIN courses ON (courses.id = homeworks.course_id) WHERE student_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
      }
      if ($role == 'admin')
      {
-
+     	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
      }
      if (!Auth::check())
      {
@@ -79,12 +79,30 @@ class HomeworkModel
         $course_code = $row['course_code'];
         $created_at = $row['created_at'];
 
-        $result = [
-        'id' => $homework_id,
-        'homework_title' => $homework_title,
-        'course_code' => $course_code,
-        'created_at' => $created_at
-        ];
+        if ($role == 'admin')
+        {
+        	$lname = $row['lname'];
+        	$fname = $row['fname'];
+        	
+        	$result = [
+        	'id' => $homework_id,
+        	'homework_title' => $homework_title,
+        	'course_code' => $course_code,
+        	'lname' => $lname,
+        	'fname' => $fname,
+        	'created_at' => $created_at
+        	];
+        }
+        else 
+        {
+        	$result = [
+        	'id' => $homework_id,
+        	'homework_title' => $homework_title,
+        	'course_code' => $course_code,
+        	'created_at' => $created_at
+        	];
+        }
+        
 
         array_push($array, $result);
     }

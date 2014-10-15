@@ -1,51 +1,28 @@
 @extends("layout")
 @section("content")
-<div class="container">
-@if(Auth::user()->role == 'teacher')
- <div class="row"> 
-  <div class="col-md-3">
-<!-- Button trigger modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  + Add Class
-</button>
-</div>
-</div>
-@endif
-<br>
-<div class="row">
+    
+    <div class='row'>
+     
+<div class="list">
+
 @foreach($sections as $key => $section)
   @foreach($section->courses as $course)
-    <!-- panel -->
-    <div class="col-md-3">
+  <div class="list-group-item">
 
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <a class="panel-title" href="{{ URL::route('classes.show',array('id' => $section->section_id,'course_id' => $course->id))}}"><strong>{{$course->course_title}}</strong></a> 
-                <h2 class="panel-title">{{$section->section_name}}</h2>     
+    
 
+    <h6><a href="{{ URL::route('classes.show',array('id' => $section->section_id,'course_id' => $course->id))}}"><strong>{{$course->course_title}}</strong></a></h6>
+    <p>{{$section->section_name}} <br>    
 
-              </div>
-              <div class="panel-body">
-               Prof. {{$section->teacher->fname}}
-                {{$section->teacher->lname}}
-                <br>
-                {{$key}}
-                <br>
-                {{$sections[$key]->section_id}}
-                
-                <br><br><br><br>
-                @if(Auth::user()->role == 'teacher')
-               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$key}}">
-                 <span class="glyphicon glyphicon-trash"></span>
-               </button>
-               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal{{$key}}">
-                 <span class="glyphicon glyphicon-pencil"></span>
-               </button>
-                @endif
-                
-              </div>
-            </div>
+    @if(Auth::user()->role == 'teacher')  
+     <span class="glyphicon glyphicon-trash pull-right" data-toggle="modal" data-target="#deleteModal{{$key}}"></span>
+     <span class="glyphicon glyphicon-pencil pull-right" data-toggle="modal" data-target="#editModal{{$key}}"></span>
 
+    @endif
+</p>
+
+  </div>
+  <!-- end of panel -->
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -100,24 +77,35 @@
   </div>
 </div>
 
-
-
-
-    </div>  <!-- end of panel -->
-
-
-
-
-
-
-
+  
 
   @endforeach
 @endforeach
 
 </div>
+</div>
+  <div class='row'>
+    <?php echo $sections->links(); ?>
+  </div>
+@stop
 
-<?php echo $sections->links(); ?>
+@section("rightsidebar")
+
+  <div class='col-md-2'>
+    @if(Auth::user()->role == 'teacher')
+     <div class="row"> 
+      <div class="col-md-12">
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      + Add Class
+    </button>
+    </div>
+    </div>
+    @endif
+  </div>
+  @stop
+</div> <!--end of row-->
+
 
 
 <!-- Modal -->
@@ -159,8 +147,4 @@
   </div>
 </div>
 
-
-
-
-
-</div>
+@include("footer")

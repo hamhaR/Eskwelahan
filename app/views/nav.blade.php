@@ -3,14 +3,9 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-               <a href="localhost:8000" style="padding-top:10px;"><h4><strong >P.E.</strong></h4></a>
+               <a href="localhost:8000" style="padding-top:10px;"><h5>Eskwelahan</h5></a>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if(Auth::check())

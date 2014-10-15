@@ -97,7 +97,8 @@ class UserController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		$user = User::find($id);
+		return View::make('users.show')->with('friend',$user);
 	}
 
 
@@ -136,6 +137,23 @@ class UserController extends Controller {
 		//
 	}
 
-
-
+	/**
+	 * Admin Panel - Manage Account - Show all users' info on a table
+	 *
+	 * @return Response
+	 */
+	public function showAllUsers()
+	{
+		$role = Auth::user()->role;
+		if ($role == 'admin') 
+		{
+			$users = User::all();
+		
+			return View::make('users.manageindex')->with('users', $users);
+		}
+		else 
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
+		}
+	}
 }

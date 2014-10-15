@@ -9,7 +9,9 @@ class TestTableSeeder extends DatabaseSeeder{
                 'teacher_id' => 3,
                 'course_id' => 1,
                 'created_at' => new DateTime,
-                'updated_at' => new DateTime
+                'updated_at' => new DateTime,
+                'time_started' => new DateTime,
+                'time_ended' => new DateTime
             ]
         ];
             

@@ -13,7 +13,7 @@
 @endif
 <br>
 <div class="row">
-@foreach($questions as $question)
+@foreach($questions as $key => $question)
  
     <div class="col-md-3">
 
@@ -41,20 +41,18 @@
                 
                 <br><br>
                 @if(Auth::user()->role == 'teacher')
-               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+               <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}">
                  <span class="glyphicon glyphicon-trash"></span>
                </button>
-               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editModal{{$key}}">
                  <span class="glyphicon glyphicon-pencil"></span>
                </button>
                 @endif
                 
               </div>
             </div>
-    </div>
 
-
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -68,15 +66,19 @@
       </div>
       <div class="modal-footer">
 
-         {{ Form::open(array('url' => 'questions', 'class' => 'pull-right')) }}
-        {{ Form::hidden('_method', 'DELETE') }}
-         {{ Form::submit('Delete', array('class' => 'btn btn-primary')) }}
+        {{ Form::open(array('route' => 'questions.destroy', $question->id)) }}
+        
+         {{ Form::submit('Delete', array('class' => 'btn btn-success')) }}
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         {{ Form::close() }}
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+    </div>
+
+
+
 
 <!--
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

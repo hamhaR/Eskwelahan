@@ -69,11 +69,22 @@ Route::group(["before" => "auth"], function() {
         "as" => "profileSaveChanges",
         "uses" => "AuthenticationController@profileSaveChanges"
     ]);
+    Route::any("/profilechangepass/{id}", [
+    "as" => "profilechangepass",
+    "uses" => "AuthenticationController@profilechangepass"
+    		]);
     Route::any("/logout", [
         "as" => "logout",
         "uses" => "AuthenticationController@getLogout"
     ]);
 
+    /**
+     * Manage User Accounts (Administrator)
+     */
+    Route::any("/manageaccounts", [
+    "as" => "manageaccounts",
+    "uses" => "UserController@showAllUsers"
+    ]);
     
 
 
@@ -86,7 +97,8 @@ Route::group(["before" => "auth"], function() {
     * TestController
     */
    Route::resource('tests', 'TestController');
-
+   
+   
 });
 
 
@@ -158,12 +170,12 @@ Route::get('/profile', function()
 Route::resource('courses', 'CourseController');
 
 
-/*
- * Test Controller
- */
-Route::resource('test', 'TestController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
 Route::post('/update/{id}', 'TestController@update');
+
+//Route::post('/destroy/{id}', 'QuestionController@destroy');
+
+//Route::resource('questions', 'QuestionController');
 
 /* 
  * Homework Controller
@@ -176,9 +188,16 @@ Route::resource('sections', 'SectionController');
 Route::resource('classes','ClassController');
 Route::resource('students','StudentController');
 Route::resource('questions', 'QuestionController');
+Route::post('/destroy/{id}', array('uses' => 'QuestionController@destroy'));
+Route::post('/update/{id}', 'QuestionController@update');
+//Route::post('questions/{id}', array('uses' => 'QuestionController@store'));
+
 
 
 Route::resource('materials', 'MaterialController');
 Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
+Route::get('/taketest/{id}', 'TestController@taketest');
+Route::get('testfrontview/{id}', 'TestController@testfrontview');
+

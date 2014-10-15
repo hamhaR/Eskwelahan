@@ -4,7 +4,7 @@ class QuestionModel implements TableRepository{
 	
 	 protected static $writePermissions = [
         'admin' => false,
-        'student' => false,
+        'student' => true,
         'teacher' => true,
         null => false
     ];
@@ -107,6 +107,7 @@ class QuestionModel implements TableRepository{
         } 
         else {
             throw new ErrorException("Invalid id!");
+        }
 
     }
 

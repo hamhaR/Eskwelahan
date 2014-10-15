@@ -20,12 +20,16 @@ class Test extends Eloquent{
     return $this->belongsTo('Course', 'course_id', 'id');
    }
 
-    public function testQuestion(){
-    	return $this->hasMany('Question', 'question_id', 'id');
+    public function question(){
+    	return $this->hasMany('Question', 'id');
     }
 
   public function section(){
     return $this->belongsTo('Section', 'section_id');
+  }
+
+  public function take(){
+    return $this->hasMany('TakeTest', 'test_id');
   }
 
 }

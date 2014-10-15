@@ -8,9 +8,6 @@
         "class"        => "form-horizontal"
 ]) }}
 
-<div class="col-md-6 col-md-offset-3">
-<div style="background: rgba(255,255,255, 0.3); padding: 5px 20px 10px 20px">
-<fieldset>
 
     <!-- Form Name -->
     <legend><span style="font-family:sans-serif:  font-size:10px; text-transform:uppercase;">Edit Test</span></legend>
@@ -26,36 +23,26 @@
 
     <!-- Text input-->  
     <div class="form-group">
-        <label class="col-md-4 control-label" for="test_name"><span style="font-family:sans-serif; font-size:13px ">Item Name</span></label>  
-        <div class="col-md-8">
-            <input id="test_name" name="test_name" type="text" placeholder="" value="{{ $test_name }}" class="form-control input-md" required="">
-
-        </div>
+        <label class="control-label" for="test_name"><span style="font-family:sans-serif; font-size:13px ">Item Name</span></label>  
+        <input id="test_name" name="test_name" type="text" placeholder="" value="{{ $test_name }}" class="form-control input-md" required="">
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-        <label class="col-md-4 control-label" for="testDate"><span style="font-family:sans-serif; font-size:13px ">Test Date></label>  
-        <div class="col-md-8">
-            <input id="testDate" name="testDate" type="text" placeholder="" value="{{ $testDate }} "class="form-control input-md" required="">
-
-        </div>
+        <label class="control-label" for="testDate"><span style="font-family:sans-serif; font-size:13px ">Test Date</label>  
+        <input id="testDate" name="testDate" type="text" placeholder="" value="{{ $testDate }} "class="form-control input-md" required="">
     </div>
     <!-- Button -->
     <div class="form-group">
-        <label class="col-md-9 control-label" for="update"></label>
-        <div class="col-md-6">
+        <label class="control-label" for="update"></label>
+       
             <button id="edit" name="update" onclick="submitEdit( {{ $id }} )" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>   UPDATE</button>
-             <a  class="btn btn-small btn-danger" href="{{ URL::route('tests.index') }}" id="cancel"><i class="glyphicon glyphicon-remove"></i>    CANCEL</a>
-        </div>
+             <button class="btn btn-small btn-danger" href="{{ URL::route('tests.index') }}" id="cancel"><i class="glyphicon glyphicon-remove"></i>    CANCEL</button>
+       
     </div>
 </div>
     
-    
-    
-</fieldset>
 
 {{ Form::close() }}
-</div>
-</div>
+
 @stop

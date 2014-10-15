@@ -1,15 +1,5 @@
 @extends("layout")
 @section("content")
-   	
-
-
-<!--{{ HTML::ul($errors->all()) }} -->
-
-<div class="container">
-<div class="row">
-    <div class="col-md-12">
-
-    <h1>Add a Homework</h1>
 {{ Form::open([
         "url"        => "homeworks",
         "autocomplete" => "off",
@@ -34,9 +24,11 @@
     </div>
     {{ Form::submit('Post Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
-    </div>
-</div>
-</div>
+
+@stop
+@section("rightsidebar")
+
+@stop
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

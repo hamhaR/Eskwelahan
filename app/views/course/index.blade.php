@@ -1,11 +1,5 @@
 @extends("layout")
 @section("content")
-<div class="container">
-
-<!-- will be used to show any messages -->
-@if (Session::has('message'))
-	<div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
 
 <table class="table table-striped table-bordered">
 	<thead>
@@ -96,10 +90,12 @@
 		@endforeach
 	</tbody>
 </table>
+@stop
 
+@section("rightsidebar")
 	<button class="btn btn-primary" data-toggle="modal" data-target="#create"><span class="glyphicon glyphicon-plus"></span> Create Course</button>
+@stop
 
-</div>
 
 <!-- Modal for Create Course-->
 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

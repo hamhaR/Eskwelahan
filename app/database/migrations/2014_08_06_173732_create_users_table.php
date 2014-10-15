@@ -46,7 +46,7 @@ class CreateUsersTable extends Migration {
 	public function down()
 	{
 		Schema::dropIfExists('users');
-		$table->dropColumn("remember_token");
+		
 	}
 
 }

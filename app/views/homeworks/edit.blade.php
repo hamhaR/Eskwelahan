@@ -1,11 +1,7 @@
 @extends("layout")
 @section("content")
 
-<div class="container">
-<div class="row">
-    <div class="col-md-12">
-
-<h1>Editing Homework: "{{ $homework->homework_title }}"</h1>
+<h4>Editing: "{{ $homework->homework_title }}"</h4>
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
@@ -36,9 +32,7 @@
     </div>
     {{ Form::submit('Update Homework', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
-    </div>
-</div>
-</div>
+@stop
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
