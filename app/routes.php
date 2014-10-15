@@ -208,5 +208,10 @@ Route::post('/update/{id}', 'MaterialController@update');
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
+<<<<<<< HEAD
 Route::post('/taketest/{id}', 'QuestionController@testanswer_store');
+=======
+Route::resource('messages','MessageController');
+Route::resource('conversations','ConversationController');
+>>>>>>> ba99b558cd6c1cc65a8130d47b983422edd3aae1
 
