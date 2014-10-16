@@ -94,5 +94,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	}
 
+	public function conversations(){
+		return $this->belongsToMany('Conversation','convo_persons','person_id','convo_id')->withTimestamps();
+	}
+
 
 }

@@ -85,6 +85,14 @@ Route::group(["before" => "auth"], function() {
     "as" => "manageaccounts",
     "uses" => "UserController@showAllUsers"
     ]);
+    Route::any("/createaccountadmin", [
+    "as" => "createaccountadmin",
+    "uses" => "UserController@createAccountAdminPanel"
+    ]);
+    Route::any("/addnewacct", [
+    "as" => "addnewacct",
+    "uses" => "UserController@createAcctAdminHelper"
+    		]);
     
 
 
@@ -200,4 +208,6 @@ Route::post('/update/{id}', 'MaterialController@update');
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
+Route::resource('messages','MessageController');
+Route::resource('conversations','ConversationController');
 

@@ -8,8 +8,12 @@
                 <tr>
                     <th>Course</th>
                     <th>Test Name</th>
+                    @if(Auth::check() && Auth::user()->role == 'teacher')
                     <th>Date Created</th>
-                    <th>Schedule</th>
+                    @endif
+                    
+                    <th>Take From</th>
+                    <th>To</th>
                     @if(Auth::check() && Auth::user()->role == 'teacher')
                     <th>Options</th>
                     @endif
@@ -17,18 +21,27 @@
             </thead>
             <tbody>
                 @foreach($tests as $key=> $test)
+                @foreach($test->taketests as $taketest)
+              
                 <tr>
-                    <td>{{ $test->course->course_code }}</td>
-                    
-                      <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
-                
+                    <td>{{ $test->section_id}} </td>
+                   
+                {{Form::model($test,array('route' => array('tests.taketest_store', $test->id), 'method' => 'PUT'))}} 
+                  {{ Form::hidden('taketests', 'date_taken', array('id' => 'date_taken')) }}
+                  @endforeach
 
+                      <td> <a href="{{ URL::route('tests.show', $test->id)}}">{{ $test->test_name }}</a></td>
+                {{Form::close()}}
+                    @if(Auth::check() && Auth::user()->role == 'teacher')
                     <td>{{ date('j F Y, h:i A',strtotime($test->created_at)) }}</td>
-                    <td>{{ date('j F Y, h:i A',strtotime($test->testDate)) }}</td>
+                    @endif
+                  
+                    <td>{{ date('j F Y, h:i A',strtotime($test->time_start)) }}</td>
+                    <td>{{ date('j F Y, h:i A',strtotime($test->time_end)) }}</td>
                     <td>
                       @if(Auth::check() && Auth::user()->role == 'teacher')
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit{{$key}}"><span class="glyphicon glyphicon-pencil"></span> Edit Test</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}"><span class="glyphicon glyphicon-remove"></span> Delete Test</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit{{$key}}"><span class="glyphicon glyphicon-small  glyphicon-pencil"></span> </button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#delete{{$key}}"><span class="glyphicon glyphicon-small glyphicon-remove"></span></button>
                       @endif
                       @if(Auth::user()->role == 'student')
                         
@@ -70,8 +83,8 @@
 
                                 <!--uneditable course-->
                               <div class="form-group">
-                                {{ Form::label('course_id', 'Course:') }}
-                                {{ $test['  course_id']  }}
+                                {{ Form::label('section_id', 'Course:') }}
+                                {{ $test['  section_id']  }}
                               </div>
 
                               <!--testDate-->
@@ -101,6 +114,8 @@
                     </td>
                 </tr>
                    @endforeach
+                  
+
             </tbody>
         </table>
     </div>
@@ -118,24 +133,47 @@
       <div class="modal-body">
       
              {{Form::open(array('url' => 'tests'))}}
-          <div class="input-group">
-                {{ Form::label('course_id', 'Course') }}
-                <select name="course_id">
-                    @foreach(Course::all() as $course)
-                    <option value="{{ $course->id }}">{{ $course->course_code }} ({{ $course->course_title }})</option>
-                    @endforeach
-                </select>
+
+          <div class="form-group">
+           {{ Form::label('course_title', 'Course') }}
+            <select class="form-control" id="section_id" name="section_id">
+              
+              @foreach($sections as $section)
+              @foreach($section->courses as $course)
+              
+                
+                <option value="{{$section->section_id}}" >
+                  {{$course->course_title}} - {{$section->section_name}} - {{$section->section_id}}
+                </option>
+              
+              @endforeach
+              @endforeach
+            </select>
+          </div>
+
+            <div class="form-group">
+              {{ Form::label('test_name', 'Test Name' ) }}
+              {{ Form::text('test_name', null, array('class' => 'form-control', 'placeholder' => 'Test Name ')) }}
             </div>
 
-            <div class="input-group">
-                 <span class="input-group-addon"> Test Date: </span>
-                    {{ Form::text('testDate', null,  ['class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time']) }}
+            <div class="form-group">
+              {{ Form::label('test_instructions', 'Test Instructions' ) }}
+              {{ Form::text('test_instructions', null, array('class' => 'form-control', 'placeholder' => 'Test Instructions ')) }}
             </div>
 
-            <div class="input-group">
-                 <span class="input-group-addon"> Test Name</span>
-                    {{ Form::text('test_name', null, ['class'=>'form-control', 'placeholder'=>'Test Name']) }}
+            Schedule of Test
+            <div class="form-group">
+              {{ Form::label('time_start', 'From:') }}
+              {{ Form::text('time_start', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
             </div>
+
+            <div class="form-group">
+              {{ Form::label('time_end', 'To: ' ) }}
+              {{ Form::text('time_end', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
+            </div>
+          
+
+         
         </div>
 
    

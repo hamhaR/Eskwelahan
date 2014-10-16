@@ -2,6 +2,7 @@
 <html lang="en">
     @include("header")
         <body>
+            @include("nav")
             <div class='container'>
                 
                 <div class='row'>

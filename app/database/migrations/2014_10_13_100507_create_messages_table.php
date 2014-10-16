@@ -12,18 +12,16 @@ class CreateMessagesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('messages', function(Blueprint $table){
-			$table->increments('id');
-			$table->string('message_content');
-			$table->DateTime('date_received');
+		Schema::create('messages', function(Blueprint $table)
+		{
+			$table->increments('msg_id');
+			$table->string('msg_content');
 			$table->integer('sender_id');
 			$table->foreign('sender_id')->references('id')->on('users');
 			$table->integer('receiver_id');
 			$table->foreign('receiver_id')->references('id')->on('users');
-			$table->TEXT('remember_token', 100)->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
+			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
@@ -34,8 +32,7 @@ class CreateMessagesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('messages');
-		$table->dropColumn("remember_token");
+		Schema::drop('messages');
 	}
 
 }

@@ -16,7 +16,7 @@ class Test extends Eloquent{
     return $this->belongsTo('User', 'teacher_id', 'id');
    }
 
-   public function course(){
+   public function courses(){
     return $this->belongsTo('Course', 'course_id', 'id');
    }
 
@@ -28,8 +28,12 @@ class Test extends Eloquent{
     return $this->belongsTo('Section', 'section_id');
   }
 
-  public function take(){
+  public function taketests(){
     return $this->hasMany('TakeTest', 'test_id');
+  }
+
+  public function section_course(){
+    return $this->belongsTo('SectionCourse', 'section_course_id');
   }
 
 }

@@ -1,16 +1,7 @@
 @extends("layout")
 @section("content")
 
-
-	<p>
-		<strong>Course: </strong> {{ Course::where('id','=', $test['course_id'])->first()->course_title}}<br>
-		<strong>Test Name: </strong> {{ $test['test_name'] }} <br>
-		<strong>Schedule: </strong> {{ date('j F Y, h:i A',strtotime($test['testDate'])) }} <br><br>
-
-		If you want to take this test, please click on 'Start Test' button.
-		
-	</p>
-
+Good day ! If you want to tae this test, click on strart test button on the rightside.
 
 
 
