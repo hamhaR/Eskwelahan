@@ -228,10 +228,41 @@ class TestController extends Controller
     }
 
     public function taketest($id){
+    	$data = [
+    		'test_id' => $id,
+    		'student_id' => Auth::id(),
+    		'date_taken' => new DateTime
+    	];
+
+    	$rules = array(
+			'test_id' 			=>	'required',
+			'student_id'		=> 'required',
+			'date_taken'			=> 'required'			
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if($validator->fails()){
+			return 'Error';
+		} else{
+	    	$taketest = new TakeTest;
+	    	$taketest->test_id = $id;
+	    	$taketest->student_id = Auth::id();
+	    	$taketest->date_taken = new DateTime;
+	    	$taketest->save();
+	    	$t_id = $taketest->id;
+
+	    	$date_taken = $taketest->date_taken;
+	    	$time_start = TakeTest::where('test_id', '=', $id)->get();
+	    	return $time_start;
+    	}
+
+/*
     	$questions = Question::where('test_id', '=', $id)->get();
     	$date_taken = TakeTest::find($id);
     	$time_start = Test::find($id);
     	$time_end = Test::find($id);
+
     	if($date_taken != null){
     		if (($date_taken >= $time_start) && ($date_taken <= $time_end)){
     			return View::make('tests.taketest')-> with('questions', $questions);
@@ -241,6 +272,7 @@ class TestController extends Controller
     			echo 'Access denied! Time has already passed! Bleeeh. :P ';
     		}
     	}
+*/
 	}
 
 	public function testfrontview($id){
