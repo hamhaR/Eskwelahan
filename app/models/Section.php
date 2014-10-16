@@ -10,7 +10,7 @@ class Section extends Eloquent{
 	protected $fillable = array('section_name','course_id', 'teacher_id');
 
 	public function students(){
-		return $this->belongs('User','section_students','section_id','student_id')->withTimestamps();
+		return $this->belongsToMany('User','section_students','section_id','student_id')->withTimestamps();
 	}
 
 	public function courses(){
