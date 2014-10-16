@@ -55,9 +55,8 @@ class CourseController extends \BaseController {
 		$validator = Validator::make($courseData, $rules);
 				
 		if ($validator->fails()) {
-			return Redirect::to('course/create')
-							->withErrors($validator)
-							->withInput(Input::all());
+			Session::flash('message', 'Error, required field left blank.');
+			return Redirect::to('courses/');
 		} else{
 			$course = new CourseRepository;
 			$rows = $course->add($courseData);
