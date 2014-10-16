@@ -1,8 +1,6 @@
 @extends("layout")
 @section("content")
    	
-
-
 <!--{{ HTML::ul($errors->all()) }} -->
 
 <div class="container">
@@ -39,4 +37,5 @@
     </div>
 </div>
 </div>
-      
+
+@stop

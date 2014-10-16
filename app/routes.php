@@ -102,6 +102,15 @@ Route::group(["before" => "auth"], function() {
             "uses" => "AuthenticationController@profilechangepass"
             ]); */
 
+/************************************************************/
+	/*
+	* Route to view materials
+	*/
+	Route::any("/viewmaterial/{id}", [
+	"as" => "viewmaterial",
+	"uses" => "MaterialController@show"
+	]);
+/***********************************************************/
 
    /*
     * HomeworkController

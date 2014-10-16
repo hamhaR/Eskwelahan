@@ -22,6 +22,7 @@ class MaterialController extends \BaseController {
 		$material = new MaterialModel;
 		$materials = $material->all();
 		return View::make('materials.index')->with('materials', $materials);
+		
 		//
 	}
 
