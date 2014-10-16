@@ -2,7 +2,7 @@
 @section("content")
 		
 
-  			{{ Form::open(array('url' => '/profileSaveChanges/' . $user->id,
+  			{{ Form::open(array('url' => '/editinfoadminhelper/' . $user->id,
 			'autocomplete' => 'off',
 			'class' => 'form-horizontal'
 			)) }}
