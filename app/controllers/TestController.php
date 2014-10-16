@@ -26,14 +26,6 @@ class TestController extends Controller
 		//return View::make('tests.index')->with('tests', $tests);
 		$user = Auth::user();
 		if(Auth::check()){
-
-			//if($user->role == 'student'){
-			//	$tests = Test::all();
-			//	$sections = $user->sections()->paginate(4);
-			//	return View::make('tests.index')->with('sections',$sections);
-			//}
-
-
 			if($user->role == 'teacher' ) {
 				
 				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->paginate(4);
@@ -92,29 +84,36 @@ class TestController extends Controller
 	 */
 	public function store()
 	{
-		$rules = array(
-			'test_name' 			=>	'required',
-			'test_instructions'		=> '',
-			'section_id'			=> 'required',
-			'time_start'			=> 'required',
-			'time_end'				=> 'required'
-			
-		);
+        $testData = [
+			'test_name' => Input::get('test_name'),
+            'test_instructions' => Input::get('test_instructions'),
+			'time_start' => Input::get('time_start'),
+			'time_end' => Input::get('time_end'),
+            'section_id' => Input::get('section_id')
+        ];
+        $rules = array(
+            'test_name' => 'required',
+			'test_instructions' => '',
+			'time_start' => 'required',
+            'time_end' => 'required',
+			'section_id' => ''
+        );
+        $validator = Validator::make($testData, $rules);
+		try{
+			if ($validator->passes()) {
+				$this->tests->add($testData);
+				Session::flash('message', 'Test Successfully added!');
+				return Redirect::route('tests.index');
+			}
+		}
+		catch(\Exception $e){
+			return Redirect::to('tests.index' );
+			//echo 'Error!! Invalid input!';
+			//Session::flash('message', 'Error!!');
+			return Redirect::to('tests/'. 'add');
 
-		$test = new Test;
-		$test->test_name			= Input::get('test_name');
-		$test->test_instructions	= Input::get('test_instructions');
-		$test->section_id 			= Input::get('section_id');
-		$test->time_start			= Input::get('time_start');
-		$test->time_end 			= Input::get('time_end');			
 
-		$test->teacher_id		= Auth::id();
-		$test->save();
-
-		
-		
-		Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('tests');
+		}
 	}
 
 
@@ -248,7 +247,7 @@ class TestController extends Controller
 		$date_taken = TakeTest::find($id);
 			if($date_taken != null){	// Test id exist in take_test table
 				if ($date_taken->student_id != Auth::id()) {	// User wala pa katake
-					if (($date_taken->date_taken < $time->time_end) and ($date_taken->date_taken > $time->time_start) ){
+					if (($date_taken->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ){
 						$taketest = new TakeTest;
 						$taketest->test_id = $id;
 						$taketest->student_id = Auth::id();
@@ -256,14 +255,14 @@ class TestController extends Controller
 						$taketest->save();
 						return View::make('tests.taketest')-> with('questions', $questions);
 					} else{
-						Session::flash('message', 'Youre late! Time for taking this exam is over.');
+						Session::flash('message', '1Youre late! Time for taking this exam is over.');
 						return Redirect::to('tests');
 					}
 				} else{	// User nitake na sa test
-					if (($date_taken->date_taken < $time->time_end) and ($date_taken->date_taken > $time->time_start) ){
+					if (($date_taken->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ){
 						return View::make('tests.taketest')-> with('questions', $questions);
 					} else{
-						Session::flash('message', 'Youre late! Time for taking this exam is over.');
+						Session::flash('message', '2Youre late! Time for taking this exam is over.');
 						return Redirect::to('tests');
 					}
 				}
@@ -277,7 +276,7 @@ class TestController extends Controller
 
 				$date = TakeTest::find($t_id);
 				$time = Test::find($id);
-				if (($date->date_taken < $time->time_end) and ($date->date_taken > $time->time_start) ) {
+				if (($date->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ) {
 					return View::make('tests.taketest')-> with('questions', $questions);
 				} else{
 					Session::flash('message', 'Access denied! Time has already passed! Bleeeh. :P');
@@ -292,15 +291,19 @@ class TestController extends Controller
         ]);
 	}
 
-	 public function testanswer_store(){
+	 public function testanswer_store($id){
+	 	$question = TestAnswer::where('question_id', '=', $id);
+	 	if($question != null){
     	$rules = array(
 			'student_id' 			=>	'',
+			'test_id' 				=> '',
 			'question_id'			=> '',
 			'user_answer'			=> 'required'			
 		);
 
 		$testanswer = new TestAnswer;
 		
+		$testanswer->test_id			= Input::get('test_id');
 		$testanswer->question_id		= Input::get('question_id');
 		$testanswer->user_answer		= Input::get('user_answer');	
 		$testanswer->student_id			= Auth::id();		
@@ -309,26 +312,12 @@ class TestController extends Controller
 		$testanswer->save();
 
 		//Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('tests.testfrontview');//dili pa ni sure
-    }
-    /*
-    function check_in_range($id)
-	{
-		$test = Test::find($id);
-		if($test != null){
-		  // Convert to timestamp
-			$date_taken = TakeTest::where('')
-		  $test->time_start = strtotime($testtime_start);
-		  $time_end = strtotime($time_end);
-		  $date_taken = strtotime($date_taken);
-		  // Check that user date is between start & end
-		  if (($date_taken >= $time_start) && ($date_taken <= $time_end)){
-		  	return true;
-		  }
-		  return false;
+		return Redirect::to('/taketest/{{ $test->id}}');//dili pa ni sure
 		}
-	}
-	*/
+		else{
+			return Redirect::to('tests');
+		}
+    }
 
 
 }
