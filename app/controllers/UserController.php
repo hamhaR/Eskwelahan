@@ -260,4 +260,45 @@ class UserController extends Controller {
 			return Redirect::to('profile')->with('message', 'Access is restricted.');
 		}
 	}
+	
+	/**
+	 * Helper for the above function.
+	 */
+	public function editAcctHelper($id)
+	{
+		// validate
+		$rules = array(
+						'role'			=>	'required',
+						'fname'			=>	'required',
+						'mname'			=>	'required',
+						'lname'			=>	'required',
+						'gender'		=> 	'required',
+						'address'		=> 	'required',
+						'email'			=> 	'required|email'
+				);
+		
+
+		
+		$validator = Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return Redirect::to('editinfoadminhelper/' . $id)
+			->withErrors($validator);
+		}
+		else
+		{
+			$user = User::find($id);
+			$user->fname = Input::get('fname');
+			$user->mname = Input::get('mname');
+			$user->lname = Input::get('lname');
+			$user->role = Input::get('role');
+			$user->gender = Input::get('gender');
+			$user->address = Input::get('address');
+			$user->email = Input::get('email');
+			$user->save();
+			Session::flash('message', 'User info successfully updated.');
+			return Redirect::to('manageaccounts');
+		}
+	}
 }

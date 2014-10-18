@@ -240,6 +240,7 @@ class TestController extends Controller
     }
 
    	public function taketest($id){
+
 		$questions = Question::where('test_id', '=', $id)->get();
 		$test = Test::find($id);
 		$temp_test = TakeTest::where('test_id','=', $test->id)->get();
@@ -270,6 +271,7 @@ class TestController extends Controller
 				}
 			}
 	}
+
 
 	public function testfrontview($id){
 		return View::make('tests.testfrontview', [
