@@ -241,49 +241,63 @@ class TestController extends Controller
 
    	public function taketest($id){
 
-		$questions = Question::where('test_id', '=', $id)->get();
+    	$questions = Question::where('test_id', '=', $id)->get();
 
-		$time = Test::find($id);
-		$date_taken = TakeTest::find($id);
-			if($date_taken != null){	// Test id exist in take_test table
-				if ($date_taken->student_id != Auth::id()) {	// User wala pa katake
-					if (($date_taken->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ){
-						$taketest = new TakeTest;
-						$taketest->test_id = $id;
-						$taketest->student_id = Auth::id();
-						$taketest->date_taken = new DateTime;
-						$taketest->save();
-						return View::make('tests.taketest')-> with('questions', $questions);
-					} else{
-						Session::flash('message', '1Youre late! Time for taking this exam is over.');
-						return Redirect::to('tests');
-					}
-				} else{	// User nitake na sa test
-					if (($date_taken->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ){
-						return View::make('tests.taketest')-> with('questions', $questions);
-					} else{
-						Session::flash('message', '2Youre late! Time for taking this exam is over.');
-						return Redirect::to('tests');
-					}
-				}
-			} else{	// Test id doesn't exist in the db.
-				$taketest = new TakeTest;
-				$taketest->test_id = $id;
-				$taketest->student_id = Auth::id();
-				$taketest->date_taken = new DateTime;
-				$taketest->save();
-				$t_id = $taketest->id;
+    	$time = Test::find($id);
+    	$date_taken = DB::table('take_tests')->where('test_id', '=', $id)->get();
 
-				$date = TakeTest::find($t_id);
-				$time = Test::find($id);
-				if (($date->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ) {
-					return View::make('tests.taketest')-> with('questions', $questions);
-				} else{
-					Session::flash('message', 'Access denied! Time has already passed! Bleeeh. :P');
-					return Redirect::to('tests');
-				}
-			}
-	}
+    	if(empty($date_taken)){
+    		$taketest = new TakeTest;
+    		$taketest->test_id = $id;
+    		$taketest->student_id = Auth::id();
+    		$taketest->date_taken = new DateTime;
+    		$taketest->save();
+    		$t_id = $taketest->id;
+
+    		$date = TakeTest::find($t_id);
+    		$time = Test::find($id);
+    		if (($date->date_taken < $time->time_end) and (($date->date_taken >= $time->time_start) or ($date->date_taken <= $time->time_start)) ) {
+    			return View::make('tests.taketest')-> with('questions', $questions);
+    		} else{
+    			Session::flash('message', 'Access denied! Time has already passed! Bleeeh. :P');
+    			return Redirect::to('tests');
+    		}
+    		return 'Didnt satisfy condition';
+    	}else{ 
+			// $date is not null
+
+    		$store = [];
+    		foreach ($date_taken as $key2 => $value2) {
+    			array_push($store, $value2->student_id);
+    		}
+
+    		foreach ($date_taken as $key => $value) {
+    			if (in_array(Auth::id(), $store)) {
+    				if (($value->date_taken < $time->time_end) and (($value->date_taken >= $time->time_start) or ($value->date_taken <= $time->time_start))) {
+    					return View::make('tests.taketest')-> with('questions', $questions);
+    				} else{
+    					Session::flash('message', 'Youre late! Time for taking this exam is over.');
+    					return Redirect::to('tests');
+    				}
+    			} else{
+    				if (($value->date_taken < $time->time_end) and (($value->date_taken >= $time->time_start) or ($value->date_taken <= $time->time_start))) {
+    					$taketest = new TakeTest;
+    					$taketest->test_id = $id;
+    					$taketest->student_id = Auth::id();
+    					$taketest->date_taken = new DateTime;
+    					$taketest->save();
+    					return View::make('tests.taketest')-> with('questions', $questions);
+    				} else{
+    					Session::flash('message', 'Youre late! Time for taking this exam is over.');
+    					return Redirect::to('tests');
+    				}
+    			}
+    		}
+
+    	}
+    	
+
+    }
 
 	public function testfrontview($id){
 		return View::make('tests.testfrontview', [
