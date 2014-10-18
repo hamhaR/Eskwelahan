@@ -62,7 +62,7 @@ class TestController extends Controller
 		else{
 			echo "not logged in";
 		}
-}
+	}
 
 
 
@@ -283,11 +283,13 @@ class TestController extends Controller
         ]);
 	}
 
-	 public function testanswer_store(){
+	public function testanswer_store(){
 
 	 	$answers = Input::get('answers');
 	 	$test = Test::where('id','=',Input::get('test_id'))->get();
 	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
+	 	$score = 0;
+	 	$take_test = TakeTest::where('test_id','=',Input::get('test_id'))->get();
 
 	 		foreach($questions as $key => $question){
 	 			$answer = Input::get('answers'.$key);
@@ -301,21 +303,25 @@ class TestController extends Controller
 
 				//$test->teacher_id		= Auth::id();
 				$testanswer->save();
-	 		}
 
-	 	Session::flash('message', 'Congartulations! You have successfully taken up the test.! ');
-	 	return Redirect::to('tests');
-    }
+				if($question->correct_answer == $answer){
+					++$score; //mo increment everytime correct ang answer sa student.
+					
+				}
+	 	}
+	 	//echo $score;
+	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions) . ' .';
+	 	//return Redirect::to('tests.taket');
+	 }
 
 
-   /* public function checkTest($id){
-    	$test_taken = TestAnswer::find($id);
-    	$test  = Test::where('test_id', '=', $test_taken->test_id);
-    	$question = Question::where('question_id', '=', $test_taken->test_id);
-    	$total_no_of_questions = 
-    	
-    	if($question->answer == $test_taken->user_answer){
-    		for(int $score = 0; $score <= $)
-    	}
-    }*/
+	 		//$take_test->score = $score;
+
+
+
+
+	 	//Session::flash('message', 'Congratulations! You have successfully taken up the test.! Your score is ' . $score);
+	 	//return Redirect::to('tests');
+    
+
 }

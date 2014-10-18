@@ -42,7 +42,7 @@
 
 
 	</div>
-{{Form::hidden('test_id',$test_id)}}	
+{{Form::hidden('test_id',$test_id)}}
 {{Form::submit('Submit')}}
                   
 

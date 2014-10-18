@@ -97,20 +97,11 @@ Route::group(["before" => "auth"], function() {
     "as" => "editinfoadmin",
     "uses" => "UserController@editAccountAdminPanel"
             ]);
-    Route::any("/editinfoadminhelper/{id}", [
+/*    Route::any("/editinfoadminhelper/{id}", [
             "as" => "editinfoadminhelper",
-            "uses" => "UserController@profilechangepass"
-            ]); 
+            "uses" => "AuthenticationController@profilechangepass"
+            ]); */
 
-/************************************************************/
-	/*
-	* Route to view materials
-	*/
-	Route::any("/viewmaterial/{id}", [
-	"as" => "viewmaterial",
-	"uses" => "MaterialController@show"
-	]);
-/***********************************************************/
 
    /*
     * HomeworkController

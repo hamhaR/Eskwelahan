@@ -28,15 +28,15 @@
                 <br>
                 Choices:
                 <br>
-                a.) {{ $question->choice1 }}
+                a.) {{ $question->a }}
                 <br>
-                b.) {{ $question->choice2 }}
+                b.) {{ $question->b }}
                 <br>
-                c.) {{ $question->choice3 }}
+                c.) {{ $question->c }}
                 <br>
-                d.) {{ $question->choice4 }}
+                d.) {{ $question->d }}
                 <br>
-                Answer: {{ $question->answer }}
+                Answer: {{ $question->correct_answer }}
                 <br>
                 
                 <br><br>
@@ -129,28 +129,27 @@
           </br>
 
           <div class="form-group">
-            {{ Form::label('choice1', 'A: ') }}
-            {{ Form::text('choice1', Input::old('choice1'), array('class' => 'form-control')) }}
+            {{ Form::label('a', 'A: ') }}
+            {{ Form::text('a', Input::old('a'), array('class' => 'form-control')) }}
+          </diva
+          <div class="form-group">
+            {{ Form::label('b', 'B: ') }}
+            {{ Form::text('b', Input::old('b'), array('class' => 'form-control')) }}
           </div>
 
           <div class="form-group">
-            {{ Form::label('choice2', 'B: ') }}
-            {{ Form::text('choice2', Input::old('choice2'), array('class' => 'form-control')) }}
+            {{ Form::label('c', 'C: ') }}
+            {{ Form::text('c', Input::old('c'), array('class' => 'form-control')) }}
           </div>
 
           <div class="form-group">
-            {{ Form::label('choice3', 'C: ') }}
-            {{ Form::text('choice3', Input::old('choice3'), array('class' => 'form-control')) }}
+            {{ Form::label('d', 'D: ') }}
+            {{ Form::text('d', Input::old('d'), array('class' => 'form-control')) }}
           </div>
 
           <div class="form-group">
-            {{ Form::label('choice4', 'D: ') }}
-            {{ Form::text('choice4', Input::old('choice4'), array('class' => 'form-control')) }}
-          </div>
-
-          <div class="form-group">
-            {{ Form::label('answer', 'Answer') }}
-            {{ Form::text('answer', Input::old('answer'), array('class' => 'form-control')) }}
+            {{ Form::label('corect_answer', 'Answer') }}
+            {{ Form::text('correct_answer', Input::old('correct_answer'), array('class' => 'form-control')) }}
           </div>
 
       </div>
