@@ -26,9 +26,17 @@ class TestController extends Controller
 		//return View::make('tests.index')->with('tests', $tests);
 		$user = Auth::user();
 		if(Auth::check()){
+
+			//if($user->role == 'student'){
+			//	$tests = Test::all();
+			//	$sections = $user->sections()->paginate(4);
+			//	return View::make('tests.index')->with('sections',$sections);
+			//}
+
+
 			if($user->role == 'teacher' ) {
 				
-				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->paginate(4);
+				$sections = Section::where('teacher_id','=',$user->id)->get();
 				//$tests 	= Test::where('teacher_id', '=', $user->id)->orderBy('id', 'desc');
 				$tests = Test::all();
 				$courses = Course::all();
@@ -84,36 +92,29 @@ class TestController extends Controller
 	 */
 	public function store()
 	{
-        $testData = [
-			'test_name' => Input::get('test_name'),
-            'test_instructions' => Input::get('test_instructions'),
-			'time_start' => Input::get('time_start'),
-			'time_end' => Input::get('time_end'),
-            'section_id' => Input::get('section_id')
-        ];
-        $rules = array(
-            'test_name' => 'required',
-			'test_instructions' => '',
-			'time_start' => 'required',
-            'time_end' => 'required',
-			'section_id' => ''
-        );
-        $validator = Validator::make($testData, $rules);
-		try{
-			if ($validator->passes()) {
-				$this->tests->add($testData);
-				Session::flash('message', 'Test Successfully added!');
-				return Redirect::route('tests.index');
-			}
-		}
-		catch(\Exception $e){
-			return Redirect::to('tests.index' );
-			//echo 'Error!! Invalid input!';
-			//Session::flash('message', 'Error!!');
-			return Redirect::to('tests/'. 'add');
+		$rules = array(
+			'test_name' 			=>	'required',
+			'test_instructions'		=> '',
+			'section_id'			=> 'required',
+			'time_start'			=> 'required',
+			'time_end'				=> 'required'
+			
+		);
 
+		$test = new Test;
+		$test->test_name			= Input::get('test_name');
+		$test->test_instructions	= Input::get('test_instructions');
+		$test->section_id 			= Input::get('section_id');
+		$test->time_start			= Input::get('time_start');
+		$test->time_end 			= Input::get('time_end');			
 
-		}
+		$test->teacher_id		= Auth::id();
+		$test->save();
+
+		
+		
+		Session::flash('message', 'Test/quiz successfully added.');
+		return Redirect::to('tests');
 	}
 
 
@@ -239,7 +240,9 @@ class TestController extends Controller
 		return Redirect::to('tests');
     }
 
-   	public function taketest($id){
+  
+
+	public function taketest($id){
 
 		$questions = Question::where('test_id', '=', $id)->get();
 		$test = Test::find($id);
@@ -270,6 +273,7 @@ class TestController extends Controller
 					return Redirect::to('tests');
 				}
 			}
+
 	}
 
 
@@ -279,7 +283,9 @@ class TestController extends Controller
         ]);
 	}
 
-	public function testanswer_store(){
+	 public function testanswer_store(){
+
+	 	$answers = Input::get('answers');
 	 	$test = Test::where('id','=',Input::get('test_id'))->get();
 	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
 
@@ -301,6 +307,7 @@ class TestController extends Controller
 	 	return Redirect::to('tests');
     }
 
+
    /* public function checkTest($id){
     	$test_taken = TestAnswer::find($id);
     	$test  = Test::where('test_id', '=', $test_taken->test_id);
@@ -311,6 +318,4 @@ class TestController extends Controller
     		for(int $score = 0; $score <= $)
     	}
     }*/
-
-
 }
