@@ -278,42 +278,39 @@ class TestController extends Controller
                     'test' => $this->tests->find($id)
         ]);
 	}
-/*
-	public function testanswer_create($id){
-		$taketests = TakeTest::where('test_id', '=', $id);
-		$questions = Question::where('test_id', '=', $id);
-		return View::make('tests.taketest', [
-					'test' => $this->test->find($id),
-					'taketests'	=> $taketests,
-					'question' => $questions
 
-					]);	
-	}
-	*/
-
-	 public function testanswer_store(){
-	 	$answers = Input::get('answers');
+	public function testanswer_store(){
 	 	$test = Test::where('id','=',Input::get('test_id'))->get();
 	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
 
 	 		foreach($questions as $key => $question){
+	 			$answer = Input::get('answers'.$key);
+
 		 		$testanswer = new TestAnswer;
 				
 				$testanswer->test_id			= Input::get('test_id');
 				$testanswer->question_id		= $question->id;
-				$testanswer->user_answer		= $answers[$key];	
+				$testanswer->user_answer		= $answer;	
 				$testanswer->student_id			= Auth::id();		
 
 				//$test->teacher_id		= Auth::id();
 				$testanswer->save();
 	 		}
 
-			
-
-			//Session::flash('message', 'Test/quiz successfully added.');
-
-
+	 	Session::flash('message', 'Congartulations! You have successfully taken up the test.! ');
+	 	return Redirect::to('tests');
     }
+
+   /* public function checkTest($id){
+    	$test_taken = TestAnswer::find($id);
+    	$test  = Test::where('test_id', '=', $test_taken->test_id);
+    	$question = Question::where('question_id', '=', $test_taken->test_id);
+    	$total_no_of_questions = 
+    	
+    	if($question->answer == $test_taken->user_answer){
+    		for(int $score = 0; $score <= $)
+    	}
+    }*/
 
 
 }

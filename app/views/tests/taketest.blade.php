@@ -12,28 +12,28 @@
 			{{ $question->id }} .) {{ $question->content }}<br>
 	 		<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="a" name='answers[]'>
+				    <input type="radio" value="a" name='answers{{ $key }}'>
 				    {{ $question->a}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="b" name='answers[]'>
+				    <input type="radio" value="b" name='answers{{ $key }}'>
 				    {{ $question->b}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="c" name='answers[]'>
+				    <input type="radio" value="c" name='answers{{ $key }}'>
 				    {{ $question->c}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="d" name='answers[]'>
+				    <input type="radio" value="d" name='answers{{ $key }}'>
 				    {{ $question->d}}
 				  </label>
 			</div>
