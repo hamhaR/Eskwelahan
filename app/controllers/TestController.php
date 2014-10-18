@@ -296,7 +296,7 @@ class TestController extends Controller
 
 		 		$testanswer = new TestAnswer;
 				
-				$testanswer->test_id			= Input::get('test_id'))->get();
+				$testanswer->test_id			= Input::get('test_id');
 				$testanswer->question_id		= $question->id;
 				$testanswer->user_answer		= $answer;	
 				$testanswer->student_id			= Auth::id();		
@@ -305,10 +305,13 @@ class TestController extends Controller
 				$testanswer->save();
 
 				if($question->correct_answer == $answer){
-					++$score;
+					++$score; //mo increment everytime correct ang answer sa student.
 					
 				}
 	 	}
+	 	//echo $score;
+	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions) . ' .';
+	 	//return Redirect::to('tests.taket');
 	 }
 
 
