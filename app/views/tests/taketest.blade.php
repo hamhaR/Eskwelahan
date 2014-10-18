@@ -4,47 +4,51 @@
  <div class="form-group">
 	@foreach($questions as $key => $question)
 
+	{{Form::open(['url' => 'taketests'])}}
+
 	
 
 		<div class="form-group">
 			{{ $question->id }} .) {{ $question->content }}<br>
 	 		<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="a">
+				    <input type="checkbox" value="a" name='answers[]'>
 				    {{ $question->a}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="b">
+				    <input type="checkbox" value="b" name='answers[]'>
 				    {{ $question->b}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="c">
+				    <input type="checkbox" value="c" name='answers[]'>
 				    {{ $question->c}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="d">
+				    <input type="checkbox" value="d" name='answers[]'>
 				    {{ $question->d}}
 				  </label>
 			</div>
 		</div>
-    
+    @endforeach
 	</div>
-
-	
+{{Form::hidden('test_id',$test_id)}}	
+{{Form::submit('Submit')}}
+<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+	<!--
 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#submitTestConfirm">
      			 <span class="glyphicon glyphicon-pencil"> Start Test</span>
    		 </button>
                 
-                      <!--start test confirmation-->
+                      <start test confirmation--
                       <div class="modal fade" id="submitTestConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -53,23 +57,22 @@
                               <h4 class="modal-title" id="myModalLabel">Submit Test Confirmation</h4>
                             </div>
                             <div class="modal-body">
-                            	
-                            	<!--{{Form::open(['route' => 'tests.testanswer_store'])}}-->
+                           
                               <p>Are you sure you want to submit? You can no longer make any changes after submitting.</p>
-                                   
+
 
                             </div>
                             <div class="modal-footer">
                             
-                              <a class="btn btn-small btn-primary" href="/taketest/{{ $test['id']}}">Ok</a>
+                              <a class="btn btn-small btn-primary" href="#">Ok</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                               
                               {{ Form::close() }}
                             </div>
-                          </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                      </div><!-- /.modal -->
-                      @endforeach
+                          </div> /.modal-content --
+                        </div><!modal-dialog --
+                      </div>-- /.modal -->
+                      
 
 {{Form::close()}}
 
