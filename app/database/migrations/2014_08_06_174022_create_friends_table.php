@@ -19,6 +19,8 @@ class CreateFriendsTable extends Migration {
             $table->integer('f_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('f_id')->references('id')->on('users');
+            $table->boolean('confirmed');
+            $table->boolean('requested');
 
            $table->timestamps();
             $table->softDeletes();

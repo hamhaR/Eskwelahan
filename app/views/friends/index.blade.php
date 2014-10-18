@@ -10,10 +10,17 @@
 @stop
 
 @section("rightsidebar")
-<form class="navbar-form" role="search">
-                        <div class="form-search search-only">
-                          <i class="search-icon glyphicon glyphicon-search"></i>
-                          <input type="text" class="form-control search-query">
-                        </div>
-                      </form>
+<h5>Pending</h5>
+<div class="list">
+  @foreach($pending as $p)
+  <div class="list-group-item">
+    {{$p->fname}} {{$p->lname}}
+    {{Form::open(['url' => 'confirmfriend'])}}
+    <button class="btn btn-primary" >Confirm</button>
+    {{Form::hidden('u_id',Auth::id())}}
+    {{Form::hidden('f_id', $p->id)}}
+    {{Form::close()}}
+  </div>
+  @endforeach
+</div>
 @stop

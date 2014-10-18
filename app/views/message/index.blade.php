@@ -3,11 +3,11 @@
 <h5>Incoming Messages</h5>
 	<div class="row">
     <div class="list">
-		@foreach($messages as $msg)
+		@foreach($convos as $convo)
 			
 				<div class="list-group-item">
-					<a href="/messages/{{$msg->msg_id}}">{{User::find($msg->sender_id)->fname. " " .User::find($msg->sender_id)->lname}} </a>
-          <div class='pull-right'><p>{{$msg->created_at}}</p></div>
+					<a href="conversations/{{$convo->convo_id}}">{{$convo->convo_name}} </a>
+          <div class='pull-right'><p>{{$convo->created_at}}</p></div>
 				</div>
 			
 		@endforeach
@@ -27,20 +27,24 @@
         <h4 class="modal-title" id="myModalLabel">New Conversation</h4>
       </div>
       <div class="modal-body">
-        {{Form::open(array('url' => 'messages'))}}
+        {{Form::open(array('url' => 'conversations'))}}
           <div class="form-group">
-            <select class="form-control" id="receiver_id" name="receiver_id">
-              @foreach(User::where('role','=','student')->get() as $stud)
-                
-                <option value="{{$stud->id}}">
+            <div class="list">
+            <div class="checkbox">
+              @foreach(User::all() as $stud)
+                <div class="list-group-item">
+                <input type="checkbox" value="{{$stud->id}}" name="receiver_ids[]">
                   {{$stud->fname}} {{$stud->lname}} 
-                </option>
-
+                </input>
+                </div>
               @endforeach
-            </select>
+            </div>
+          </div>
 
-          </div>   
-          <textarea class="form-control" rows="3" name="msg_content" id="msg_content"></textarea>        
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" name="convo_name" placeholder="Conversation Name"></input>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

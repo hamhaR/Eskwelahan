@@ -230,4 +230,5 @@ Route::get('testfrontview/{id}', 'TestController@testfrontview');
 
 Route::resource('messages','MessageController');
 Route::resource('conversations','ConversationController');
+Route::post('confirmfriend', 'FriendController@confirm');
 
