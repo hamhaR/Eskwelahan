@@ -33,4 +33,8 @@ class TestAnswer extends Eloquent{
   		return $this->belongsTo('Section', 'section_id');
   	}
 
+    public function questionCountRelation(){
+      return $this->hasOne('Test')->selectRaw('test_id, count(*) as count')->groupBy('test_id');
+    }
+
 }

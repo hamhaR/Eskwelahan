@@ -61,7 +61,7 @@ class QuestionController extends \BaseController {
 		$question->a		= Input::get('a');
 		$question->b		= Input::get('b');
 		$question->c 		= Input::get('c');
-		$question->d		= Input::get('a');
+		$question->d		= Input::get('d');
 		$question->correct_answer		= Input::get('correct_answer');
 		$question->test_id 		= Input::get('test_id');
 		//$question->teacher_id		= Auth::id();
