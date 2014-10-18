@@ -1,6 +1,8 @@
 @extends("layout")
 @section("content")
 
+
+
 <p>If you want to take this test, click on start test button on the rightside.</p>
 <p>Test is available from {{date("d F Y, g:h a", strtotime($test->time_start))}} to {{date("d F Y, g:h a", strtotime($test->time_end))}}</p>
 <p>Instructions: {{$test->test_instructions}}</p>
@@ -9,7 +11,7 @@
 
 @stop
 @section("rightsidebar")
-	@if(Auth::check() && Auth::user()->role == 'student')
+
 		 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#startTestConfirm">
      			 <span class="glyphicon glyphicon-pencil"> Start Test</span>
    		 </button>
@@ -31,10 +33,10 @@
                             
                               <a class="btn btn-small btn-primary" href="/taketest/{{ $test['id']	 }}">Ok</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                              {{ Form::close() }}
+                              
                             </div>
                           </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                       </div><!-- /.modal -->
-	@endif
+	
 @stop

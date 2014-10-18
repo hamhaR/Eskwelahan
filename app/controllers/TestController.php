@@ -36,7 +36,7 @@ class TestController extends Controller
 
 			if($user->role == 'teacher' ) {
 				
-				$sections = Section::where('teacher_id','=',$user->id)->orderBy('section_id','desc')->paginate(4);
+				$sections = Section::where('teacher_id','=',$user->id)->get();
 				//$tests 	= Test::where('teacher_id', '=', $user->id)->orderBy('id', 'desc');
 				$tests = Test::all();
 				$courses = Course::all();
@@ -240,62 +240,42 @@ class TestController extends Controller
 		return Redirect::to('tests');
     }
 
-   
-/*
-    public function taketest($id){
-    	$data = [
-    		'test_id' => $id,
-    		'student_id' => Auth::id(),
-    		'date_taken' => new DateTime
-    	];
-
-    	$rules = array(
-			'test_id' 			=>	'required',
-			'student_id'		=> 'required',
-			'date_taken'			=> 'required'			
-		);
-
-		$validator = Validator::make($data, $rules);
-
-		if($validator->fails()){
-			return 'Error';
-		} else{
-	    	$taketest = new TakeTest;
-	    	$taketest->test_id = $id;
-	    	$taketest->student_id = Auth::id();
-	    	$taketest->date_taken = new DateTime;
-	    	$taketest->save();
-	    	$t_id = $taketest->id;
-
-	    	$date_taken = $taketest->date_taken;
-	    	$time_start = TakeTest::where('test_id', '=', $id)->get();
-	    	return $time_start;
-    	}
-
-/*
-    	$questions = Question::where('test_id', '=', $id)->get();
-    	$date_taken = TakeTest::find($id);
-    	$time_start = Test::find($id);
-    	$time_end = Test::find($id);
-
-    	if($date_taken != null){
-    		if (($date_taken >= $time_start) && ($date_taken <= $time_end)){
-    			return View::make('tests.taketest')-> with('questions', $questions);
-    		}
-    		else{
-    			return Redirect::to('tests.index');
-    			echo 'Access denied! Time has already passed! Bleeeh. :P ';
-    		}
-    	}
-
-	}
-	*/
-
+  
 
 	public function taketest($id){
+
 		$questions = Question::where('test_id', '=', $id)->get();
-		return View::make('tests.taketest')->with('questions', $questions);
+		$test = Test::find($id);
+		$temp_test = TakeTest::where('test_id','=', $test->id)->get();
+
+			if(count($temp_test) > 0){	// Test id exist in take_test table
+				Session::flash('message', 'Access denied! You have already taken up this test.');
+				return Redirect::to('tests');
+			} 
+			else{	// Test id doesn't exist in the db.
+				$taketest = new TakeTest;
+				$taketest->test_id = $id;
+				$taketest->student_id = Auth::id();
+				$taketest->date_taken = new DateTime;
+				$taketest->save();
+				$t_id = $taketest->id;
+
+				$new_test_taken = TakeTest::find($t_id);
+				
+				if (($new_test_taken->date_taken < $test->time_end) and (($new_test_taken->date_taken >= $test->time_start) or ($new_test_taken->date_taken <= $test->time_start)) ) {
+					return View::make('tests.taketest')-> with(array(
+							'questions'=> $questions,
+							'test_id' => $id
+							));
+				} 
+				else{ //wala pa ka take sa test pero time is over na.
+					Session::flash('message', 'Access denied! Time has already passed! ');
+					return Redirect::to('tests');
+				}
+			}
+
 	}
+
 
 	public function testfrontview($id){
 		return View::make('tests.testfrontview', [
@@ -303,43 +283,31 @@ class TestController extends Controller
         ]);
 	}
 
+
 	 public function testanswer_store(){
-    	$rules = array(
-			'student_id' 			=>	'',
-			'question_id'			=> '',
-			'user_answer'			=> 'required'			
-		);
 
-		$testanswer = new TestAnswer;
-		
-		$testanswer->question_id		= Input::get('question_id');
-		$testanswer->user_answer		= Input::get('user_answer');	
-		$testanswer->student_id			= Auth::id();		
+	 	$answers = Input::get('answers');
+	 	$test = Test::where('id','=',Input::get('test_id'))->get();
+	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
 
-		//$test->teacher_id		= Auth::id();
-		$testanswer->save();
+	 		foreach($questions as $key => $question){
+		 		$testanswer = new TestAnswer;
+				
+				$testanswer->test_id			= Input::get('test_id');
+				$testanswer->question_id		= $question->id;
+				$testanswer->user_answer		= $answers[$key];	
+				$testanswer->student_id			= Auth::id();		
 
-		//Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('tests.testfrontview');//dili pa ni sure
-    }
-    /*
-    function check_in_range($id)
-	{
-		$test = Test::find($id);
-		if($test != null){
-		  // Convert to timestamp
-			$date_taken = TakeTest::where('')
-		  $test->time_start = strtotime($testtime_start);
-		  $time_end = strtotime($time_end);
-		  $date_taken = strtotime($date_taken);
-		  // Check that user date is between start & end
-		  if (($date_taken >= $time_start) && ($date_taken <= $time_end)){
-		  	return true;
-		  }
-		  return false;
-		}
-	}
-	*/
+				//$test->teacher_id		= Auth::id();
+				$testanswer->save();
+	 		}
+
+			
+
+			//Session::flash('message', 'Test/quiz successfully added.');
 
 
+
+
+}
 }

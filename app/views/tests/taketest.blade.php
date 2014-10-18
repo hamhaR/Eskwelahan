@@ -4,44 +4,48 @@
  <div class="form-group">
 	@foreach($questions as $key => $question)
 
+	{{Form::open(['url' => 'taketests'])}}
+
 	
 
 		<div class="form-group">
 			{{ $question->id }} .) {{ $question->content }}<br>
 	 		<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="a">
+				    <input type="checkbox" value="a" name='answers[]'>
 				    {{ $question->a}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="b">
+				    <input type="checkbox" value="b" name='answers[]'>
 				    {{ $question->b}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="c">
+				    <input type="checkbox" value="c" name='answers[]'>
 				    {{ $question->c}}
 				  </label>
 			</div>
 
 			<div class="checkbox">
 				  <label>
-				    <input type="checkbox" value="d">
+				    <input type="checkbox" value="d" name='answers[]'>
 				    {{ $question->d}}
 				  </label>
 			</div>
 		</div>
     @endforeach
+
+
 	</div>
-<br>
-<br>
-                      
-                       <a class="btn btn-small btn-primary" href="#">Submit</a>
+{{Form::hidden('test_id',$test_id)}}	
+{{Form::submit('Submit')}}
+                  
+
 
 {{Form::close()}}
 
