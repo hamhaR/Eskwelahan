@@ -119,7 +119,7 @@ class HomeworkController extends \BaseController
 	 */
 	public function edit($id)
 	{
-		$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+		$results = DB::select('SELECT courses.course_code, courses.course_title, section_course.section_course_id, sections.section_name FROM section_course INNER JOIN courses ON (section_course.course_id = courses.id) INNER JOIN sections USING (section_id) WHERE sections.teacher_id = ?', array(Auth::user()->id));
 
 		$homeworkData = Homework::find($id);
 		//return View::make('homeworks.edit')->with('homework', $homeworkData);
@@ -139,13 +139,15 @@ class HomeworkController extends \BaseController
 		$rules = [
 				'homework_instruction' => 'required',
 				'homework_title' => 'required',
-				'course_id' => 'required'
+				'section_course_id' => 'required',
+				'deadline' => 'required'
 		];
 
 		$attributes = [
 				'homework_title' => Input::get('homework_title'),
 				'homework_instruction' => Input::get('homework_instruction'),
-				'course_id' => Input::get('course_id')
+				'section_course_id' => Input::get('section_course_id'),
+				'deadline' => Input::get('deadline')
 		];
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -157,12 +159,10 @@ class HomeworkController extends \BaseController
 		} 
 		else 
 		{
-			$homework = Homework::find($id);
-			$homework->course_id = Input::get('course_id');
-			$homework->homework_title = Input::get('homework_title');
-			$homework->homework_instruction	= Input::get('homework_instruction');
-			$homework->save();
+			
 		//	return $this->show($id);
+			$homework = new HomeworkModel;
+			$homework->edit($id,$attributes);
 			Session::flash('message', 'Homework successfully updated.');
 			return Redirect::to('homeworks/'. $id);
 		}

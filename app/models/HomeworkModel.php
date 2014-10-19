@@ -128,29 +128,34 @@ public function edit($id, $attributes)
 	$this->checkWritePermissions();
     $homework = Homework::find($id);
 
+    $rules = [
+                'homework_instruction' => 'required',
+                'homework_title' => 'required',
+                'section_course_id' => 'required',
+                'deadline' => 'required'
+        ];
+
     if($id == null) 
     {
         throw new Exception("Invalid homework.");
     } 
     else 
     {
-        if(array_key_exists('homework_instruction', $attributes) && array_key_exists('homework_title', $attributes)) 
+        $validator = Validator::make($attributes, $rules);
+        if ($validator->passes()) 
         {
-            $h_instruction = $attributes['homework_instruction'];
-            $h_title = $attributes['homework_title'];
-            $c_id = $attributes['section_course_id'];
-            if ((gettype($h_instruction) == 'string') && (gettype($h_title) == 'string')) 
-            {
-                $homework->homework_instruction = $attributes['homework_instruction'];
-                $homework->homework_title = $attributes['homework_title'];
-                $homework->section_course_id = $attributes['section_course_id'];
-                $homework->deadline = $attributes['deadline'];
-            } 
-            else 
-            {
-                throw new Exception("Invalid homework information.");
-            }
+            $homework = Homework::find($id);
+            $homework->section_course_id = $attributes['section_course_id'];
+            $homework->homework_title = $attributes['homework_title'];
+            $homework->homework_instruction = $attributes['homework_instruction'];
+            $homework->deadline = $attributes['deadline'];
+            $homework->save();
+        } 
+        else 
+        {
+            throw new ErrorException("Invalid data!");
         }
+        
     }
 }
 

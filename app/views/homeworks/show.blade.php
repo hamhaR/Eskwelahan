@@ -9,6 +9,7 @@
 			@if($homeworks->created_at != $homeworks->updated_at)
 				<p>Last edit: {{ date('j F Y, h:i A',strtotime($homeworks->updated_at)) }}</p>
 			@endif
+      <p>Deadline: {{ date('j F Y, h:i A',strtotime($homeworks->deadline)) }}</p>
 
 			{{ $homeworks->homework_instruction }}
 		
