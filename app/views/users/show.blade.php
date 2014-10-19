@@ -5,7 +5,7 @@
 	{{$friend->address}} <br>
 @stop
 @section("rightsidebar")
- @if(Auth::user()->role != 'admin')
+ @if((Auth::user()->role != 'admin') &&  (Auth::user()->id != $friend->id))
         @if(count(Auth::user()->friends()->where('f_id','=',$friend->id)->get()) === 0)
             {{Form::open(array('url' => 'friends'))}}
             {{Form::hidden('friend_id',$friend->id)}}

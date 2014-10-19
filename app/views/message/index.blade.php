@@ -32,11 +32,13 @@
             <div class="list pre-scrollable" >
             <div class="checkbox">
               @foreach(User::all() as $stud)
+                @if($stud->id <> Auth::id())
                 <div class="list-group-item">
                 <input type="checkbox" value="{{$stud->id}}" name="receiver_ids[]">
                   {{$stud->fname}} {{$stud->lname}} 
                 </input>
                 </div>
+                @endif
               @endforeach
             </div>
           </div>

@@ -20,6 +20,13 @@
     {{Form::hidden('u_id',Auth::id())}}
     {{Form::hidden('f_id', $p->id)}}
     {{Form::close()}}
+
+    {{Form::open(['url' => 'unconfirmfriend'])}}
+    <button class="btn btn-danger" >Not Now</button>
+    {{Form::hidden('u_id',Auth::id())}}
+    {{Form::hidden('f_id', $p->id)}}
+    {{Form::close()}}
+
   </div>
   @endforeach
 </div>

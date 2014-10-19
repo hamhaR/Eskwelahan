@@ -139,5 +139,21 @@ class FriendController extends \BaseController {
 
 		}
 
+	public function unconfirm(){
+		$u_id = Input::get('u_id');
+		$f_id = Input::get('f_id');
+
+		$you = User::find($u_id);
+		$friend = User::find($f_id);
+
+		$you->friends()->detach($f_id);
+		$friend->friends()->detach($u_id);
+
+		$you->save();
+		$friend->save();
+
+		return Redirect::to('friends');
+	}
+
 
 }
