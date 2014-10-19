@@ -8,7 +8,9 @@
 @endif
 <div class='list'>
   @foreach($section->students as $student)
+    @if($student->id <> Auth::id())
     <a href="/users/{{$student->id}}" class="list-group-item">{{$student->fname ." ". $student->lname}}</a>
+    @endif
   @endforeach
 </div>
 

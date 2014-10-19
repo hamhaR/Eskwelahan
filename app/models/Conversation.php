@@ -7,7 +7,7 @@ class Conversation extends Eloquent{
 	public $timestamps = true;
 
 	public function messages(){
-		return $this->hasMany('Message','msg_id');
+		return $this->hasMany('Message','msg_id', 'convo_id');
 	}
 
 	public function persons(){
