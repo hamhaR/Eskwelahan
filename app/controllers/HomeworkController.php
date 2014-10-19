@@ -35,7 +35,7 @@ class HomeworkController extends \BaseController
 	{
 		if (Auth::user()->role == 'teacher') 
 		{
-			$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (teacher_courses.course_id = courses.id) WHERE teacher_id = ?', array(Auth::user()->id));
+			$results = DB::select('SELECT courses.course_code, courses.course_title, section_course.section_course_id, sections.section_name FROM section_course INNER JOIN courses ON (section_course.course_id = courses.id) INNER JOIN sections USING (section_id) WHERE sections.teacher_id = ?', array(Auth::user()->id));
 
 			return View::make('homeworks.create')->with('courses', $results);
 		}
@@ -54,19 +54,28 @@ class HomeworkController extends \BaseController
 	public function store()
 	{
 		$rules = array(
-			'course_id' => 'required',
+			'section_course_id' => 'required',
 			'homework_title' => 'required',
-			'homework_instruction' => 'required'
+			'homework_instruction' => 'required',
+			'deadline' => 'required|date|date_format:YYYY-MM-DD'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->passes()) {
-			$homework = new Homework;
+		/*	$homework = new Homework;
 			$homework->course_id = Input::get('course_id');
 			$homework->homework_title = Input::get('homework_title');
 			$homework->homework_instruction	= Input::get('homework_instruction');
 			$homework->teacher_id = Auth::user()->id;
-			$homework->save();
+			$homework->save(); */
+			$input = [
+				'section_course_id' => Input::get('section_course_id'),
+				'homework_title' => Input::get('homework_title'),
+				'homework_instruction' => Input::get('homework_instruction'),
+				'deadline' => Input::get('deadline')
+			];
+			$homework = new HomeworkModel;
+			$homework->add($input);
 				
 			Session::flash('message', 'Homework successfully added.');
 			return Redirect::to('homeworks');
@@ -90,6 +99,7 @@ class HomeworkController extends \BaseController
 		{
 		//	$results = DB::select('SELECT * FROM homeworks WHERE id = ?', array($id));
 			$results = Homework::find($id);
+		
 			return View::make('homeworks.show')->with('homeworks', $results);
 		} 
 		else 

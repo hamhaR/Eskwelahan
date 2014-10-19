@@ -55,7 +55,7 @@ class HomeworkModel
 
      if ($role == 'teacher') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) WHERE sections.teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, sections.teacher_id, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) WHERE sections.teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
      }
      if ($role == 'student') 
      {
