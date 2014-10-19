@@ -119,14 +119,16 @@ class TestController extends Controller
 		else{
 			//if tama, ma save si test
 				if(Input::get('time_start') <= Input::get('time_end')){ //check if ang time na magstart ang test kay <= sa time mag end
-					$test = Test::find($id);
+					$test = new Test;
 					$test->test_name = Input::get('test_name');
 					$test->test_instructions = Input::get('test_instructions');
 					$test->time_start 	=	Input::get('time_start');
 					$test->time_end 	=	Input::get('time_end');
+					$test->section_id 	=	Input::get('section_id');
+					$test->teacher_id	=	Auth::id();
 					
 					$test->save();
-					Session::flash('message', 'Successfully edited test!');
+					Session::flash('message', 'Successfully added test!');
 					return Redirect::to('tests');
 				}
 				else{
@@ -249,13 +251,14 @@ class TestController extends Controller
 				}
 			}
 			else{
-				// //if walay changes
-				// $original = $test->getOriginal();
+				//if walay changes
+				$original = $test->getOriginal();
 				// if((Input::get('test_name') = $original['test_name']) && (Input::get('test_instructions') == $original['test_instructions']) && (Input::get('time_start') == $original['time_start']) && (Input::get('time_end') == $original['time_end']) ){
 				// 	Session::flash('message', 'No changes were made.');
-				// 	return Redirect::to('tests');
+				// 	echo 'error';
+				// 	//return Redirect::to('tests');
 				// }
-				//if tama, ma save si test
+				// //if tama, ma save si test
 				if(Input::get('time_start') <= Input::get('time_end')){
 					$test->test_name 			= 	Input::get('test_name');
 					$test->test_instructions	= 	Input::get('test_instructions');
@@ -301,15 +304,15 @@ class TestController extends Controller
     	$rules = array(
 			'test_id' 			=>	'required',
 			'student_id'		=> 'required',
-			'date_taken'		=> 'required',
-			'score'				=>	''
+			'date_taken'		=> 'required'
+			//'score'				=>	''
 		);
 
 		$taketest = new TakeTest;
 		$taketest->test_id			= Input::get('test_id');
 		$taketest->student_id	= Input::get('student_id');
 		$taketest->date_taken	= Input::get('date_taken');	
-		$taketest->score	= Input::get('score');			
+		//$taketest->score	= Input::get('score');			
 
 		//$test->teacher_id		= Auth::id();
 		$taketest->save();
