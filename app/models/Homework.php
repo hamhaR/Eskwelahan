@@ -10,7 +10,7 @@ class Homework extends Eloquent
 	 */
 	protected $table = 'homeworks';
         
-    protected $fillable = array('homework_instruction', 'course_id');
+    protected $fillable = array('homework_title','homework_instruction', 'section_course_id', 'deadline');
     /**
 	 * Set whether soft deletion is enabled or not.
 	 *
