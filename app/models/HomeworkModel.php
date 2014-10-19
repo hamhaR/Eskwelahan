@@ -29,11 +29,12 @@ class HomeworkModel
 
     public function add($attributes) 
     {
-        $this->checkAdmin();
+        $this->checkWritePermissions();
         $rules = [
         'homework_instruction' => 'required',
         'homework_title' => 'required',
-        'course_id' => 'required'
+        'section_course_id' => 'required',
+        'deadline' => 'date'
         ];
 
         $validator = Validator::make($attributes, $rules);

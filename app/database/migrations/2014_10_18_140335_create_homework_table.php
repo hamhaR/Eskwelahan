@@ -16,11 +16,10 @@ class CreateHomeworkTable extends Migration {
 			$table->increments('id');
 			$table->string('homework_title', 255);
 			$table->text('homework_instruction');
-			$table->integer('teacher_id');
-			$table->integer('course_id');
+			$table->integer('section_course_id');
+			$table->date('deadline')->nullable();
 
-			$table->foreign('teacher_id')->references('id')->on('users');
-			$table->foreign('course_id')->references('id')->on('courses');
+			$table->foreign('section_course_id')->references('section_course_id')->on('section_course');
 
 			$table->timestamps();
             $table->softDeletes();

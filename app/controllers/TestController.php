@@ -91,7 +91,8 @@ class TestController extends Controller
 			'test_instructions' => 	$attributes['test_instructions'],
 			'time_start'		=> 	$attributes['time_start'],
 			'time_end'			=> 	$attributes['time_end'],
-			'section_id'		=> 	$attributes['section_id']
+			'section_id'		=> 	$attributes['section_id'],
+			'teacher_id'		=>	Auth::id()
 		];
 
 		$rules = [
@@ -99,7 +100,8 @@ class TestController extends Controller
 			'test_instructions' => 	'required',
 			'time_start'		=> 	'required',
 			'time_end' 			=> 	'required',
-			'section_id' 		=> 	''
+			'section_id' 		=> 	'',
+			'teacher_id'		=>	''
 		];
 
 		$validator = Validator::make($testData, $rules);
@@ -108,10 +110,16 @@ class TestController extends Controller
 			Session::flash('message', 'Error, required field left blank.');
 			return Redirect::to('tests/');
 		} else{
-			$test = new TestModel;
-			$tests = $test->add($testData);
-			Session::flash('message', 'Test/quiz successfully added.');
-			return Redirect::to('tests');
+			if($attributes['time_end'] >= $attributes['time_start']){
+				$test = new TestModel;
+				$tests = $test->add($testData);
+				Session::flash('message', 'Test was successfully added.');
+				return Redirect::to('tests');
+		}
+			else{
+				Session::flash('message', 'Invalid date range!');
+				return Redirect::to('tests');
+			}
 		}
 	}
 
@@ -173,32 +181,45 @@ class TestController extends Controller
 
         ];
         $rules = [
-			'test_name' => '',
-			'test_instructions' => '',
-			'time_start'	=> '',
-			'time_end'	=> '',
+			'test_name' => 'required',
+			'test_instructions' => 'required',
+			'time_start'	=> 'required',
+			'time_end'	=> 'required'
 
         ];
+
         $validator = Validator::make($testData, $rules);
-		try{
+		
 			if ($validator->passes()) {
-				$test = Test::find($id);
-				$test->test_name = Input::get('test_name');
-				$test->test_instructions = Input::get('test_instructions');
-				$test->time_start 	=	Input::get('time_start');
-				$test->time_end 	=	Input::get('time_end');
+				//if tama, ma save si test
+				if(Input::get('time_start') <= Input::get('time_end')){
+					$test = Test::find($id);
+					$test->test_name = Input::get('test_name');
+					$test->test_instructions = Input::get('test_instructions');
+					$test->time_start 	=	Input::get('time_start');
+					$test->time_end 	=	Input::get('time_end');
+					
+					$test->save();
+					Session::flash('message', 'Successfully edited test!');
+					return Redirect::to('tests');
+				}
 				
-				$test->save();
-				Session::flash('message', 'Successfully edited test!');
-				return Redirect::to('tests');
+				else{
+					Session::flash('message', 'Invalid date range!');
+					return Redirect::to('tests');
+				}
 			}
-		}
-		catch(\Exception $e){
-			Session::flash('message', 'Error!! Invalid input!');
-			return Redirect::to('tests/' . $id );
-			//echo 'Error!! Invalid input!';
-			
-		}
+			else{
+				if( (Input::get('time_start') == null ) || (Input::get('time_end') == null) ) {
+					Session::flash('message', 'Error, required field left blank');
+					return Redirect::to('tests');
+				}
+				else{
+					Session::flash('message', 'Invalid input!');
+					return Redirect::to('tests');
+				}
+			}
+		
 	}
 
 
