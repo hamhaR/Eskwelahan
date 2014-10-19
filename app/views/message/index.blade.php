@@ -1,12 +1,12 @@
 @extends("layout")
 @section("content")
-<h5>Incoming Messages</h5>
+<h5>Conversations</h5>
 	<div class="row">
     <div class="list">
 		@foreach($convos as $convo)
 			
 				<div class="list-group-item">
-					<a href="conversations/{{$convo->convo_id}}">{{$convo->convo_name}} </a>
+					<a href="conversations/{{$convo->convo_id}}">{{$convo->convo_name}}</a>
           <div class='pull-right'><p>{{$convo->created_at}}</p></div>
 				</div>
 			
@@ -28,8 +28,8 @@
       </div>
       <div class="modal-body">
         {{Form::open(array('url' => 'conversations'))}}
-          <div class="form-group">
-            <div class="list">
+          <div class="form-group ">
+            <div class="list pre-scrollable" >
             <div class="checkbox">
               @foreach(User::all() as $stud)
                 <div class="list-group-item">
