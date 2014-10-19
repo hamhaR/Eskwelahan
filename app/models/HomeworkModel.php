@@ -55,15 +55,15 @@ class HomeworkModel
 
      if ($role == 'teacher') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) WHERE sections.teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
      }
      if ($role == 'student') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, homeworks.created_at, courses.course_code FROM section_students INNER JOIN section_course ON (section_students.section_id = section_course.section_id) INNER JOIN homeworks ON (section_course.course_id = homeworks.course_id) INNER JOIN courses ON (courses.id = homeworks.course_id) WHERE student_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) INNER JOIN section_students ON (sections.section_id = section_students.section_id) WHERE section_students.student_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
      }
      if ($role == 'admin')
      {
-     	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
+     	$homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
      }
      if (!Auth::check())
      {
