@@ -37,24 +37,30 @@ class TestModel implements TableRepository{
     public function add($attributes) {
         $this->checkWritePermissions();
         $rules = [ 
-            'test_name'              => 'required|Unique',
+            'test_name'              => 'required',
             'test_instructions'      => '',
             'time_start'             => 'required',
             'time_end'               => 'required',
             'teacher_id'             => '',
-            'section_course_id'      => 'required'
+            'section_id'      => ''
             ];
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) {
-            $test = new Test;
-            $test->test_name = $attributes['test_name'];
-            $test->instructions = $attributes['test_instructions'];
-            $test->time_start = $attributes['time_start'];
-            $test->time_end = $attributes['time_end'];
-            $test->teacher_id = $attributes['teacher_id'];
-            $test->section_course_id = $attributes['section_course_id'];
-            $test->save();
-            return $test->id;
+            if($attributes['time_end'] >= $attributes['time_start']){
+                $test = new Test;
+                $test->test_name = $attributes['test_name'];
+                $test->test_instructions = $attributes['test_instructions'];
+                $test->time_start = $attributes['time_start'];
+                $test->time_end = $attributes['time_end'];
+                $test->teacher_id = Auth::id();
+                $test->section_id = $attributes['section_id'];
+                $test->save();
+                return $test->id;
+            }
+            else{
+                throw new ErrorException("Invalid date range! ");
+            }
+            
         } else {
             throw new ErrorException("Invalid data!");
         }
