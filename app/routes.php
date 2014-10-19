@@ -219,9 +219,10 @@ Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
-Route::post('/taketest/{id}', 'TestController@testanswer_create');
-Route::post('/taketests', array('uses' => 'TestController@testanswer_store'));
+Route::post('taketest/{id}', 'TestController@testanswer_store');
+//Route::post('/taketests/{id}', array('uses' => 'TestController@testanswer_store'));
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
+Route::get('/aftertest/{id}', 'TestController@aftertest');
 
 
 Route::resource('messages','MessageController');

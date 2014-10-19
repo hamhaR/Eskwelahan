@@ -145,6 +145,41 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
+		// if(Auth::user()->role == 'teacher'){
+		// 	$result = Question::where('test_id' , '=', $id)->get();
+		// 	return View::make('tests.show')->with(array(
+		// 		'questions'=> $result,
+		// 		'test_id' => $id
+		// 		));
+		// }
+		// else if(Auth::user()->role == 'student'){
+		// 	//$test = Test::find($id);
+		// 	//$taketests = TakeTest::where('test_id', '=', $test->id);
+		// 	// $taketest = new TakeTest;
+			
+		// 	// if($taketest->id != 0){
+
+			
+		// 	// //$taketest = new TakeTest;
+
+		// 	// //$testanswer = TestAnswer::where('test_id', '=', $test->id);
+		// 	// 	return View::make('tests.aftertest', [
+  //  //                  'test' => $this->tests->find($id)
+  //  //      		]);
+		// 	// }
+		// 	// else{
+		// 		return View::make('tests.testfrontview', [
+  //                   'test' => $this->tests->find($id)
+  //       		]);
+		// 	// }
+			
+                    
+		// }
+		// else{
+		// 	return Redirect::to('tests');
+		// 	Session::flash('message', 'Access denied!');
+		// }
+
 		if(Auth::user()->role == 'teacher'){
 			$result = Question::where('test_id' , '=', $id)->get();
 			return View::make('tests.show')->with(array(
@@ -185,7 +220,7 @@ class TestController extends Controller
 	 */
 	public function update($id)
 	{
-
+		$test = Test::find($id);
 		$testData = [
 			'test_name' => Input::get('test_name'),
 			'test_instructions' => Input::get('test_instructions'),
@@ -194,10 +229,10 @@ class TestController extends Controller
 
         ];
         $rules = [
-			'test_name' => 'required',
-			'test_instructions' => 'required',
-			'time_start'	=> 'required',
-			'time_end'	=> 'required'
+			'test_name' => '',
+			'test_instructions' => '',
+			'time_start'	=> '',
+			'time_end'	=> ''
 
         ];
 
@@ -214,18 +249,25 @@ class TestController extends Controller
 				}
 			}
 			else{
+				// //if walay changes
+				// $original = $test->getOriginal();
+				// if((Input::get('test_name') = $original['test_name']) && (Input::get('test_instructions') == $original['test_instructions']) && (Input::get('time_start') == $original['time_start']) && (Input::get('time_end') == $original['time_end']) ){
+				// 	Session::flash('message', 'No changes were made.');
+				// 	return Redirect::to('tests');
+				// }
 				//if tama, ma save si test
 				if(Input::get('time_start') <= Input::get('time_end')){
-					$test = Test::find($id);
-					$test->test_name = Input::get('test_name');
-					$test->test_instructions = Input::get('test_instructions');
-					$test->time_start 	=	Input::get('time_start');
-					$test->time_end 	=	Input::get('time_end');
+					$test->test_name 			= 	Input::get('test_name');
+					$test->test_instructions	= 	Input::get('test_instructions');
+					$test->time_start 			=	Input::get('time_start');
+					$test->time_end 			=	Input::get('time_end');
 					
 					$test->save();
 					Session::flash('message', 'Successfully edited test!');
 					return Redirect::to('tests');
 				}
+				 //gets all old data sa database, dayon icompare sa updated data
+				
 				
 				else{
 					Session::flash('message', 'Invalid date range!');
@@ -259,13 +301,15 @@ class TestController extends Controller
     	$rules = array(
 			'test_id' 			=>	'required',
 			'student_id'		=> 'required',
-			'date_taken'			=> 'required'			
+			'date_taken'		=> 'required',
+			'score'				=>	''
 		);
 
 		$taketest = new TakeTest;
 		$taketest->test_id			= Input::get('test_id');
 		$taketest->student_id	= Input::get('student_id');
-		$taketest->date_taken	= Input::get('date_taken');			
+		$taketest->date_taken	= Input::get('date_taken');	
+		$taketest->score	= Input::get('score');			
 
 		//$test->teacher_id		= Auth::id();
 		$taketest->save();
@@ -283,7 +327,7 @@ class TestController extends Controller
 		$temp_test = TakeTest::where('test_id','=', $test->id)->get();
 
 			if(count($temp_test) > 0){	// Test id exist in take_test table
-				Session::flash('message', 'Access denied! You have already taken up this test.');
+				Session::flash('message', 'Access denied! You have already taken up this test. Your score was ' );
 				return Redirect::to('tests');
 			} 
 			else{	// Test id doesn't exist in the db.
@@ -311,11 +355,13 @@ class TestController extends Controller
 	}
 
 
-	public function testfrontview($id){
+public function testfrontview($id){
 		return View::make('tests.testfrontview', [
                     'test' => $this->tests->find($id)
         ]);
 	}
+
+
 
 	public function testanswer_store(){
 
@@ -339,12 +385,35 @@ class TestController extends Controller
 				$testanswer->save();
 
 				if($question->correct_answer == $answer){
-					++$score; //mo increment everytime correct ang answer sa student.
-					
+					$score = $score+1;
+					//$student_score = $score;
+					//return $score; //mo increment everytime correct ang answer sa student.
+				return View::make('tests.aftertest')->with( 'tests', $score);
+					//$student_score = ++$score;
+					//$taketest->score = $student_score;
+					//$taketest->save();
 				}
 	 	}
 	 	//echo $score;
-	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions) . ' .';
+	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
 	 	//return Redirect::to('tests.taket');
+	 	//return Redirect::to('tests.aftertest')->with('testanswers', $testanswer);
 	 }
+public function aftertest($id){
+
+	 // 	$testanswers = TestAnswer::find($id);
+	 // 	$questions = Question::where('test_id', '=', $testanswers->test_id);
+	 // 	$taketests= TakeTest::where('test_id', '=', $testanswers->test_id);
+
+	 // 	return View::make('tests.aftertest')->with(array(
+	 // 		  //'test' => $test,
+  //                   'questions'	=> $questions,
+  //                   'taketests'	=> $taketests,
+  //                  'testanswers' => $testanswers
+	 // 	));
+	$test = Test::find($id);
+	return View::make('tests.aftertest')->with('tests', $test);
+	 }
+
+
 }

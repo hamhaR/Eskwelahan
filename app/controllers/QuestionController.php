@@ -89,8 +89,8 @@ class QuestionController extends \BaseController {
 		} 
 		else{
 			$question = new Question;
-				$question->content 			= Input::get('content');
-				$question->a 				= Input::get('a');
+				$question->content 			= 	Input::get('content');
+				$question->a 				= 	Input::get('a');
 				$question->b 				=	Input::get('b');
 				$question->c 				=	Input::get('c');
 				$question->d 				=	Input::get('d');
@@ -158,12 +158,12 @@ class QuestionController extends \BaseController {
 		$question = Question::find($id);
 
 		$attributes = [
-			'content' => Input::get('content'),
-			'a' => Input::get('a'),
-			'b' => Input::get('b'),
-			'c' => Input::get('c'),
-			'd' => Input::get('d'),
-			'correct_answer' => Input::get('correct_answer')
+			'content' 			=> Input::get('content'),
+			'a' 				=> Input::get('a'),
+			'b' 				=> Input::get('b'),
+			'c' 				=> Input::get('c'),
+			'd' 				=> Input::get('d'),
+			'correct_answer' 	=> Input::get('correct_answer')
 		];
 
 		$rules = [
@@ -182,16 +182,22 @@ class QuestionController extends \BaseController {
 			return Redirect::to('tests/' . $question->test_id );
 		} 
 		else {
-			$question->content = Input::get('content');
-			$question->a = Input::get('a');
-			$question->b = Input::get('b');
-			$question->c = Input::get('c');
-			$question->d = Input::get('d');
-			$question->correct_answer  = Input::get('correct_answer');
-			$question->save();
-			Session::flash('message', 'Successfully edited question!');
-			return Redirect::to('tests/' . $question->test_id);
-
+			// $original = $question->getOriginal(); //gets all old data sa database, dayon icompare sa updated data
+			// if((Input::get('content') = $original['content']) && (Input::get('a') == $original['a']) && (Input::get('b') == $original['b']) && (Input::get('c') == $original['c']) && (Input::get('d') == $original['d']) && (Input::get('correct_answer') == $original['correct_answer'])){
+			// 	Session::flash('message', 'No changes were made.');
+			// 	return Redirect::to('tests/' . $question->test_id);
+			// }
+			// else{
+				$question->content = Input::get('content');
+				$question->a = Input::get('a');
+				$question->b = Input::get('b');
+				$question->c = Input::get('c');
+				$question->d = Input::get('d');	
+				$question->correct_answer  = Input::get('correct_answer');
+				$question->save();
+				Session::flash('message', 'Successfully edited question!');
+				return Redirect::to('tests/' . $question->test_id);
+			// }
 		}
 	}
 
