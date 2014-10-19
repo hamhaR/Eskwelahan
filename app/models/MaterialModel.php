@@ -39,7 +39,7 @@ class MaterialModel
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) 
         {
-            $userId = Materials::create($attributes)->id;
+            $userId = Material::create($attributes)->id;
             return $userId;
         } 
         else 
@@ -58,7 +58,7 @@ class MaterialModel
      }
      if ($role == 'student') 
      {
-         $materials = DB::select('SELECT materials.id, materials.material_title, materials.created_at, courses.course_code FROM section_students INNER JOIN section_course ON (section_students.section_id = section_course.section_id) INNER JOIN materials ON (section_course.course_id = materials.course_id) INNER JOIN courses ON (courses.id = materials.course_id) WHERE student_id = ? AND materials.deleted_at IS NULL', array(Auth::user()->id));
+         $materials = DB::select('SELECT materials.id, materials.material_title, courses.course_code, materials.created_at FROM materials INNER JOIN student_courses ON (materials.course_id = student_courses.course_id) INNER JOIN courses ON (materials.course_id = courses.id) WHERE student_courses.student_id = ? AND materials.deleted_at IS NULL', array(Auth::user()->id));
      }
      if ($role == 'admin')
      {
@@ -106,7 +106,7 @@ public function delete($id)
 
 public function edit($id, $attributes) 
 {
-    $material = Materials::find($id);
+    $material = Material::find($id);
 
     if($id == null) 
     {
@@ -135,7 +135,7 @@ public function edit($id, $attributes)
 
 public function find($material_id) 
 {
-    $material = Materials::find($material_id);
+    $material = Material::find($material_id);
     if ($material == null) 
     {
         throw new Exception("Material not found.");

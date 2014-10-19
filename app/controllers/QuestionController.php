@@ -2,6 +2,11 @@
 
 class QuestionController extends \BaseController {
 
+	public function __construct(QuestionModel $questions) 
+	{
+        $this->questions = $questions;
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -44,32 +49,38 @@ class QuestionController extends \BaseController {
 	 */
 	public function store()
 	{
-		$rules = array(
-			'content' 	=>	'required',
-			'a'		=> 'required',
-			'b'		=> 'required',
-			'c' 	=>	'required',
-			'd'		=> 'required',
-			'correct_answer'		=> 'required',
-			'test_id'		=> ''
-			//'teacher_id'	=> 'required'
-			
-		);
+		$attributes = Input::all();
+		$questionData = [
+			'content' 			=> 	$attributes['content'],
+			'a'		 			=> 	$attributes['a'],
+			'b'					=> 	$attributes['b'],
+			'c'					=> 	$attributes['c'],
+			'd'					=> 	$attributes['d'],
+			'correct_answer'	=> 	$attributes['correct_answer'],
+			'test_id'			=>	$attributes['test_id']
+		];
 
-		$question = new Question;
-		$question->content 		= Input::get('content');
-		$question->a		= Input::get('a');
-		$question->b		= Input::get('b');
-		$question->c 		= Input::get('c');
-		$question->d		= Input::get('a');
-		$question->correct_answer		= Input::get('correct_answer');
-		$question->test_id 		= Input::get('test_id');
-		//$question->teacher_id		= Auth::id();
-		$question->save();
-			
-		Session::flash('message', 'question successfully added.');
-		return Redirect::to('/tests/'. $question->test_id );
+		$rules = [
+			'content' 			=> 	'required',
+			'a'	 				=> 	'required',
+			'b'					=> 	'required',
+			'c' 				=> 	'required',
+			'd' 				=> 	'required',
+			'correct_answer'	=>	'required',
+			'test_id' 			=> 	''
+		];
 
+		$validator = Validator::make($questionData, $rules);
+				
+		if ($validator->fails()) {
+			Session::flash('message', 'Error, required field left blank.');
+			return Redirect::to('/tests/'. $attributes['test_id'] );
+		} else{
+			$question = new QuestionModel;
+			$questions = $question->add($questionData);
+			Session::flash('message', 'Test was  successfully added.');
+			return Redirect::to('/tests/'. $attributes['test_id'] );
+		}
 	}
 
 
@@ -86,13 +97,13 @@ class QuestionController extends \BaseController {
 			$test = Test::find($id);
 			return View::make('questions.show')
 				->with(array(
-					'test' => $test,
-					'content' => Input::get('content'),
-					'a' => Input::get('a'),
-					'b' => Input::get('b'),
-					'c' => Input::get('c'),
-					'd' => Input::get('d'),
-					'correct_answer' => Input::get('correct_answer')
+					'test' 				=> $test,
+					'content' 			=> Input::get('content'),
+					'a' 				=> Input::get('a'),
+					'b' 				=> Input::get('b'),
+					'c' 				=> Input::get('c'),
+					'd' 				=> Input::get('d'),
+					'correct_answer' 	=> Input::get('correct_answer')
 
 				)
 			);			
@@ -124,41 +135,43 @@ class QuestionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$questionData = [
+		$question = Question::find($id);
+
+		$attributes = [
 			'content' => Input::get('content'),
 			'a' => Input::get('a'),
 			'b' => Input::get('b'),
 			'c' => Input::get('c'),
 			'd' => Input::get('d'),
 			'correct_answer' => Input::get('correct_answer')
-        ];
-        $rules = [
-			'content' => '',
-			'a' => '',
-			'b' => '',
-			'c' => '',
-			'd' => '',
-			'correct_answer' => ''
-        ];
-        $validator = Validator::make($questionData, $rules);
-		try{
-			if ($validator->passes()) {
-				$question = Question::find($id);
-				$question->content = Input::get('content');
-				$question->a = Input::get('a');
-				$question->b = Input::get('b');
-				$question->c = Input::get('c');
-				$question->d = Input::get('d');
-				$question->correct_answer  = Input::get('correct_answer');
-				$question->save();
-				Session::flash('message', 'Successfully edited question!');
-				return Redirect::to('tests/' . $question->test_id);
-			}
-		}
-		catch(\Exception $e){
-			return Redirect::to('tests/' .$question->test_id);
-			//echo 'Error!! Invalid input!';
-			Session::flash('message', 'Error!! Invalid input!');
+		];
+
+		$rules = [
+			'content' 			=> '',
+			'a' 				=> '',
+			'b' 				=> '',
+			'c' 				=> '',
+			'd' 				=> '',
+			'correct_answer' 	=> ''
+		];
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+			Session::flash('Error! Invalid data!');
+			return Redirect::to('tests/' . $question->test_id );
+		} 
+		else {
+			$question->content = Input::get('content');
+			$question->a = Input::get('a');
+			$question->b = Input::get('b');
+			$question->c = Input::get('c');
+			$question->d = Input::get('d');
+			$question->correct_answer  = Input::get('correct_answer');
+			$question->save();
+			Session::flash('message', 'Successfully edited question!');
+			return Redirect::to('tests/' . $question->test_id);
+
 		}
 	}
 
@@ -175,12 +188,5 @@ class QuestionController extends \BaseController {
 		$question->delete();
 		return Redirect::to('tests/' . $question->test_id);
 		//echo $question->id;
-
-
 	}
-
-
-
-	
-
 }

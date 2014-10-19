@@ -21,6 +21,7 @@
 					<th>Course</th>
 					<th>Material Name</th>
 					<th>Posted</th>
+					<th>Status</th>
 					<th>Options</th>
 				</tr>
 			</thead>
@@ -31,6 +32,7 @@
 					<td>{{ $materials[$i]['course_code'] }}</td>
 					<td>{{ $materials[$i]['material_title'] }}</td>
 					<td>{{ date('j F Y, h:i A',strtotime($materials[$i]['created_at'])) }}</td>
+					<td>New Material</td>
 					<td><a class="btn btn-primary" href="materials/{{ $materials[$i]['id'] }}"><span class="glyphicon glyphicon-search"></span> View Material</a></td>
 				</tr>
 				@endfor
@@ -44,4 +46,3 @@
 	</div>
 </div>
 </div>
-@stop

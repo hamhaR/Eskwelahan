@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration {
 			$table->string('b');
 			$table->string('c');
 			$table->string('d');
-			$table->char('correct_answer');
+			$table->char('correct_answer',1);
 
 			$table->integer('test_id');
 			$table->foreign('test_id')->references('id')->on('tests');

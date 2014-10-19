@@ -89,7 +89,7 @@ class CourseRepository  {
 
                 return $course->id;
             } else{
-                return print 'Invalid data.';
+                Session::flash('message', 'Invalid data!');
             }
         }
     }

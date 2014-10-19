@@ -1,6 +1,6 @@
 <?php
 
-class MessageController extends \BaseController {
+class ConversationController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,11 +9,7 @@ class MessageController extends \BaseController {
 	 */
 	public function index()
 	{
-		$convos = Conversation::whereHas('persons',function($q){
-			$q->where('person_id',Auth::id());
-		})->get();
-
-		return View::make('message.index')->with('convos', $convos);
+		//
 	}
 
 
@@ -35,20 +31,20 @@ class MessageController extends \BaseController {
 	 */
 	public function store()
 	{
-		$convo = Conversation::find(Input::get('convo_id'));
-		$user = Auth::user();
-		$msg = new Message;
-		$msg->convo_id = Input::get('convo_id');
-		$msg->msg_content = Input::get('msg_content');
-		$msg->sender_id = $user->id;
-		$msg->unread = true;
-		$msg->conversation()->associate($convo);
-		$msg->save();
+		$receiver_ids = Input::get('receiver_ids');
 
+		$convo = new Conversation;
+		$convo->convo_name = Input::get('convo_name');
+		$convo->save();
 
+		foreach($receiver_ids as $id){
+			$person = User::find($id);
+			$convo->persons()->attach($person->id);
+		}
 
-		return Redirect::to('/conversations/'.$convo->convo_id);
+		$convo->persons()->attach(Auth::id());
 
+		return Redirect::to('conversations/'.$convo->convo_id);
 	}
 
 
@@ -60,15 +56,13 @@ class MessageController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		// $msg = Message::find($id);
-		// $sender = User::find($msg->sender_id);
-		// $receiver = User::find($msg->receiver_id);
-		// return View::make('message.show')
-		// 	->with(array(
-		// 		'sender' => $sender,
-		// 		'receiver' => $receiver,
-		// 		'msg' => $msg
-		// 	));
+		$convo = Conversation::find($id);
+		$msgs = Message::where('convo_id','=',$convo->convo_id)->orderBy('msg_id','desc')->paginate(4);
+		return View::make('conversation.show')
+			->with(array(
+				'convo' => $convo,
+				'msgs' => $msgs
+			));
 	}
 
 

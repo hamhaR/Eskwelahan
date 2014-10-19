@@ -10,7 +10,13 @@ class FriendController extends \BaseController {
 	public function index()
 	{
 			$user = Auth::user();
-			return View::make('friends.index')->with('friends',$user->friends);
+			$friends = $user->friends()->where('user_id','=',$user->id)->where('confirmed','=', true)->get();
+			$pending = $user->friends()->where('user_id','=',$user->id)->where('requested','=',false)->where('confirmed','=', false)->get();
+		
+			return View::make('friends.index')->with(array(
+				'friends' => $friends,
+				'pending' => $pending
+			));
 		
 	}
 
@@ -34,10 +40,16 @@ class FriendController extends \BaseController {
 	public function store()
 	{
 		$user = Auth::user();
-		$user->friends()->attach(Input::get('friend_id'));
+		$user->friends()->attach(Input::get('friend_id'),array(
+			'confirmed' => false,
+			'requested' => true
+		));
 		$user->save();
 		$friend = User::find(Input::get('friend_id'));
-		$friend->friends()->attach($user->id);
+		$friend->friends()->attach($user->id,array(
+			'confirmed' => false,
+			'requested' => false
+		));
 		$friend->save();
 		
 		return Redirect::to('friends');
@@ -99,6 +111,33 @@ class FriendController extends \BaseController {
 		return Redirect::to('friends');
 
 	}
+
+	public function confirm(){
+		$u_id = Input::get('u_id');
+		$f_id = Input::get('f_id');
+
+		$you = User::find($u_id);
+		$you->friends()->detach($f_id);
+		$you->friends()->attach($f_id,array(
+
+			'confirmed' => true,
+			'requested' => false
+		));
+		$you->save();
+
+		$friend = User::find($f_id);
+		$friend->friends()->detach($u_id);
+		$friend->friends()->attach($u_id,array(
+
+			'confirmed' => true,
+			'requested' => true
+
+		));
+		$friend->save();
+
+		return Redirect::to('friends');
+
+		}
 
 
 }

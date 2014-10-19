@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMessagesTable extends Migration {
+class CreateConvoPersonsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,19 +12,12 @@ class CreateMessagesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('messages', function(Blueprint $table)
+		Schema::create('convo_persons', function(Blueprint $table)
 		{
 			$table->integer('convo_id');
 			$table->foreign('convo_id')->references('convo_id')->on('conversations');
-			
-			$table->increments('msg_id');
-			$table->string('msg_content');
-			
-			$table->integer('sender_id');
-			$table->foreign('sender_id')->references('id')->on('users');
-			
-			$table->boolean('unread');
-			
+			$table->integer('person_id');
+			$table->foreign('person_id')->references('id')->on('users');
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -37,7 +30,10 @@ class CreateMessagesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('messages');
+		Schema::table('convo_persons', function(Blueprint $table)
+		{
+			//
+		});
 	}
 
 }

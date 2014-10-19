@@ -3,18 +3,20 @@
 <div class="list">
 @foreach($sections as $key=> $section)
   @foreach(Test::where('section_id','=',$section->section_id)->get() as $test)
-<a class="list-group-item" href="{{ URL::route('tests.show', $test->id)}}">
-              
+
+<span class="list-group-item" >
+         <a href="{{ URL::route('tests.show', $test->id)}}">   
    {{ $test->test_name }}
+ </a>
+   
 
       @if(Auth::check() && Auth::user()->role == 'teacher')
-         <span class="glyphicon glyphicon-small glyphicon-trash pull-right" data-toggle="modal" data-target="#delete{{$key}}"></span>
-        <span class="glyphicon glyphicon-small  glyphicon-pencil pull-right"  data-toggle="modal" data-target="#edit{{$key}}"></span>
+         <a class="glyphicon glyphicon-small glyphicon-trash pull-right" data-toggle="modal" data-target="#delete{{$key}}"></a>
+        <a class="glyphicon glyphicon-small  glyphicon-pencil pull-right"  data-toggle="modal" data-target="#edit{{$key}}"></a>
+         @endif
+       </span>
 
-       
-      @endif
 
-</a>
 
                       <!-- Delete Modal -->
                       <div class="modal fade" id="delete{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -110,8 +112,7 @@
                         </div>
                       </div>
                       <!--end for edit test-->
-                    </td>
-                </tr>
+
     @endforeach
   @endforeach
                   
@@ -139,7 +140,7 @@
               
                 
                 <option value="{{$section->section_id}}" >
-                  {{$course->course_title}} - {{$section->section_name}} - {{$section->section_id}}
+                  {{$course->course_title}} - {{$section->section_name}} 
                 </option>
               
               @endforeach
@@ -158,18 +159,17 @@
             </div>
 
             Schedule of Test
-            <div class="form-group">
+             <div class="form-group">
               {{ Form::label('time_start', 'From:') }}
               {{ Form::text('time_start', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
             </div>
 
+
             <div class="form-group">
               {{ Form::label('time_end', 'To: ' ) }}
               {{ Form::text('time_end', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
-            </div>
-          
-
-         
+            </div>       
+     
         </div>
 
    
@@ -193,3 +193,5 @@
   @endif
 
 @stop
+
+

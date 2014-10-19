@@ -97,20 +97,11 @@ Route::group(["before" => "auth"], function() {
     "as" => "editinfoadmin",
     "uses" => "UserController@editAccountAdminPanel"
             ]);
-    Route::any("/editinfoadminhelper/{id}", [
+/*    Route::any("/editinfoadminhelper/{id}", [
             "as" => "editinfoadminhelper",
-            "uses" => "UserController@profilechangepass"
-            ]); 
+            "uses" => "AuthenticationController@profilechangepass"
+            ]); */
 
-/************************************************************/
-	/*
-	* Route to view materials
-	*/
-	Route::any("/viewmaterial/{id}", [
-	"as" => "viewmaterial",
-	"uses" => "MaterialController@show"
-	]);
-/***********************************************************/
 
    /*
     * HomeworkController
@@ -226,11 +217,12 @@ Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
-Route::post('/taketest/{id}', 'TestController@testanswer_store');
-Route::post('/taketest/{id}', array('uses' => 'TestController@testanswer_store'));
+Route::post('/taketest/{id}', 'TestController@testanswer_create');
+Route::post('/taketests', array('uses' => 'TestController@testanswer_store'));
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
 
 
 Route::resource('messages','MessageController');
 Route::resource('conversations','ConversationController');
+Route::post('confirmfriend', 'FriendController@confirm');
 
