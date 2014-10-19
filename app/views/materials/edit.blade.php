@@ -36,7 +36,7 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-    <!--    <script src="../../bootflat/js/jquery-1.9.1.min.js"></script>
+		<script src="../../bootflat/js/jquery-1.9.1.min.js"></script>
         <script src="../../ckeditor/ckeditor.js"></script>
         <script src="../../bootflat/js/bootstrap.min.js"></script>
         <script>
@@ -53,4 +53,4 @@
                         'del ins'
                     } );
             });
-        </script>-->
+        </script>

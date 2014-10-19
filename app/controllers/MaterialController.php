@@ -69,16 +69,26 @@ class MaterialController extends \BaseController {
 			'material_instruction' => 'required'
 		);
 /****************************************/
-		$material = new Materials;
-		$material->course_id = Input::get('course_id');
-		$material->material_title = Input::get('material_title');
-		$material->material_instruction	= Input::get('material_instruction');
-		$material->teacher_id = Auth::user()->id;
-		$material->save();
+
+		$validator = Validator::make(Input::all(), $rules);
+		if ($validator->passes()) {
+			$material = new Materials;
+			$material->course_id = Input::get('course_id');
+			$material->material_title = Input::get('material_title');
+			$material->material_instruction	= Input::get('material_instruction');
+			$material->teacher_id = Auth::user()->id;
+			$material->save();
 	/********************************************/
 	
-		Session::flash('message', 'Material successfully added.');
-		return Redirect::to('materials');
+			Session::flash('message', 'Material successfully added.');
+			return Redirect::to('materials');
+			}
+			
+		else{
+		
+			return Redirect::to('materials/create')
+							->with('message', 'Please fill out all fields');	
+		}
 		//
 	}
 
