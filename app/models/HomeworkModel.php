@@ -125,11 +125,12 @@ public function delete($id)
 
 public function edit($id, $attributes) 
 {
+	$this->checkWritePermissions();
     $homework = Homework::find($id);
 
     if($id == null) 
     {
-        throw new Exception("Invalid course code.");
+        throw new Exception("Invalid homework.");
     } 
     else 
     {
@@ -137,12 +138,13 @@ public function edit($id, $attributes)
         {
             $h_instruction = $attributes['homework_instruction'];
             $h_title = $attributes['homework_title'];
-            $c_id = $attributes['course_id'];
+            $c_id = $attributes['section_course_id'];
             if ((gettype($h_instruction) == 'string') && (gettype($h_title) == 'string')) 
             {
                 $homework->homework_instruction = $attributes['homework_instruction'];
                 $homework->homework_title = $attributes['homework_title'];
-                $homework->course_id = $attributes['course_id'];
+                $homework->section_course_id = $attributes['section_course_id'];
+                $homework->deadline = $attributes['deadline'];
             } 
             else 
             {

@@ -73,4 +73,49 @@ class HomeworkTest extends TestCase
 		$this->assertEquals('Reading - Animaks the Mudkip', $results[0]['homework_title']);
 		$this->assertEquals('CSC186', $results[0]['course_code']);
 	}
+	
+	/**
+	 * Tests edit() function with valid data and authorised user logged in.
+	 * The function should show the new attributes.
+	 */
+	public function testEditHomeworkWithAuthorizedUser() 
+	{
+		Auth::attempt($this->teacherCredentials);
+		
+		$homeworkData = [
+		'homework_title' => 'New Impossible Homework',
+		'homework_instruction' => '<p>Phnglui mglwnafh Cthulhu Rlyeh wgahnagl fhtagn</p>',
+		'section_course_id' => 1,
+		'deadline' => null
+		];
+		
+		$homework = new HomeworkModel;
+		$homework->edit(1, $homeworkData);
+		$newHomework = $homework->find(1);
+		$this->assertEquals($homeworkData['homework_title'], $newHomework->homework_title);
+		$this->assertEquals($homeworkData['homework_instruction'], $newHomework->homework_instruction);
+		$this->assertEquals($homeworkData['section_course_id'], $newHomework->section_course_id);
+		$this->assertNull($newHomework->section_course_id);
+	}
+	
+	/**
+	 * Tests edit() function with valid data and unauthorised user logged in.
+	 * The function should throw an UnauthorizedException.
+	 * @expectedException UnauthorizedException
+	 */
+	public function testEditHomeworkWithUnauthorizedUser() 
+	{
+		Auth::attempt($this->studentCredentials);
+		
+		$homeworkData = [
+		'homework_title' => 'Another Diary Entry',
+		'homework_instruction' => '<p>Phnglui mglwnafh Cthulhu Rlyeh wgahnagl fhtagn</p>',
+		'section_course_id' => 1,
+		'deadline' => null
+		];
+		
+		$homework = new HomeworkModel;
+		$homework->edit(1, $homeworkData);
+		$newHomework = $homework->find(1);
+	}
 }
