@@ -66,32 +66,36 @@ class QuestionController extends \BaseController {
 			'b'					=> 	'required',
 			'c' 				=> 	'required',
 			'd' 				=> 	'required',
-			'correct_answer'	=>	'required',
+			'correct_answer'	=>	'required|max:1',
 			'test_id' 			=> 	''
 		];
 
-		$validator = Validator::make($questionData, $rules);
+		$messages = array(
+    	'required' => 'The :attribute field is required.',
+);
+
+		$validator = Validator::make($questionData, $rules, $messages);
 				
 		if ($validator->fails()) {
 			if(($attributes['content'] == null) || ($attributes['a'] == null) || ($attributes['b'] == null) || ($attributes['c'] == null) || ($attributes['d'] == null) || ($attributes['correct_answer'] == null)){
 				Session::flash('message', 'Error, required field left blank.');
 				return Redirect::to('/tests/'. $attributes['test_id'] );
 			}
-			else if((ob_get_length($attributes['correct_answer'])) > 1){
-				Session::flash('message', 'Error, Invalid input.Just select from a-d');
+			else{ //kung ang gi input sa answer kay more than one choice
+				Session::flash('message', 'Invalid input! Just enter only 1 correct answer');
 				return Redirect::to('/tests/'. $attributes['test_id'] );
 			}
 			
 		} 
 		else{
 			$question = new Question;
-				$question->content = Input::get('content');
-				$question->a = Input::get('a');
-				$question->b 	=	Input::get('b');
-				$question->c 	=	Input::get('c');
-				$question->d 	=	Input::get('d');
+				$question->content 			= Input::get('content');
+				$question->a 				= Input::get('a');
+				$question->b 				=	Input::get('b');
+				$question->c 				=	Input::get('c');
+				$question->d 				=	Input::get('d');
 				$question->correct_answer 	=	Input::get('correct_answer');
-				$question->test_id 	=	Input::get('test_id');
+				$question->test_id 			=	Input::get('test_id');
 					
 				$question->save();
 				Session::flash('message', 'Question was  successfully added.');
