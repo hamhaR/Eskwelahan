@@ -33,23 +33,23 @@ class QuestionModel implements TableRepository{
     public function add($attributes) {
         $this->checkWritePermissions();
         $rules = [ 
-            'content'    => 'required|Unique',
-            'choice1'   => 'required',
-            'choice2'   => 'required',
-            'choice3'   => 'required',
-            'choice4'   => 'required',
-            'answer'    => 'required',
-            'test_id'  => ''
+            'content'           => 'required|Unique',
+            'a'                 => 'required',
+            'b'                 => 'required',
+            'c'                 => 'required',
+            'd'                 => 'required',
+            'correct_answer'    => 'required',
+            'test_id'           => ''
             ];
         $validator = Validator::make($attributes, $rules);
         if ($validator->passes()) {
             $question = new Question;
             $question->content = $attributes['content'];
-            $question->choice1 = $attributes['choice1'];
-            $question->choice2 = $attributes['choice2'];
-            $question->choice3 = $attributes['choice3'];
-            $question->choice4 = $attributes['choice4'];
-            $question->answer = $attributes['answer'];
+            $question->choice1 = $attributes['a'];
+            $question->choice2 = $attributes['b'];
+            $question->choice3 = $attributes['c'];
+            $question->choice4 = $attributes['d'];
+            $question->answer = $attributes['correct_answer'];
             $question->test_id = $attributes['test_id'];
             $question->save();
             return $question->id;

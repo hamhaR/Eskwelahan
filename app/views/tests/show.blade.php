@@ -159,41 +159,45 @@
       </div>
       <div class="modal-body">
       
-             {{Form::open(['route' => 'questions.store'])}}
-        <div class="input-group">
-                 <span class="input-group-addon"> Question: </span>
-                    {{ Form::text('content', null, ['class'=>'form-control', 'placeholder'=>'Put your question']) }}
-            </div>
+        {{Form::open(['route' => 'questions.store'])}}
+        <div class="form-group">
+              {{ Form::label('content', 'Question:' ) }}
+              {{ Form::text('content', null, array('class' => 'form-control', 'placeholder' => 'Put your question here.')) }}
         </div>
-
+        
         <br>
-        <h3>Choices: </h3>
-        <br>
+        Choices:
 
-        <div class="input-group">
-          <span class="input-group-addon"> a).  </span>
-            {{ Form::text('a', null, ['class'=>'form-control', 'placeholder'=>'option a']) }}
+        <!--a-->
+        <div class="form-group">
+              {{ Form::label('a', 'a.) ' ) }}
+              {{ Form::text('a', null, array('class' => 'form-control', 'placeholder' => 'option a')) }}
         </div>
 
-         <div class="input-group">
-          <span class="input-group-addon"> b).  </span>
-            {{ Form::text('b', null, ['class'=>'form-control', 'placeholder'=>'option b']) }}
+        <!--b-->
+        <div class="form-group">
+              {{ Form::label('b', 'b.) ' ) }}
+              {{ Form::text('b', null, array('class' => 'form-control', 'placeholder' => 'option b')) }}
         </div>
 
-         <div class="input-group">
-          <span class="input-group-addon"> c).  </span>
-            {{ Form::text('c', null, ['class'=>'form-control', 'placeholder'=>'option c']) }}
+        <!--c-->
+        <div class="form-group">
+              {{ Form::label('c', 'c.) ' ) }}
+              {{ Form::text('c', null, array('class' => 'form-control', 'placeholder' => 'option c')) }}
         </div>
 
-         <div class="input-group">
-          <span class="input-group-addon"> d).  </span>
-            {{ Form::text('d', null, ['class'=>'form-control', 'placeholder'=>'option d']) }}
+        <!--d-->
+        <div class="form-group">
+              {{ Form::label('d', 'd.) ' ) }}
+              {{ Form::text('d', null, array('class' => 'form-control', 'placeholder' => 'option d')) }}
         </div>
 
-         <div class="input-group">
-          <span class="input-group-addon"> correct_answer:  </span>
-            {{ Form::text('correct_answer', null, ['class'=>'form-control', 'placeholder'=>'correct_answer']) }}
+        <!--correct answer-->
+        <div class="form-group">
+              {{ Form::label('correct_answer', 'Correct Answer ' ) }}
+              {{ Form::text('correct_answer', null, array('class' => 'form-control', 'placeholder' => 'Put the correct answer here.')) }}
         </div>
+      </div>
 
               <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

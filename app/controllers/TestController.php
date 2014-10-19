@@ -27,13 +27,6 @@ class TestController extends Controller
 		$user = Auth::user();
 		if(Auth::check()){
 
-			//if($user->role == 'student'){
-			//	$tests = Test::all();
-			//	$sections = $user->sections()->paginate(4);
-			//	return View::make('tests.index')->with('sections',$sections);
-			//}
-
-
 			if($user->role == 'teacher' ) {
 				
 				$sections = Section::where('teacher_id','=',$user->id)->get();
@@ -92,29 +85,34 @@ class TestController extends Controller
 	 */
 	public function store()
 	{
-		$rules = array(
-			'test_name' 			=>	'required',
-			'test_instructions'		=> '',
-			'section_id'			=> 'required',
-			'time_start'			=> 'required',
-			'time_end'				=> 'required'
-			
-		);
+		$attributes = Input::all();
+		$testData = [
+			'test_name' 		=> 	$attributes['test_name'],
+			'test_instructions' => 	$attributes['test_instructions'],
+			'time_start'		=> 	$attributes['time_start'],
+			'time_end'			=> 	$attributes['time_end'],
+			'section_id'		=> 	$attributes['section_id']
+		];
 
-		$test = new Test;
-		$test->test_name			= Input::get('test_name');
-		$test->test_instructions	= Input::get('test_instructions');
-		$test->section_id 			= Input::get('section_id');
-		$test->time_start			= Input::get('time_start');
-		$test->time_end 			= Input::get('time_end');			
+		$rules = [
+			'test_name' 		=> 	'required',
+			'test_instructions' => 	'required',
+			'time_start'		=> 	'required',
+			'time_end' 			=> 	'required',
+			'section_id' 		=> 	''
+		];
 
-		$test->teacher_id		= Auth::id();
-		$test->save();
-
-		
-		
-		Session::flash('message', 'Test/quiz successfully added.');
-		return Redirect::to('tests');
+		$validator = Validator::make($testData, $rules);
+				
+		if ($validator->fails()) {
+			Session::flash('message', 'Error, required field left blank.');
+			return Redirect::to('tests/');
+		} else{
+			$test = new TestModel;
+			$tests = $test->add($testData);
+			Session::flash('message', 'Test/quiz successfully added.');
+			return Redirect::to('tests');
+		}
 	}
 
 
@@ -126,7 +124,6 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
-	//$results = DB::select('SELECT questions.id, questions.content, questions.choice1, questions.choice2, questions.choice3, questions.choice4, questions.answer, questions.test_id FROM questions INNER JOIN tests ON (questions.test_id = tests.id) WHERE teacher_id = ?', array(Auth::user()->id));
 		if(Auth::user()->role == 'teacher'){
 			$result = Question::where('test_id' , '=', $id)->get();
 			return View::make('tests.show')->with(array(
@@ -167,6 +164,7 @@ class TestController extends Controller
 	 */
 	public function update($id)
 	{
+
 		$testData = [
 			'test_name' => Input::get('test_name'),
 			'test_instructions' => Input::get('test_instructions'),
@@ -196,9 +194,10 @@ class TestController extends Controller
 			}
 		}
 		catch(\Exception $e){
-			return Redirect::to('tests/' . $id . '/edit');
-			//echo 'Error!! Invalid input!';
 			Session::flash('message', 'Error!! Invalid input!');
+			return Redirect::to('tests/' . $id );
+			//echo 'Error!! Invalid input!';
+			
 		}
 	}
 
@@ -313,15 +312,4 @@ class TestController extends Controller
 	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions) . ' .';
 	 	//return Redirect::to('tests.taket');
 	 }
-
-
-	 		//$take_test->score = $score;
-
-
-
-
-	 	//Session::flash('message', 'Congratulations! You have successfully taken up the test.! Your score is ' . $score);
-	 	//return Redirect::to('tests');
-    
-
 }

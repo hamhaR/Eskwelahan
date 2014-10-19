@@ -140,7 +140,7 @@
               
                 
                 <option value="{{$section->section_id}}" >
-                  {{$course->course_title}} - {{$section->section_name}} - {{$section->section_id}}
+                  {{$course->course_title}} - {{$section->section_name}} 
                 </option>
               
               @endforeach
@@ -159,18 +159,17 @@
             </div>
 
             Schedule of Test
-            <div class="form-group">
+             <div class="form-group">
               {{ Form::label('time_start', 'From:') }}
               {{ Form::text('time_start', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
             </div>
 
+
             <div class="form-group">
               {{ Form::label('time_end', 'To: ' ) }}
               {{ Form::text('time_end', null, array('class'=>'form-control', 'placeholder'=>'MM-DD-YY, Time')) }}
-            </div>
-          
-
-         
+            </div>       
+     
         </div>
 
    
