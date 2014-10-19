@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubmitHomeworkTable extends Migration {
+class CreateSubmithomeworksTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,12 @@ class CreateSubmitHomeworkTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('submit_homeworks', function(Blueprint $table) {
+		Schema::create('submithomeworks', function(Blueprint $table)
+		{
+		
 			$table->increments('id');
 			$table->dateTime('date_submitted');
-			$table->dateTime('deadline');
+			$table->text('homework_body');
 
 			$table->integer('homework_id');
 			$table->foreign('homework_id')->references('id')->on('homeworks');
@@ -24,6 +26,7 @@ class CreateSubmitHomeworkTable extends Migration {
 
 			$table->timestamps();
             $table->softDeletes();
+			//
 		});
 	}
 
@@ -34,7 +37,8 @@ class CreateSubmitHomeworkTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('submit_homeworks');
+		Schema::dropIfExists('submithomeworks');
+
 	}
 
 }
