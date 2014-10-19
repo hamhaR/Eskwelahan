@@ -5,7 +5,7 @@
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
-{{ Form::open(array('url' => '/update/' . $homework->id,
+{{ Form::open(array('url' => 'homework/update/' . $homework->id,
             'autocomplete' => 'off',
             'class' => 'form-horizontal'
             )) }}

@@ -47,7 +47,7 @@ class UserController extends Controller {
 		//validate
 		
 		$rules = array(
-			'username'		=>	'required',
+			'username'		=>	'required|Unique:users',
 			'password'		=>	'required',
 			'role'			=>	'required',
 			'fname'			=>	'required',
@@ -63,7 +63,7 @@ class UserController extends Controller {
 		//do again
 		if ($validator->fails()){
 			return Redirect::to('users/create')
-				->withErrors($validator)
+				->withErrors('Required field left blank.')
 				->withInput(Input::except('password'));
 		
 		}

@@ -48,8 +48,8 @@ class StudentController extends \BaseController {
 		$validator = Validator::make($attributes, $rules);
 				
 		if ($validator->fails()) {
-			return Redirect::to('classes/index')
-							->withErrors($validator)
+			return Redirect::to('classes/' .$section_id. '?course_id=' . $course_id)
+							->withErrors('Student already exists in this class.')
 							->withInput(Input::all());
 		} else{
 			$section = Section::find($section_id);

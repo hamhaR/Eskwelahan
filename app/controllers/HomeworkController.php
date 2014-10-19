@@ -59,15 +59,22 @@ class HomeworkController extends \BaseController
 			'homework_instruction' => 'required'
 		);
 
-		$homework = new Homework;
-		$homework->course_id = Input::get('course_id');
-		$homework->homework_title = Input::get('homework_title');
-		$homework->homework_instruction	= Input::get('homework_instruction');
-		$homework->teacher_id = Auth::user()->id;
-		$homework->save();
-			
-		Session::flash('message', 'Homework successfully added.');
-		return Redirect::to('homeworks');
+		$validator = Validator::make(Input::all(), $rules);
+		if ($validator->passes()) {
+			$homework = new Homework;
+			$homework->course_id = Input::get('course_id');
+			$homework->homework_title = Input::get('homework_title');
+			$homework->homework_instruction	= Input::get('homework_instruction');
+			$homework->teacher_id = Auth::user()->id;
+			$homework->save();
+				
+			Session::flash('message', 'Homework successfully added.');
+			return Redirect::to('homeworks');
+		} else{
+			return Redirect::to('homeworks/create')
+							->with('message', 'Required field is left blank.');	
+		}
+		
 	}
 
 
@@ -136,7 +143,7 @@ class HomeworkController extends \BaseController
 		if ($validator->fails()) 
 		{
 			return Redirect::to('homeworks/' . $id . '/edit')
-							->withErrors($validator);
+							->with('message', 'Required field left blank.');
 		} 
 		else 
 		{
@@ -147,7 +154,7 @@ class HomeworkController extends \BaseController
 			$homework->save();
 		//	return $this->show($id);
 			Session::flash('message', 'Homework successfully updated.');
-			return Redirect::to('homeworks');
+			return Redirect::to('homeworks/'. $id);
 		}
 	}
 

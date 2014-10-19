@@ -69,7 +69,7 @@
 
       </div>
       <div class="modal-footer">
-        {{ Form::submit('Create', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       
         {{Form::close()}}

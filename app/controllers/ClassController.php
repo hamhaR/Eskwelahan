@@ -67,8 +67,8 @@ class ClassController extends \BaseController {
 		$validator = Validator::make($attributes, $rules);
 				
 		if ($validator->fails()) {
-			return Redirect::to('classes/index')
-							->withErrors($validator)
+			return Redirect::to('/classes')
+							->with('message','Invalid section.')
 							->withInput(Input::all());
 		} else{
 			$section = new Section;
@@ -135,9 +135,11 @@ class ClassController extends \BaseController {
 		$validator = Validator::make(Input::all(),$rules);
 
 		if($validator->fails()){
-			return Redirect::to('classes/' . $id . '/edit')
-				->withErrors($validator)
-				->withInput(Input::all());
+			Session::flash('message', 'Invalid Section');
+			return Redirect::to('classes');
+			//return Redirect::to('classes/' . $id . '/edit')
+			//	->withErrors('Invalid Section')
+			//	->withInput(Input::all());
 		}
 		else{
 			$section = Section::find($id);

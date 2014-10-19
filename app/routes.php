@@ -197,7 +197,7 @@ Route::post('/update/{id}', 'TestController@update');
  */
 Route::resource('homeworks', 'HomeworkController');
 //Route::post('course/{id}/{attributes}', 'CourseController@update');
-Route::post('/update/{id}', 'HomeworkController@update');
+Route::post('homework/update/{id}', 'HomeworkController@update');
 
 Route::resource('submithomeworks', 'SubmithomeworkController');
 Route::post('/update/{id}', 'SubmithomeworkController');
