@@ -34,6 +34,16 @@
 	<div class="form-group">
     {{ Form::textarea('material_instruction', "" ,array('id' => 'instructions_create')) }}
     </div>
+	
+	<!-----------------FILE UPLOAD--------------------->
+	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+  
+	{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
+	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
+	
+	{{ Form::reset('Reset') }}
+  
+	
     {{ Form::submit('Post Material', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
     </div>

@@ -30,6 +30,16 @@
     {{ Form::label('material_instruction', 'Description') }}
     {{ Form::textarea('material_instruction', $material->material_instruction ,array('id' => 'instructions_edit')) }}
     </div>
+	
+	
+	<!-----------------FILE UPLOAD--------------------->
+	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+  
+	{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
+	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
+	
+	{{ Form::reset('Reset') }}
+  
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
 @stop
