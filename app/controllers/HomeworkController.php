@@ -57,7 +57,7 @@ class HomeworkController extends \BaseController
 			'section_course_id' => 'required',
 			'homework_title' => 'required',
 			'homework_instruction' => 'required',
-			'deadline' => 'required|date|date_format:YYYY-MM-DD'
+			'deadline' => 'required'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);

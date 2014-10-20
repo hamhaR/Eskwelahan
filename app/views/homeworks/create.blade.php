@@ -22,7 +22,7 @@
     
     <div class="form-group">
     {{ Form::label('deadline', 'Deadline') }}
-    {{ Form::text('deadline', "", array('id'=>'deadline','placeholder'=>'MM-DD-YY, Time')) }}
+    {{ Form::text('deadline', "", array('id'=>'deadline','placeholder'=>'YYYY-MM-DD')) }}
     </div>
 
     <div class="form-group">
