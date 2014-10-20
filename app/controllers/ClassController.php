@@ -92,12 +92,17 @@ class ClassController extends \BaseController {
 	public function show($id)
 	{
 		$user = Auth::user();
+		
 		if(Auth::check()){
 			$section = Section::find($id);
+
+			$students = User::where('role','=','student')->get();
+
 			return View::make('class.show')
 				->with(array(
 					'section' => $section,
-					'course_id' => Input::get('course_id')
+					'course_id' => Input::get('course_id'),
+					'students' => $students
 				)
 			);			
 		}

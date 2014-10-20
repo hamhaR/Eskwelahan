@@ -52,10 +52,22 @@ class StudentController extends \BaseController {
 							->withErrors('Student already exists in this class.')
 							->withInput(Input::all());
 		} else{
-			$section = Section::find($section_id);
-			$section->students()->attach($student_id);
+
+			$student = User::whereHas('sections',function($q){
+				$q->where('student_id','=',Input::get('student_id'));
+			})->get();
+			if(count($student) == 0){
+				$section = Section::find($section_id);
+				$section->students()->attach($student_id);
 			
-			return Redirect::to('/classes/'.$section_id. '?course_id=' . $course_id);
+				return Redirect::to('/classes/'.$section_id. '?course_id=' . $course_id);
+			}
+			else{
+				Session::flash('message','Student already exists in this class.');
+				return Redirect::to('classes/' .$section_id. '?course_id=' . $course_id);
+			}
+
+			
 		}
 	}
 
