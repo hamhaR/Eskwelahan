@@ -13,12 +13,5 @@
 
 @stop
 @section("rightsidebar")
-<h5>Notifications</h5>
-<div class="list">
-	<a class="list-group-item"> <p>12:34 AM: <br>You added Vercillius</p> </a>
-	<a class="list-group-item"> <p>09:12 PM: <br>You added San Juan</p>  </a>
-	<a class="list-group-item"> <p>08:45 PM: <br>You added Pablo</p> </a>
-	<a class="list-group-item"> <p>08:34 PM: <br>You recieved a message from Pablo</p>  </a>
-	<a class="list-group-item"> <p>06:00 PM: <br>You recieved a message from Pablo</p>  </a>
-</div>
+
 @stop
