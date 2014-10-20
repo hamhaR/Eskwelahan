@@ -37,17 +37,27 @@ class MessageController extends \BaseController {
 	{
 		$convo = Conversation::find(Input::get('convo_id'));
 		$user = Auth::user();
-		$msg = new Message;
-		$msg->convo_id = Input::get('convo_id');
-		$msg->msg_content = Input::get('msg_content');
-		$msg->sender_id = $user->id;
-		$msg->unread = true;
-		$msg->conversation()->associate($convo);
-		$msg->save();
+
+		if(Input::get('msg_content') == null){
+			Session::flash('message','empty message. try again.');
+			return Redirect::to('/conversations/'.$convo->convo_id);
+		}
+		else{
+			$msg = new Message;
+			$msg->convo_id = Input::get('convo_id');
+			$msg->msg_content = Input::get('msg_content');
+			$msg->sender_id = $user->id;
+			$msg->unread = true;
+			$msg->conversation()->associate($convo);
+			$msg->save();
 
 
 
-		return Redirect::to('/conversations/'.$convo->convo_id);
+			return Redirect::to('/conversations/'.$convo->convo_id);
+		}
+
+
+		
 
 	}
 
