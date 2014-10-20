@@ -15,7 +15,8 @@ class HomeworkTest extends TestCase
     	$homeworkData = [
     		'homework_title' => 'Reading - Animaks the Mudkip',
     		'homework_instruction' => '<p>Phnglui mglwnafh cthulhu rylei</p>',
-    		'section_course_id' => 1
+    		'section_course_id' => 1,
+    		'deadline' => '2014-12-16'
     	];
     
     	$homework = new HomeworkModel;
@@ -35,7 +36,8 @@ class HomeworkTest extends TestCase
     	$homeworkData = [
     		'homework_title' => 'Propaganda of the Corrupt Philippine Politicians',
     		'homework_instruction' => '<p>Phnglui mglwnafh cthulhu rylei</p>',
-    		'section_course_id' => 1
+    		'section_course_id' => 1,
+    		'deadline' => '2000-06-12'
     	];
     
     	$homework = new HomeworkModel;
@@ -86,16 +88,16 @@ class HomeworkTest extends TestCase
 		'homework_title' => 'New Impossible Homework',
 		'homework_instruction' => '<p>Phnglui mglwnafh Cthulhu Rlyeh wgahnagl fhtagn</p>',
 		'section_course_id' => 1,
-		'deadline' => null
+		'deadline' => '2014-11-06'
 		];
 		
 		$homework = new HomeworkModel;
 		$homework->edit(1, $homeworkData);
-		$newHomework = $homework->find(1);
+		$newHomework = Homework::find(1);
 		$this->assertEquals($homeworkData['homework_title'], $newHomework->homework_title);
 		$this->assertEquals($homeworkData['homework_instruction'], $newHomework->homework_instruction);
 		$this->assertEquals($homeworkData['section_course_id'], $newHomework->section_course_id);
-		$this->assertNull($newHomework->section_course_id);
+		$this->assertEquals($homeworkData['deadline'],$newHomework->deadline);
 	}
 	
 	/**
@@ -111,7 +113,7 @@ class HomeworkTest extends TestCase
 		'homework_title' => 'Another Diary Entry',
 		'homework_instruction' => '<p>Phnglui mglwnafh Cthulhu Rlyeh wgahnagl fhtagn</p>',
 		'section_course_id' => 1,
-		'deadline' => null
+		'deadline' => '2014-08-08'
 		];
 		
 		$homework = new HomeworkModel;
