@@ -37,7 +37,7 @@ class TestModel implements TableRepository{
     public function add($attributes) {
         $this->checkWritePermissions();
         $rules = [ 
-            'test_name'              => 'required',
+            'test_name'              => 'required|Unique',
             'test_instructions'      => '',
             'time_start'             => 'required',
             'time_end'               => 'required',
@@ -61,7 +61,8 @@ class TestModel implements TableRepository{
                 throw new ErrorException("Invalid date range! ");
             }
             
-        } else {
+        } 
+        else {
             throw new ErrorException("Invalid data!");
         }
     }

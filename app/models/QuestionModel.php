@@ -45,11 +45,11 @@ class QuestionModel implements TableRepository{
         if ($validator->passes()) {
             $question = new Question;
             $question->content = $attributes['content'];
-            $question->choice1 = $attributes['a'];
-            $question->choice2 = $attributes['b'];
-            $question->choice3 = $attributes['c'];
-            $question->choice4 = $attributes['d'];
-            $question->answer = $attributes['correct_answer'];
+            $question->a = $attributes['a'];
+            $question->b = $attributes['b'];
+            $question->c = $attributes['c'];
+            $question->d = $attributes['d'];
+            $question->correct_answer = $attributes['correct_answer'];
             $question->test_id = $attributes['test_id'];
             $question->save();
             return $question->id;
@@ -66,7 +66,7 @@ class QuestionModel implements TableRepository{
          $rows = DB::table('questions')
                     ->join('tests')
                     ->where('tests.id', '=', 'questions.test_id')
-                    ->select( 'tests.test_name',  'questions.content', 'questions.choice1', 'questions.choice2', 'questions.choice3', 'questions.choice4', 'questions.answer')
+                    ->select( 'tests.test_name',  'questions.content', 'questions.a', 'questions.b', 'questions.c', 'questions.d', 'questions.correct_answer')
                     ->get();
 
         $array = [];
@@ -75,21 +75,21 @@ class QuestionModel implements TableRepository{
             $question = get_object_vars($question);
             $test_name = $question['test_name'];
             $content = $question['content'];
-            $choice1 = $question['choice1'];
-            $choice2 = $question['choice2'];
-            $choice3 = $question['choice3'];
-            $choice4 = $question['choice4'];
-            $answer = $question['answer'];      
+            $a = $question['a'];
+            $b = $question['b'];
+            $c = $question['c'];
+            $d = $question['d'];
+            $correct_answer = $question['correct_answer'];      
            
             
             $result = [
-                'test_name' => $test_name,
-                'content'   => $content,
-                'choice1'   => $choice1,
-                'choice2'   => $choice2,
-                'choice3'   => $choice3,
-                'choice4'   => $choice4,
-                'answer'    => $answer
+                'test_name'         => $test_name,
+                'content'           => $content,
+                'a'                 => $a,
+                'b'                 => $b,
+                'c'                 => $c,
+                'd'                 => $d,
+                'correct_answer'    => $correct_answer
                 
             ];
 

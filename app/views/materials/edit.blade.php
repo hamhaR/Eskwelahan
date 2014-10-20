@@ -30,13 +30,23 @@
     {{ Form::label('material_instruction', 'Description') }}
     {{ Form::textarea('material_instruction', $material->material_instruction ,array('id' => 'instructions_edit')) }}
     </div>
+	
+	
+	<!-----------------FILE UPLOAD--------------------->
+	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+  
+	{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
+	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
+	
+	{{ Form::reset('Reset') }}
+  
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
 @stop
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-    <!--    <script src="../../bootflat/js/jquery-1.9.1.min.js"></script>
+		<script src="../../bootflat/js/jquery-1.9.1.min.js"></script>
         <script src="../../ckeditor/ckeditor.js"></script>
         <script src="../../bootflat/js/bootstrap.min.js"></script>
         <script>
@@ -53,4 +63,4 @@
                         'del ins'
                     } );
             });
-        </script>-->
+        </script>

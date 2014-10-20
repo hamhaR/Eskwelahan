@@ -151,6 +151,8 @@ Route::get('/profile', function()
 	return View::make('users.profile');
 });
 
+
+
 /*Route::post('/create')
 |-----------------------------------------
 |		NOTE!!
@@ -217,9 +219,10 @@ Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
-Route::post('/taketest/{id}', 'TestController@testanswer_create');
-Route::post('/taketests', array('uses' => 'TestController@testanswer_store'));
+Route::post('taketest/{id}', 'TestController@testanswer_store');
+//Route::post('/taketests/{id}', array('uses' => 'TestController@testanswer_store'));
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
+Route::get('/aftertest/{id}', 'TestController@aftertest');
 
 
 Route::resource('messages','MessageController');
@@ -227,3 +230,23 @@ Route::resource('conversations','ConversationController');
 Route::post('confirmfriend', 'FriendController@confirm');
 Route::post('unconfirmfriend', 'FriendController@unconfirm');
 
+
+/***********FOR FILE UPLOAD*******************/
+
+Route::get('form', function(){
+ return View::make('form');
+});
+
+Route::any('form-submit', function(){
+ var_dump(Input::file('file'));
+});
+
+Route::any('form-submit', function(){
+ return Input::file('file')->getClientOriginalName();
+});
+
+ Route::any('form-submit', function(){
+ return Input::file('file')->getRealPath();
+});
+
+/**********FOR FILE UPLOAD**********************/

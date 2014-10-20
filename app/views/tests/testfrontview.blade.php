@@ -12,9 +12,9 @@
 @stop
 @section("rightsidebar")
 
-		 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#startTestConfirm">
-     			 <span class="glyphicon glyphicon-pencil"> Start Test</span>
-   		 </button>
+     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#startTestConfirm">
+           <span class="glyphicon glyphicon-pencil"> Start Test</span>
+       </button>
                 
                       <!--start test confirmation-->
                       <div class="modal fade" id="startTestConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -31,12 +31,12 @@
                             </div>
                             <div class="modal-footer">
                             
-                              <a class="btn btn-small btn-primary" href="/taketest/{{ $test['id']	 }}">Ok</a>
+                              <a class="btn btn-small btn-primary" href="/taketest/{{ $test['id']  }}">Ok</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                               
                             </div>
                           </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                       </div><!-- /.modal -->
-	
+  
 @stop

@@ -21,8 +21,10 @@ class SubmitHomeworkController extends \BaseController {
 	public function create()
 	{
 	if (Auth::user()->role == 'student') 
-		/*{
-			$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (student_courses.course_id = courses.id) WHERE student_id = ?', array(Auth::user()->id));*/
+		{
+		//	$results = DB::select('SELECT courses.id, courses.course_code, courses.course_title FROM teacher_courses INNER JOIN courses ON (student_courses.course_id = courses.id) WHERE student_id = ?', array(Auth::user()->id));
+			
+		//	$results = DB::select('SELECT homework.homework_id, homework.homework_title, homework.homework_instruction FROM homework WHERE ')
 			return view::make('submithomeworks.create');
 		//
 		}
@@ -37,6 +39,7 @@ class SubmitHomeworkController extends \BaseController {
 	public function store()
 	{
 		$rules = array(
+			'homework_id'		=> 'required'
 			'homework_body'		=> 'required'
 			
 		);

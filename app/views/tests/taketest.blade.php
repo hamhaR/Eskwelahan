@@ -4,8 +4,7 @@
  <div class="form-group">
 	@foreach($questions as $key => $question)
 
-	{{Form::open(['url' => 'taketests'])}}
-
+	
 	
 
 		<div class="form-group">
@@ -43,7 +42,8 @@
 
 	</div>
 {{Form::hidden('test_id',$test_id)}}
-{{Form::submit('Submit')}}
+<!-- {{Form::submit('Submit')}} -->
+<a class="btn btn-small btn-primary" href="/aftertest/{{ $test_id  }}">Submit</a>
                   
 
 

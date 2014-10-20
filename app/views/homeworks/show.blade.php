@@ -9,6 +9,7 @@
 			@if($homeworks->created_at != $homeworks->updated_at)
 				<p>Last edit: {{ date('j F Y, h:i A',strtotime($homeworks->updated_at)) }}</p>
 			@endif
+      <p>Deadline: {{ date('j F Y, h:i A',strtotime($homeworks->deadline)) }}</p>
 
 			{{ $homeworks->homework_instruction }}
 		
@@ -20,7 +21,7 @@
 @stop
 
 @section("rightsidebar")
-  @if(Auth::user()->role == 'teacher' && $homeworks->teacher_id == Auth::user()->id)
+  @if(Auth::user()->role == 'teacher')
     <a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a>
   <!--  <a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</a> -->
     <button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</button>

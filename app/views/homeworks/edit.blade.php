@@ -11,12 +11,12 @@
             )) }}
     <div class="form-group">
     {{ Form::label('course_id', 'Course') }}
-    <select name="course_id">
+    <select name="section_course_id">
         @foreach($courses as $value)
-            @if($value->id == $homework->course_id)
-                <option selected="selected" value="{{ $value->id }}">{{ $value->course_code }} ({{ $value->course_title }})</option>
+            @if($value->section_course_id == $homework->section_course_id)
+                <option value="{{ $value->section_course_id }}">{{ $value->course_code }} ({{ $value->course_title }}, section {{ $value->section_name }} )</option>
             @else
-                <option value="{{ $value->id }}">{{ $value->course_code }} ({{ $value->course_title }})</option>
+                <option value="{{ $value->section_course_id }}">{{ $value->course_code }} ({{ $value->course_title }}, section {{ $value->section_name }} )</option>
             @endif
         @endforeach
     </select>
@@ -24,6 +24,11 @@
     <div class="form-group">
     {{ Form::label('homework_title', 'Homework Title') }}
     {{ Form::text('homework_title', $homework->homework_title) }}
+    </div>
+
+    <div class="form-group">
+    {{ Form::label('deadline', 'Deadline') }}
+    {{ Form::text('deadline', $homework->deadline, array('id'=>'deadline','placeholder'=>'MM-DD-YY, Time')) }}
     </div>
 
     <div class="form-group">

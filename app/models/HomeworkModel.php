@@ -55,15 +55,15 @@ class HomeworkModel
 
      if ($role == 'teacher') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) WHERE teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, sections.teacher_id, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) WHERE sections.teacher_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
      }
      if ($role == 'student') 
      {
-         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, homeworks.created_at, courses.course_code FROM section_students INNER JOIN section_course ON (section_students.section_id = section_course.section_id) INNER JOIN homeworks ON (section_course.course_id = homeworks.course_id) INNER JOIN courses ON (courses.id = homeworks.course_id) WHERE student_id = ? AND homeworks.deleted_at IS NULL', array(Auth::user()->id));
+         $homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at FROM homeworks INNER JOIN section_course ON (section_course.section_course_id = homeworks.section_course_id) INNER JOIN sections ON (sections.section_id = section_course.section_id) INNER JOIN courses ON (section_course.course_id = courses.id) INNER JOIN section_students ON (sections.section_id = section_students.section_id) WHERE section_students.student_id = ? AND homeworks.deleted_at IS NULL ORDER BY homeworks.id', array(Auth::user()->id));
      }
      if ($role == 'admin')
      {
-     	$homeworks = DB::select('SELECT homeworks.id, homeworks.course_id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
+     	$homeworks = DB::select('SELECT homeworks.id, homeworks.homework_title, courses.course_code, homeworks.created_at, users.lname, users.fname FROM homeworks INNER JOIN courses ON (homeworks.course_id = courses.id) INNER JOIN users ON (homeworks.teacher_id = users.id) AND homeworks.deleted_at IS NULL ORDER BY homeworks.id');
      }
      if (!Auth::check())
      {
@@ -125,30 +125,37 @@ public function delete($id)
 
 public function edit($id, $attributes) 
 {
+	$this->checkWritePermissions();
     $homework = Homework::find($id);
+
+    $rules = [
+                'homework_instruction' => 'required',
+                'homework_title' => 'required',
+                'section_course_id' => 'required',
+                'deadline' => 'required'
+        ];
 
     if($id == null) 
     {
-        throw new Exception("Invalid course code.");
+        throw new Exception("Invalid homework.");
     } 
     else 
     {
-        if(array_key_exists('homework_instruction', $attributes) && array_key_exists('homework_title', $attributes)) 
+        $validator = Validator::make($attributes, $rules);
+        if ($validator->passes()) 
         {
-            $h_instruction = $attributes['homework_instruction'];
-            $h_title = $attributes['homework_title'];
-            $c_id = $attributes['course_id'];
-            if ((gettype($h_instruction) == 'string') && (gettype($h_title) == 'string')) 
-            {
-                $homework->homework_instruction = $attributes['homework_instruction'];
-                $homework->homework_title = $attributes['homework_title'];
-                $homework->course_id = $attributes['course_id'];
-            } 
-            else 
-            {
-                throw new Exception("Invalid homework information.");
-            }
+            $homework = Homework::find($id);
+            $homework->section_course_id = $attributes['section_course_id'];
+            $homework->homework_title = $attributes['homework_title'];
+            $homework->homework_instruction = $attributes['homework_instruction'];
+            $homework->deadline = $attributes['deadline'];
+            $homework->save();
+        } 
+        else 
+        {
+            throw new ErrorException("Invalid data!");
         }
+        
     }
 }
 

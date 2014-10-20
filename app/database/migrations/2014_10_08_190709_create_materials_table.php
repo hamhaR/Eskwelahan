@@ -16,6 +16,7 @@ class CreateMaterialsTable extends Migration {
 			$table->increments('id');
 			$table->string('material_title', 255);
 			$table->text('material_instruction');
+			$table->string('file_location', 255)->nullable();
 			$table->integer('teacher_id');
 			$table->integer('course_id');
 
