@@ -42,8 +42,6 @@
 	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
 	
 	{{ Form::reset('Reset') }}
-  
-	
     {{ Form::submit('Post Material', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
     </div>
