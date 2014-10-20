@@ -5,10 +5,12 @@
     <div class="list">
 		@foreach($convos as $convo)
 			
-				<div class="list-group-item">
-					<a href="conversations/{{$convo->convo_id}}">{{$convo->convo_name}}</a>
-          <div class='pull-right'><p>{{$convo->created_at}}</p></div>
-				</div>
+				
+					<a class="list-group-item" href="conversations/{{$convo->convo_id}}">{{$convo->convo_name}}
+            <div class='pull-right'><p>{{$convo->created_at}}</p></div>
+          </a>
+          
+				
 			
 		@endforeach
     </div>
