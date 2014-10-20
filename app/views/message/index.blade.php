@@ -30,8 +30,8 @@
       </div>
       <div class="modal-body">
         {{Form::open(array('url' => 'conversations'))}}
-          <div class="form-group ">
-            <div class="list pre-scrollable" >
+          <div class="form-group pre-scrollable">
+            <div class="list col-xs-12" >
             <div class="checkbox">
               @foreach(User::all() as $stud)
                 @if($stud->id <> Auth::id())
