@@ -25,5 +25,5 @@
 @stop
 
 @section("rightsidebar")
-	<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-plus"></span> Add New User</a>
+	<a class="btn btn-primary" href="/createaccountadmin"><span class="glyphicon glyphicon-plus"></span> Add New User</a>
 @stop
