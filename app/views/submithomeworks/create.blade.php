@@ -12,10 +12,13 @@
 ]) }}
 	
 	
+	
+	
 	<div class="form-group">
 	
 		{{ Form::label('homework_body', 'Answers here') }}
-		{{ Form::textarea('homework_body', Input::old('homework_body'), array('class' => 'form-control')) }}
+		<!--{{ Form::textarea('homework_body', Input::old('homework_body'), array('class' => 'form-control')) }}-->
+		{{ Form::textarea('homework_body', Input::old('homework_body'), array('id' => 'body_homework')) }}
 	</div>
 <!--------------FOR FILE UPLOAD---------------->	
 <!--	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
@@ -38,7 +41,7 @@
         <script src="../bootflat/js/bootstrap.min.js"></script>
         <script>
             $(function () {
-                CKEDITOR.replace( 'instructions_create', {
+                CKEDITOR.replace( 'body_homework', {
                     allowedContent:
                         'h1 h2 h3 p blockquote strong em;' +
                         'a[!href];' +

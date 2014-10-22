@@ -29,7 +29,7 @@
   @endif
   
   
-  <a class="btn btn-primary" href="{{ URL::route('homeworks.index') }}"><span class="glyphicon glyphicon-chevron-left"></span> Back to Homework Index</a>
+	<a class="btn btn-primary" href="{{ URL::route('homeworks.index') }}"><span class="glyphicon glyphicon-chevron-left"></span> Back to Homework Index</a>
 @stop
 
 <!-- Modal -->

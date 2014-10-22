@@ -47,15 +47,22 @@ class SubmitHomeworkController extends \BaseController {
 			
 		);
 		
-		$submithomework = new Submithomework;
-		$submithomework->homework_id		= Input::get('homework_id');
-		$submithomework->homework_body		= Input::get('homework_body');
-		$submithomework->student_id 		= Auth::user()->id;
-		$submithomework->save();
+		$validator = Validator::make(Input::all(), $rules);
+		if ($validator->passes()) {
+			$submithomework = new Submithomework;
+			$submithomework->homework_id		= Input::get('homework_id');
+			$submithomework->homework_body		= Input::get('homework_body');
+			$submithomework->student_id 		= Auth::user()->id;
+			$submithomework->save();
 		
-		Session::flash('message', 'Homework successfully added.');
-		return Redirect::to('homeworks');
-	
+			Session::flash('message', 'Homework successfully added.');
+			return Redirect::to('homeworks');
+		}
+		
+		else{
+			return Redirect::to('submithomeworks/create')
+							->with('message', 'Please fill out all fields');	
+		}
 		//
 	}
 
