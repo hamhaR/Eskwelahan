@@ -32,19 +32,32 @@ class ConversationController extends \BaseController {
 	public function store()
 	{
 		$receiver_ids = Input::get('receiver_ids');
+		$convo_name = "(untitled)";
+		
+		if(Input::get('convo_name') != null){
+			$convo_name = Input::get('convo_name');
+		}
+		
 
-		$convo = new Conversation;
-		$convo->convo_name = Input::get('convo_name');
-		$convo->save();
-
-		foreach($receiver_ids as $id){
+		if(count($receiver_ids) ==0 ){
+			Session::flash('message','no recepients');
+			return Redirect::to('messages');
+		}
+		else{
+			$convo = new Conversation;
+			$convo->convo_name = $convo_name;
+			$convo->save();
+			
+			foreach($receiver_ids as $id){
 			$person = User::find($id);
 			$convo->persons()->attach($person->id);
+			}
+
+			$convo->persons()->attach(Auth::id());
+
+			return Redirect::to('conversations/'.$convo->convo_id);
 		}
-
-		$convo->persons()->attach(Auth::id());
-
-		return Redirect::to('conversations/'.$convo->convo_id);
+		
 	}
 
 

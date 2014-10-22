@@ -44,7 +44,7 @@ Teacher: <a href="/users/{{$section->teacher->id}}">{{$section->teacher->fname}}
           <div class="form-group">
            {{ Form::label('student', 'Name') }}
             <select class="form-control" id="student_id" name="student_id">
-              @foreach(User::where('role','=','student')->get() as $stud)
+              @foreach($students as $stud)
                 
                 <option value="{{$stud->id}}">
                   {{$stud->fname}} {{$stud->lname}} 
