@@ -54,7 +54,8 @@ class StudentController extends \BaseController {
 		} else{
 
 			$student = User::whereHas('sections',function($q){
-				$q->where('student_id','=',Input::get('student_id'));
+				$q->where('student_id','=',Input::get('student_id'))
+					->where('sections.section_id','=',Input::get('section_id'));
 			})->get();
 			if(count($student) == 0){
 				$section = Section::find($section_id);
