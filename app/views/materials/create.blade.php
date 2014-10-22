@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
    	
-
+<!-----CREATE BLADE PHP FOR MATERIALS------->
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
@@ -36,12 +36,14 @@
     </div>
 	
 	<!-----------------FILE UPLOAD--------------------->
-	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
-  
-	{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
-	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
-	
-	{{ Form::reset('Reset') }}
+		{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+		
+		{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
+		{{ Form::file('file','',array('id'=>'file','class'=>'getRealPath()')) }} 
+		
+		{{ Form::reset('Reset') }}
+		{{ Form::close() }}
+		
     {{ Form::submit('Post Material', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
     </div>

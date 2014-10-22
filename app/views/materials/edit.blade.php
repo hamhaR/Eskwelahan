@@ -33,13 +33,14 @@
 	
 	
 	<!-----------------FILE UPLOAD--------------------->
-	{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+		{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
   
-	{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
-	{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
+		{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
+		{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
 	
-	{{ Form::reset('Reset') }}
-  
+		{{ Form::reset('Reset') }}
+		{{ Form::close() }}
+		
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
 @stop

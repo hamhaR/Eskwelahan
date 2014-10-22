@@ -24,7 +24,7 @@ class SubmitHomeworkController extends \BaseController {
 		{
 			
 		//	$results = DB::select('SELECT homework.homework_id, homework.homework_title, homework.homework_instruction FROM homework WHERE ')
-			return view::make('submithomeworks.create');
+			return View::make('submithomeworks.create');
 		//
 		}
 	}
@@ -38,12 +38,12 @@ class SubmitHomeworkController extends \BaseController {
 	public function store()
 	{
 		$rules = array(
-			'homework_id'		=> 'required'
+			'homework_id'		=> 'required',
 			'homework_body'		=> 'required'
 			
 		);
 		
-		$submithomework = new SubmitHomework
+		$submithomework = new Submithomework;
 		$submithomework->homework_id		= Input::get('homework_id');
 		$submithomework->homework_body		= Input::get('homework_body');
 		$submithomework->student_id 		= Auth::user()->id;
