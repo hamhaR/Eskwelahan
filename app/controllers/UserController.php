@@ -62,11 +62,21 @@ class UserController extends Controller {
 		
 		//do again
 		if ($validator->fails()){
-			return Redirect::to('users/create')
-				->withErrors('Required field left blank.')
+			if ((Input::get('username') == null) || (Input::get('password') == null) || (Input::get('role') == null)|| (Input::get('fname') == null) || (Input::get('mname') == null) || (Input::get('lname') == null) || (Input::get('gender')== null) || (Input::get('address')== null ) || (Input::get('email') ==null)){
+				Session::flash('message', 'Required field/s missing');
+				return Redirect::to('users/create')
 				->withInput(Input::except('password'));
-		
+			}
+    //w$errors[] = 'Email is required';
+			else{
+				
+				//( empty( $_POST['email'] ) || ! is_string( $_POST['email'] ) ) {
+				Session::flash('message', 'Invalid input type for email.');
+				return Redirect::to('users/create')
+				->withInput(Input::except('password'));
+			}
 		}
+	
 		
 		else {
 			//store
