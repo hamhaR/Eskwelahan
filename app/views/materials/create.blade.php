@@ -5,9 +5,6 @@
 
 <!--{{ HTML::ul($errors->all()) }} -->
 
-<div class="container">
-<div class="row">
-    <div class="col-md-12">
 
     <h3>Create Educational Material</h3>
 {{ Form::open([
@@ -41,14 +38,10 @@
 		{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
 		{{ Form::file('file','',array('id'=>'file','class'=>'getRealPath()')) }} 
 		
-		{{ Form::reset('Reset') }}
-		{{ Form::close() }}
+		{{ Form::reset('Reset') }} <br/> <br />
 		
     {{ Form::submit('Post Material', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}
-    </div>
-</div>
-</div>
 
 
 @stop

@@ -26,11 +26,11 @@
 		{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
 		{{ Form::file('file','',array('id'=>'file','class'=>'getRealPath()')) }} 
 		
-		{{ Form::reset('Reset') }}
-		{{ Form::close() }}
+		{{ Form::reset('Reset') }}<br/><br/>
 <!--------------------------------------------->
 		
     {{ Form::submit('Submit Homework', array('class' => 'btn btn-primary')) }}
+  <a class="btn btn-primary" href="{{ URL::route('profile') }}"><span class="glyphicon glyphicon-chevron-left"></span> Return</a>
 {{ Form::close() }}
 @stop
 @section("rightsidebar")

@@ -73,10 +73,11 @@ class MaterialController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->passes()) {
 			$material = new Materials;
-			$material->course_id = Input::get('course_id');
-			$material->material_title = Input::get('material_title');
+			$material->course_id 			= Input::get('course_id');
+			$material->file_location 		= Input::get('file_location');
+			$material->material_title 		= Input::get('material_title');
 			$material->material_instruction	= Input::get('material_instruction');
-			$material->teacher_id = Auth::user()->id;
+			$material->teacher_id 			= Auth::user()->id;
 			$material->save();
 	/********************************************/
 	

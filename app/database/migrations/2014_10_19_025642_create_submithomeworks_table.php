@@ -17,6 +17,7 @@ class CreateSubmithomeworksTable extends Migration {
 		
 			$table->increments('id');
 			$table->dateTime('date_submitted')->nullable();
+			$table->string('file_location', 255)->nullable();
 			$table->text('homework_body');
 
 			$table->integer('homework_id');

@@ -9,6 +9,18 @@ class SubmitHomeworkController extends \BaseController {
 	 */
 	public function index()
 	{
+	
+	if (Auth::user()->role == 'teacher'){
+	
+		$submithomework = new Submithomework;
+		$submithomeworks = $submithomework->all();
+		return View::make('submithomeworks.index')->with('submithomeworks', $submithomeworks);
+		
+		}
+		
+	else {
+		return Redirect::to('profile')->with('message', 'Access is restricted');
+		}
 		//
 	}
 
@@ -42,7 +54,7 @@ class SubmitHomeworkController extends \BaseController {
 	public function store()
 	{
 		$rules = array(
-			'homework_id'		=> 'required',
+			//'homework_id'		=> 'required',
 			'homework_body'		=> 'required'
 			
 		);
@@ -50,7 +62,8 @@ class SubmitHomeworkController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->passes()) {
 			$submithomework = new Submithomework;
-			$submithomework->homework_id		= Input::get('homework_id');
+			$submithomework->homework_id		= '1';//Input::get('homework_id');
+			$submithomework->file_location		= Input::get('file_location');
 			$submithomework->homework_body		= Input::get('homework_body');
 			$submithomework->student_id 		= Auth::user()->id;
 			$submithomework->save();

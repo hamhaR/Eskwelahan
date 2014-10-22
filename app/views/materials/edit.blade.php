@@ -38,8 +38,7 @@
 		{{ Form::label('file','Upload File',array('id'=>'','class'=>'')) }}
 		{{ Form::file('file','',array('id'=>'','class'=>'')) }} 
 	
-		{{ Form::reset('Reset') }}
-		{{ Form::close() }}
+		{{ Form::reset('Reset') }}<br/><br/>
 		
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 {{ Form::close() }}

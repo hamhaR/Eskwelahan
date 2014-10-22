@@ -1,9 +1,6 @@
 @extends("layout")
 @section("content")
 <!-- MATERIALS INDEX!! -->
-<div class="container">
-<div class="row">
-	<div class="col-md-12">
 
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -41,9 +38,6 @@
 		<a class="btn btn-primary" href="{{ URL::route('materials.create') }}"><span class="glyphicon glyphicon-plus"></span> Create new Material</a>
 	@endif
 
-	</div>
-</div>
-</div>
 
 @stop
 @section("rightsidebar")
