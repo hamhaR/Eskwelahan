@@ -122,10 +122,10 @@
       {{Form::open(array('url' => 'classes'))}}
           <div class="form-group">
            {{ Form::label('course_title', 'Course') }}
-            <select class="form-control" id="course_title" name="course_title">
+            <select class="form-control" id="course_id" name="course_id">
               @foreach(Course::all() as $course)
                 
-                <option>
+                <option value="{{$course->id}}">
                   {{$course->course_title}}
                 </option>
               

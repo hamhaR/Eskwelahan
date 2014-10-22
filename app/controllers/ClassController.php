@@ -57,11 +57,11 @@ class ClassController extends \BaseController {
 		$attributes = Input::all();
 
 		$section_name = $attributes['section_name'];
-		$course_title = $attributes['course_title'];
+		$course_id = $attributes['course_id'];
 
 		$rules = array(
 			'section_name' => 'required',
-			'course_title' => 'required'
+			'course_id' => 'required'
 		);
 
 		$validator = Validator::make($attributes, $rules);
@@ -71,14 +71,28 @@ class ClassController extends \BaseController {
 							->with('message','Invalid section.')
 							->withInput(Input::all());
 		} else{
-			$section = new Section;
-			$section->section_name = $section_name;
-			$section->teacher_id = Auth::user()->id;
-			$section->save();
 
-			$course = Course::where('course_title', '=', $course_title )->first();
-			$section->courses()->attach($course->id);
-			return Redirect::to('/classes');
+			$temp_section = Section::whereHas('courses',function($q){
+				$q->where('courses.id','=',Input::get('course_id'))
+					->where('sections.section_name','=',Input::get('section_name'));
+			})->get();
+
+			if(count($temp_section) == 0){
+				$section = new Section;
+				$section->section_name = $section_name;
+				$section->teacher_id = Auth::user()->id;
+				$section->save();
+
+				
+				$section->courses()->attach($course_id);
+				return Redirect::to('/classes');
+			}
+			else{
+				Session::flash('message','Section name already exists in this course');
+				return Redirect::to('/classes');
+
+			}
+			
 		}
 	}
 
