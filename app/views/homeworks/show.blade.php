@@ -12,17 +12,13 @@
       <p>Deadline: {{ date('j F Y, h:i A',strtotime($homeworks->deadline)) }}</p>
 
 			{{ $homeworks->homework_instruction }}
-		
-
-
-
-
 @endif
 @stop
 
 @section("rightsidebar")
   @if(Auth::user()->role == 'teacher')
-    <a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a>
+    <a class="btn btn-success" href="{{ URL::route('homeworks.edit', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Edit This Homework</a></br>
+	<a class="btn btn-primary" href="{{ URL::route('submithomeworks.index', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> See Submissions</a>
   <!--  <a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</a> -->
     <button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation"><span class="glyphicon glyphicon-remove"></span> Delete This Homework</button>
 
@@ -30,7 +26,6 @@
 
     @if(Auth::user()->role == 'student')
     <a class="btn btn-success" href="{{ URL::route('submithomeworks.create', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Submit homework</a>
-
   @endif
   
   

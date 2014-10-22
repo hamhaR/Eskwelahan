@@ -21,11 +21,15 @@ class SubmitHomeworkController extends \BaseController {
 	public function create()
 	{
 	if (Auth::user()->role == 'student') 
+	
 		{
-			
-		//	$results = DB::select('SELECT homework.homework_id, homework.homework_title, homework.homework_instruction FROM homework WHERE ')
+		//	$results = DB::select('SELECT homework.homework_id FROM homework WHERE ho'); 
 			return View::make('submithomeworks.create');
 		//
+		}
+	else
+		{
+			return Redirect::to('profile')->with('message', 'Access is restricted.');
 		}
 	}
 

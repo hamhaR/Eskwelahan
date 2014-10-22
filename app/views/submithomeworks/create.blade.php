@@ -7,13 +7,13 @@
 {{ Form::open([
 		"url"			=> "submithomeworks",
 		"autocomplete"	=> "off",
-        "class"			 => "form-horizontal"
+        "class"			=> "form-horizontal"
 		
 ]) }}
 	
 	
-	
 	<div class="form-group">
+	
 		{{ Form::label('homework_body', 'Answers here') }}
 		{{ Form::textarea('homework_body', Input::old('homework_body'), array('class' => 'form-control')) }}
 	</div>
