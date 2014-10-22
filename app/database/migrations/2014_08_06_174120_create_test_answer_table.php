@@ -19,7 +19,7 @@ class CreateTestAnswerTable extends Migration {
 			$table->integer('student_id');
 			$table->foreign('student_id')->references('id')->on('users');
 			$table->integer('test_id');
-			$table->foreign('test_id')->references('id')->on('take_tests');
+			$table->foreign('test_id')->references('id')->on('tests');
 			$table->integer('question_id');
 			$table->foreign('question_id')->references('id')->on('questions');
 			$table->char('user_answer', 1);

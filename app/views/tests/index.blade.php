@@ -187,7 +187,7 @@
   
   @if(Auth::check() && Auth::user()->role == 'teacher')
     <!-- Button trigger modal -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    <button id="create" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
       + Create Test
     </button>
   @endif

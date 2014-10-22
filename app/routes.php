@@ -47,7 +47,7 @@ Route::get('/create', function()
 */
 
 
-Route::group(["before" => "guest"], function() {
+ Route::group(["before" => "guest"], function() {
     Route::any("/login", [
         "as" => "login",
         "uses" => "AuthenticationController@getLogin"
@@ -55,6 +55,12 @@ Route::group(["before" => "guest"], function() {
 
     Route::post("/login", "AuthenticationController@postLogin");
 });
+
+ 
+// Route::filter('auth', function()
+// {
+//     if (Auth::guest()) return Redirect::guest('login');
+// });
 
 Route::group(["before" => "auth"], function() {
     Route::any("/", [
@@ -214,16 +220,13 @@ Route::post('/update/{id}', 'QuestionController@update');
 Route::post('questions/{id}', array('uses' => 'QuestionController@store'));
 
 
-
 Route::resource('materials', 'MaterialController');
 Route::post('/update/{id}', 'MaterialController@update');
 
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
-Route::post('taketest/{id}', 'TestController@testanswer_store');
-//Route::post('/taketests/{id}', array('uses' => 'TestController@testanswer_store'));
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
-Route::get('/aftertest/{id}', 'TestController@aftertest');
+Route::post('tests', 'TestController@testanswer_store');
 
 
 Route::resource('messages','MessageController');

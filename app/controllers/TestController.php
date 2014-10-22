@@ -147,41 +147,6 @@ class TestController extends Controller
 	 */
 	public function show($id)
 	{
-		// if(Auth::user()->role == 'teacher'){
-		// 	$result = Question::where('test_id' , '=', $id)->get();
-		// 	return View::make('tests.show')->with(array(
-		// 		'questions'=> $result,
-		// 		'test_id' => $id
-		// 		));
-		// }
-		// else if(Auth::user()->role == 'student'){
-		// 	//$test = Test::find($id);
-		// 	//$taketests = TakeTest::where('test_id', '=', $test->id);
-		// 	// $taketest = new TakeTest;
-			
-		// 	// if($taketest->id != 0){
-
-			
-		// 	// //$taketest = new TakeTest;
-
-		// 	// //$testanswer = TestAnswer::where('test_id', '=', $test->id);
-		// 	// 	return View::make('tests.aftertest', [
-  //  //                  'test' => $this->tests->find($id)
-  //  //      		]);
-		// 	// }
-		// 	// else{
-		// 		return View::make('tests.testfrontview', [
-  //                   'test' => $this->tests->find($id)
-  //       		]);
-		// 	// }
-			
-                    
-		// }
-		// else{
-		// 	return Redirect::to('tests');
-		// 	Session::flash('message', 'Access denied!');
-		// }
-
 		if(Auth::user()->role == 'teacher'){
 			$result = Question::where('test_id' , '=', $id)->get();
 			return View::make('tests.show')->with(array(
@@ -317,7 +282,6 @@ class TestController extends Controller
 		//$test->teacher_id		= Auth::id();
 		$taketest->save();
 
-		//Session::flash('message', 'Test/quiz successfully added.');
 		return Redirect::to('tests');
     }
 
@@ -327,33 +291,33 @@ class TestController extends Controller
 
 		$questions = Question::where('test_id', '=', $id)->get();
 		$test = Test::find($id);
-		$temp_test = TakeTest::where('test_id','=', $test->id)->get();
-
-			if(count($temp_test) > 0){	// Test id exist in take_test table
-				Session::flash('message', 'Access denied! You have already taken up this test. Your score was ' );
+		//$temp_test_ = TakeTest::where('test_id','=', $test->id)->get();
+		$temp_date = new DateTime;
+		
+			if ($temp_date >= $test->time_end){	
+				Session::flash('message', 'Time has already passed' );
 				return Redirect::to('tests');
 			} 
-			else{	// Test id doesn't exist in the db.
-				$taketest = new TakeTest;
-				$taketest->test_id = $id;
-				$taketest->student_id = Auth::id();
-				$taketest->date_taken = new DateTime;
-				$taketest->save();
-				$t_id = $taketest->id;
+			else{
+				if($temp_date ) {
 
-				$new_test_taken = TakeTest::find($t_id);
-				
-				if (($new_test_taken->date_taken < $test->time_end) and (($new_test_taken->date_taken >= $test->time_start) or ($new_test_taken->date_taken <= $test->time_start)) ) {
+				}
+				else{
 					return View::make('tests.taketest')-> with(array(
 							'questions'=> $questions,
 							'test_id' => $id
 							));
-				} 
-				else{ //wala pa ka take sa test pero time is over na.
-					Session::flash('message', 'Access denied! Time has already passed! ');
-					return Redirect::to('tests');
 				}
+				//if (($temp_date < $test->time_end) and ($temp_date >= $test->time_start) ) {
+					
 			}
+		// $questions = Question::where('test_id', '=', $id)->get();
+		// $test = Test::find($id);
+		// $dt = Carbon::now();
+  //       $dateNow = $dt->toDateTimeString();
+
+  //       echo $dateNow;
+
 
 	}
 
@@ -372,51 +336,39 @@ public function testfrontview($id){
 	 	$test = Test::where('id','=',Input::get('test_id'))->get();
 	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
 	 	$score = 0;
-	 	$take_test = TakeTest::where('test_id','=',Input::get('test_id'))->get();
+	 	$taketest = new TakeTest;
+	 	$taketest->test_id = Input::get('test_id');
+		$taketest->student_id = Auth::id();
+		$taketest->date_taken = new DateTime;
+		$taketest->save();
+
+
 
 	 		foreach($questions as $key => $question){
 	 			$answer = Input::get('answers'.$key);
 
 		 		$testanswer = new TestAnswer;
+		 		
+				$t_id = $taketest->id;
 				
 				$testanswer->test_id			= Input::get('test_id');
 				$testanswer->question_id		= $question->id;
 				$testanswer->user_answer		= $answer;	
-				$testanswer->student_id			= Auth::id();		
-
-				//$test->teacher_id		= Auth::id();
+				$testanswer->student_id			= Auth::id();	
 				$testanswer->save();
 
 				if($question->correct_answer == $answer){
-					$score = $score+1;
-					//$student_score = $score;
-					//return $score; //mo increment everytime correct ang answer sa student.
-				return View::make('tests.aftertest')->with( 'tests', $score);
-					//$student_score = ++$score;
-					//$taketest->score = $student_score;
-					//$taketest->save();
+					++$score ;
+
+					//$taketest = TakeTest::where('test_id', '=', $testanswer->id);
+
 				}
-	 	}
+	 		}
+	 		$taketest->score = $score;//ayha ra masave if nahuman na ug store ang sa test_answes na attributes
+	 		$taketest->save();
 	 	//echo $score;
-	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
-	 	//return Redirect::to('tests.taket');
-	 	//return Redirect::to('tests.aftertest')->with('testanswers', $testanswer);
+	 	//echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
+	 	Session::flash('message', 'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions));
+	 	return Redirect::to('tests');
 	 }
-public function aftertest($id){
-
-	 // 	$testanswers = TestAnswer::find($id);
-	 // 	$questions = Question::where('test_id', '=', $testanswers->test_id);
-	 // 	$taketests= TakeTest::where('test_id', '=', $testanswers->test_id);
-
-	 // 	return View::make('tests.aftertest')->with(array(
-	 // 		  //'test' => $test,
-  //                   'questions'	=> $questions,
-  //                   'taketests'	=> $taketests,
-  //                  'testanswers' => $testanswers
-	 // 	));
-	$test = Test::find($id);
-	return View::make('tests.aftertest')->with('tests', $test);
-	 }
-
-
 }

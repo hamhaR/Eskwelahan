@@ -24,6 +24,7 @@ class CreateTakeTestTable extends Migration {
 
 
 			$table->dateTime('date_taken');
+			$table->integer('score')->nullable();
 
 			$table->timestamps();
             $table->softDeletes();
