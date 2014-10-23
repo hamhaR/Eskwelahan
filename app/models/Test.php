@@ -21,7 +21,7 @@ class Test extends Eloquent{
    }
 
     public function question(){
-    	return $this->hasMany('Question', 'id');
+    	return $this->hasMany('Question',  'id');
     }
 
   public function section(){
@@ -29,7 +29,7 @@ class Test extends Eloquent{
   }
 
   public function taketests(){
-    return $this->hasMany('TakeTest', 'test_id');
+    return $this->hasMany('TakeTest', 'id' );
   }
 
   public function section_course(){

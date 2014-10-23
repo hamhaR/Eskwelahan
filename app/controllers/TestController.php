@@ -265,25 +265,25 @@ class TestController extends Controller
 	* Allows students to take test
     */
 
-    public function taketest_store(){
-    	$rules = array(
-			'test_id' 			=>	'required',
-			'student_id'		=> 'required',
-			'date_taken'		=> 'required'
-			//'score'				=>	''
-		);
+  //   public function taketest_store(){
+  //   	$rules = array(
+		// 	'test_id' 			=>	'required',
+		// 	'student_id'		=> 'required',
+		// 	'date_taken'		=> 'required'
+		// 	//'score'				=>	''
+		// );
 
-		$taketest = new TakeTest;
-		$taketest->test_id			= Input::get('test_id');
-		$taketest->student_id	= Input::get('student_id');
-		$taketest->date_taken	= Input::get('date_taken');	
-		//$taketest->score	= Input::get('score');			
+		// $taketest = new TakeTest;
+		// $taketest->test_id			= Input::get('test_id');
+		// $taketest->student_id	= Input::get('student_id');
+		// $taketest->date_taken	= Input::get('date_taken');	
+		// //$taketest->score	= Input::get('score');			
 
-		//$test->teacher_id		= Auth::id();
-		$taketest->save();
+		// //$test->teacher_id		= Auth::id();
+		// $taketest->save();
 
-		return Redirect::to('tests');
-    }
+		// return Redirect::to('tests');
+  //   }
 
   
 
@@ -293,32 +293,26 @@ class TestController extends Controller
 		$test = Test::find($id);
 		//$temp_test_ = TakeTest::where('test_id','=', $test->id)->get();
 		$temp_date = new DateTime;
+
+
 		
-			if ($temp_date >= $test->time_end){	
-				Session::flash('message', 'Time has already passed' );
+			if ( $test->time_end >= $temp_date ){	//nilapas na sa time
+				Session::flash('message', 'You can no longer take this test. Time has already passed.' );
 				return Redirect::to('tests');
 			} 
 			else{
-				if($temp_date ) {
-
+				if(count($test->taketests()->date_taken) != 0){
+					Session::flash('message', 'You already have taken this test' );
+					return Redirect::to('tests');
+					
 				}
-				else{
+				else{//kung wala pa.
 					return View::make('tests.taketest')-> with(array(
 							'questions'=> $questions,
 							'test_id' => $id
 							));
 				}
-				//if (($temp_date < $test->time_end) and ($temp_date >= $test->time_start) ) {
-					
 			}
-		// $questions = Question::where('test_id', '=', $id)->get();
-		// $test = Test::find($id);
-		// $dt = Carbon::now();
-  //       $dateNow = $dt->toDateTimeString();
-
-  //       echo $dateNow;
-
-
 	}
 
 
@@ -336,11 +330,13 @@ public function testfrontview($id){
 	 	$test = Test::where('id','=',Input::get('test_id'))->get();
 	 	$questions = Question::where('test_id','=', Input::get('test_id'))->get();
 	 	$score = 0;
+
+
 	 	$taketest = new TakeTest;
 	 	$taketest->test_id = Input::get('test_id');
 		$taketest->student_id = Auth::id();
 		$taketest->date_taken = new DateTime;
-		$taketest->save();
+		$taketest->save();	
 
 
 

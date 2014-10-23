@@ -14,12 +14,12 @@ class AuthenticationController extends Controller {
             if((Input::get('username') == null) || (Input::get('password') == null)){
                 return Redirect::to('login')
             ->with('message', 'Required field/s missing.')
-            ->withInput();
+            ->withInput(Input::except('password'));
             }
             else{
                 return Redirect::to('login')
             ->with('message', 'Username and password did not match.')
-            ->withInput();
+            ->withInput(Input::except('password'));
             }
         }
     }
