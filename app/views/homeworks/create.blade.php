@@ -8,7 +8,7 @@
         "class" => "form-horizontal"
     ]) }}
     <div class="form-group">
-    {{ Form::label('course_id', 'Course') }}
+    {{ Form::label('course_id', 'Course') }} <h style="color:red">*</h>
     <select name="section_course_id">
         @foreach($courses as $value)
         <option value="{{ $value->section_course_id }}">{{ $value->course_code }} ({{ $value->course_title }}, section {{ $value->section_name }} )</option>
@@ -16,17 +16,17 @@
     </select>
     </div>
     <div class="form-group">
-    {{ Form::label('homework_title', 'Homework Title') }}
+    {{ Form::label('homework_title', 'Homework Title') }} <h style="color:red">*</h>
     {{ Form::text('homework_title', "") }}
     </div>
     
     <div class="form-group">
-    {{ Form::label('deadline', 'Deadline') }}
+    {{ Form::label('deadline', 'Deadline') }} <h style="color:red">*</h>
     {{ Form::text('deadline', "", array('id'=>'deadline','placeholder'=>'YYYY-MM-DD')) }}
     </div>
 
     <div class="form-group">
-    {{ Form::label('homework_instruction', 'Homework Guidelines') }}
+    {{ Form::label('homework_instruction', 'Homework Guidelines') }} <h style="color:red">*</h>
     {{ Form::textarea('homework_instruction', "" ,array('id' => 'instructions_create')) }}
     </div>
 

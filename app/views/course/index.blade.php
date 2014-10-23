@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-<table class="table table-striped table-bordered">
+<table class="table table-hover table-bordered">
 	<thead>
 		<tr>
 			<td>Course Code </td>
@@ -17,11 +17,11 @@
 				<td>{{ $row['course_title'] }}</td>
 				<td>{{ $row['course_description'] }}</td>
 				<td>
-					<button class="btn btn-success" data-toggle="modal" data-target="#edit{{$key}}"><span class="glyphicon glyphicon-pencil"></span> Edit Course</button>
-					<button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation{{$key}}"><span class="glyphicon glyphicon-remove"></span> Delete Course</button>
+					<button id="edit{{$key}}" class="btn btn-success" data-toggle="modal" data-target="#editmodal{{$key}}"><span class="glyphicon glyphicon-pencil"></span></button>
+					<button id="delete{{$key}}" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation{{$key}}"><span class="glyphicon glyphicon-remove"></span></button>
 				
 					<!-- Modal for Edit Course-->
-					<div class="modal fade" id="edit{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal fade" id="editmodal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -41,7 +41,7 @@
 									</div>
 									<!-- Text input-->
 									<div class="form-group">
-										<label class="col-md-4 control-label" for="course_description"><span style="font-family:sans-serif; font-size:13px ">Course Description</span></label>  
+										<label class="col-md-4 control-label" for="course_description"><span style="font-family:sans-serif; font-size:13px ">Course Description</span><h style="color:red">*</h></label>  
 										<div class="col-md-8">
 											<input id="course_description" name="course_description" type="textarea" placeholder="" value="{{ $row['course_description'] }}" class="form-control input-md" required="">
 										</div>
@@ -49,7 +49,7 @@
 								</div>
 								<div class="modal-footer">
 									{{ Form::hidden('_method', 'PUT') }}
-									{{ Form::submit('Submit', ['class' => 'btn btn-default']) }}
+									{{ Form::submit('Submit', ['class' => 'btn btn-default', 'id' => 'submit']) }}
 
 									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 									{{ Form::close() }}
@@ -93,7 +93,7 @@
 @stop
 
 @section("rightsidebar")
-	<button class="btn btn-primary" data-toggle="modal" data-target="#create"><span class="glyphicon glyphicon-plus"></span> Create Course</button>
+	<button id="create" class="btn btn-primary" data-toggle="modal" data-target="#create"><span class="glyphicon glyphicon-plus"></span> Create Course</button>
 @stop
 
 
@@ -109,15 +109,15 @@
 				{{ Form::open(array('url' => 'courses')) }}
 
 			    <div class="form-group">
-			        <label for="course_code">Course code</label>
+			        <label for="course_code">Course code <h style="color:red">*</h></label>
 			        <input class="form-control" id="course_code" name="course_code" placeholder="Course code">
 			    </div>
 			    <div class="form-group">
-			        <label for="course_title">Course title</label>
+			        <label for="course_title">Course title <h style="color:red">*</h></label>
 			        <input class="form-control" id="course_title" name="course_title" placeholder="Course title">
 			    </div>
 			    <div class="form-group">
-			        <label for="course_description">Course description</label>
+			        <label for="course_description">Course description <h style="color:red">*</h></label>
 			        <input class="form-control" id="course_description" name="course_description" placeholder="Course description">
 			    </div>
 			    <div class="form-group">

@@ -13,5 +13,7 @@
     
     <!-- Style for DataTables plugin -->
     {{ HTML::style('dataTables/dataTables.bootstrap.css')}}  
+
+    <!-- Toastr -->
 </head>
 

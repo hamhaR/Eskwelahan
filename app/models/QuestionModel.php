@@ -31,9 +31,9 @@ class QuestionModel implements TableRepository{
     }
 
     public function add($attributes) {
-        $this->checkWritePermissions();
+        //$this->checkWritePermissions();
         $rules = [ 
-            'content'           => 'required|Unique',
+            'content'           => 'required',
             'a'                 => 'required',
             'b'                 => 'required',
             'c'                 => 'required',

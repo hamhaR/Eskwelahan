@@ -60,7 +60,8 @@ class CourseController extends \BaseController {
 		} else{
 			$course = new CourseRepository;
 			$rows = $course->add($courseData);
-			return $this->index() ;
+			Session::flash('message', 'Course successfully added.');
+			return Redirect::to('courses');
 			//return View::make('course.test')->with('rows', $rows);
 		}
 	}
@@ -124,7 +125,8 @@ class CourseController extends \BaseController {
 			$course = Course::find($id);
 			$course->course_description = Input::get('course_description');
 			$course->save();
-			return $this->index();
+			Session::flash('message', 'Course successfully updated');
+			return Redirect::to('courses');
 		}
 
 	}
@@ -140,7 +142,8 @@ class CourseController extends \BaseController {
 	{
 		$course = new CourseRepository;
 		$rows = $course->delete($id);
-		return $this->index() ;
+		Session::flash('message', 'Course successfully deleted.');
+		return Redirect::to('courses');
 	}
 
 

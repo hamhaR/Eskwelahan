@@ -10,7 +10,7 @@
             'class' => 'form-horizontal'
             )) }}
     <div class="form-group">
-    {{ Form::label('course_id', 'Course') }}
+    {{ Form::label('course_id', 'Course') }} <h style="color:red">*</h>
     <select name="section_course_id">
         @foreach($courses as $value)
             @if($value->section_course_id == $homework->section_course_id)
@@ -22,17 +22,17 @@
     </select>
     </div>
     <div class="form-group">
-    {{ Form::label('homework_title', 'Homework Title') }}
+    {{ Form::label('homework_title', 'Homework Title') }} <h style="color:red">*</h>
     {{ Form::text('homework_title', $homework->homework_title) }}
     </div>
 
     <div class="form-group">
-    {{ Form::label('deadline', 'Deadline') }}
+    {{ Form::label('deadline', 'Deadline') }} <h style="color:red">*</h>
     {{ Form::text('deadline', $homework->deadline, array('id'=>'deadline','placeholder'=>'YYYY-MM-DD')) }}
     </div>
 
     <div class="form-group">
-    {{ Form::label('homework_instruction', 'Homework Guidelines') }}
+    {{ Form::label('homework_instruction', 'Homework Guidelines') }} <h style="color:red">*</h>
     {{ Form::textarea('homework_instruction', $homework->homework_instruction ,array('id' => 'instructions_edit')) }}
     </div>
     {{ Form::submit('Update Homework', array('class' => 'btn btn-primary')) }}
