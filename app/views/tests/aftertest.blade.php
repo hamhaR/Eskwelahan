@@ -3,7 +3,13 @@
 @section("content")
 
 
-<h4>Thank you for taking this test. Just wait for your teacher to rate your quiz.</h4>
+
+@foreach($taketests as $key => $taketest)
+<h4>Thank you for taking this test. Your score is {{ $taketest->score }} / <?php . count($questions) ?> .</h4><br>
+@endforeach
+
+
+
 
 @stop
 
