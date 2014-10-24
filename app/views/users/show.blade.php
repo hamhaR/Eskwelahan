@@ -15,7 +15,11 @@
             {{Form::close()}}
         @else
         	{{Form::open(['method' => 'DELETE','route' => ['friends.destroy',$friend->id]])}}
+          @if(count($friend->friends()->where('f_id','=',Auth::id())->where('confirmed','=','true')->get()) > 0)
         	 <button type="submit" class='btn btn-danger' data-toggle="modal" data-target="#unfriendModal">Unfriend</button>
+           @else
+            <button type="submit" class='btn btn-danger' data-toggle="modal" data-target="#unfriendModal">Cancel Request</button>
+           @endif
         	{{ Form::close() }}	
 
         @endif

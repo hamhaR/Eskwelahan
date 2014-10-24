@@ -11,11 +11,13 @@ class FriendController extends \BaseController {
 	{
 			$user = Auth::user();
 			$friends = $user->friends()->where('user_id','=',$user->id)->where('confirmed','=', true)->get();
-			$pending = $user->friends()->where('user_id','=',$user->id)->where('requested','=',false)->where('confirmed','=', false)->get();
+			$pending_confirmations = $user->friends()->where('user_id','=',$user->id)->where('requested','=',false)->where('confirmed','=', false)->get();
+			$pending_requests = $user->friends()->where('user_id','=',$user->id)->where('requested','=',true)->where('confirmed','=', false)->get();
 		
 			return View::make('friends.index')->with(array(
 				'friends' => $friends,
-				'pending' => $pending
+				'confirmations' => $pending_confirmations,
+				'requests' => $pending_requests
 			));
 		
 	}

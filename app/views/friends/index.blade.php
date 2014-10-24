@@ -10,9 +10,10 @@
 @stop
 
 @section("rightsidebar")
-<h5>Pending</h5>
+@if(count($confirmations) > 0)
+<h5>Request Confirmations</h5>
 <div class="list">
-  @foreach($pending as $p)
+  @foreach($confirmations as $p)
   <div class="list-group-item">
     {{$p->fname}} {{$p->lname}}
     {{Form::open(['url' => 'confirmfriend'])}}
@@ -30,4 +31,16 @@
   </div>
   @endforeach
 </div>
+@endif
+@if(count($requests) > 0)
+  <h5>Sent Requests</h5>
+  <div class="list">
+    @foreach($requests as $r)
+    <a class="list-group-item" href="/users/{{$r->id}}">
+       {{$r->fname}} {{$r->lname}}
+     </a>
+
+    @endforeach
+  </div>
+@endif
 @stop
