@@ -20,7 +20,7 @@ class ConversationController extends \BaseController {
 	 */
 	public function create()
 	{
-		$people = User::where('role','<>','admin')->paginate(4);
+		$people = User::where('role','<>','admin')->paginate(6);
 		return View::make('message.create')->with([
 			'people' => $people
 
