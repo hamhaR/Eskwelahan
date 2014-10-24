@@ -22,7 +22,7 @@ class CreateTestAnswerTable extends Migration {
 			$table->foreign('test_id')->references('id')->on('tests');
 			$table->integer('question_id');
 			$table->foreign('question_id')->references('id')->on('questions');
-			$table->char('user_answer', 1);
+			$table->char('user_answer', 1)->nullable();
 
 			
 
