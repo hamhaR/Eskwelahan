@@ -47,7 +47,7 @@ class CourseController extends \BaseController {
 		];
 
 		$rules = [
-			'course_code' => 'required',
+			'course_code' => 'required|Unique:courses',
 			'course_title' => 'required',
 			'course_description' => 'required'
 		];
@@ -55,7 +55,7 @@ class CourseController extends \BaseController {
 		$validator = Validator::make($courseData, $rules);
 				
 		if ($validator->fails()) {
-			Session::flash('message', 'Error, required field left blank.');
+			Session::flash('message', 'Error. Please try again.');
 			return Redirect::to('courses/');
 		} else{
 			$course = new CourseRepository;

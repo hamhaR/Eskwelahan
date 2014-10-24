@@ -68,7 +68,7 @@ class SubmitHomeworkController extends \BaseController {
 			$submithomework->student_id 		= Auth::user()->id;
 			$submithomework->save();
 		
-			Session::flash('message', 'Homework successfully added.');
+			Session::flash('message', 'You have successfully submitted your homework.');
 			return Redirect::to('homeworks');
 		}
 		

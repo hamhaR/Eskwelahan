@@ -61,7 +61,7 @@ class AuthenticationController extends Controller {
 
         if ($validator->fails()) 
         {
-            return Redirect::to('editprofile')->withErrors($validator);
+            return Redirect::to('editprofile')->with('message', 'Please fill up all fields');
         } 
         else 
         {

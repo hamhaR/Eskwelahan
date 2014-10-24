@@ -62,7 +62,7 @@ class CourseRepository  {
     public function add($attributes) {
         //$this->checkWritePermissions;
         $req = [
-            'course_code' => 'required',
+            'course_code' => 'required|Unique:courses',
             'course_title' => 'required',
             'course_description' => 'required'
         ];
@@ -91,6 +91,8 @@ class CourseRepository  {
             } else{
                 Session::flash('message', 'Invalid data!');
             }
+        } else{
+            Session::flash('message', 'Erro. Course already exist.');
         }
     }
 

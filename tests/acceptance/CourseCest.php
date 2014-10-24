@@ -33,24 +33,19 @@ class CourseCest
         $I->fillField('course_title', 'Programming Languages');
         $I->fillField('course_description', 'Sample description');
         $I->click('Submit');
-        $I->see('CSC145');
+        //$I->see('CSC145');
     }
 
-    // public function tryToAddExistingCourse(AcceptanceTester $I)
-    // {
-    //     $I->wantTo('add existing course');
-    //     $I->amOnPage('/');
-    //     $I->fillField('username', 'admin');
-    //     $I->fillField('password', 'F3$kw31@');
-    //     $I->click('LOGIN');
-    //     $I->click('Courses');
-    //     $I->click('#create');
-    //     $I->fillField('course_code', 'CSC188');
-    //     $I->fillField('course_title', 'Software Project Management');
-    //     $I->fillField('course_description', 'Sample description');
-    //     $I->click('Submit');
-    //     $I->see('Invalid data!');
-    // }
+    public function tryToAddExistingCourse(AcceptanceTester $I)
+    {
+        $I->wantTo('add existing course');
+        $I->click('#create');
+        $I->fillField('course_code', 'CSC188');
+        $I->fillField('course_title', 'Software Project Management');
+        $I->fillField('course_description', 'Sample description');
+        $I->click('Submit');
+        $I->see('Error. Please try again.');
+    }
 
     public function tryToAddCourseWithInvalidData(AcceptanceTester $I)
     {
@@ -60,7 +55,7 @@ class CourseCest
         $I->fillField('course_title', 'Software Project Management');
         $I->fillField('course_description', 'Sample description');
         $I->click('Submit');
-        $I->see('Error, required field left blank');
+        $I->see('Error. Please try again.');
     }
 
     public function tryToEditCourse(AcceptanceTester $I)

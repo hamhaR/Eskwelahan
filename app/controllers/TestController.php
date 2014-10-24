@@ -266,23 +266,27 @@ class TestController extends Controller
 		$questions = Question::where('test_id', '=', $id)->get();
 		$test = Test::find($id);
 		//$temp_test_ = TakeTest::where('test_id','=', $test->id)->get();
-		$temp_date = new DateTime;
+		$temp_date = new DateTime();
+		$t = new DateTime($test->time_end);
 
 
-			if(($temp_date > $test->time_end) ){
+			if(($temp_date > $t) ){
 				Session::flash('message', 'You can no longer take this test. Time has already passed.' );
 				return Redirect::to('tests');
 			} 
 			else{
-				if(count($test->taketests()) != 0){
-					Session::flash('message', 'You have aleady taken this test' );
-					return Redirect::to('tests');
-				}
-				else{
+				if(count($test->taketests()->get()) != null)
+				{
+				//if(count($test->taketests()) != 0){
 					return View::make('tests.taketest')-> with(array(
 							'questions'=> $questions,
 							'test_id' => $id
-							));
+							));					
+				}
+				else{
+					// Session::flash('message', 'You have aleady taken this test' );
+					// return Redirect::to('tests');
+					var_dump( $test->taketests()->getResults());
 				}
 			}
 	}
