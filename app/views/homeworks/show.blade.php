@@ -25,7 +25,7 @@
   @endif
 
     @if(Auth::user()->role == 'student')
-    <a class="btn btn-success" href="{{ URL::route('submithomeworks.create', $homeworks->id) }}"><span class="glyphicon glyphicon-pencil"></span> Submit homework</a>
+    <a class="btn btn-success" href="{{ URL::route('submithomeworks.create', array ('homework_id' => $homeworks->id)) }}"><span class="glyphicon glyphicon-pencil"></span> Submit homework</a>
   @endif
   
   

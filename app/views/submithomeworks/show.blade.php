@@ -4,8 +4,8 @@
 @section("content")
 
 @if(Auth::check())
-			<h3>Homework Number{{ $submithomework->homework_id }}</h3>
-			<p> Submitted by: Student {{ $submithomework->student_id }}</p>
+			<h3>Homework Title:{{ Homework::find($submithomework->homework_id)->homework_title }}</h3>
+			<p> Submitted by: {{ User::find($submithomework->student_id)->fname ." ". User::find($submithomework->student_id)->lname }}</p>
 			<p>Posted on {{ date('j F Y, h:i A',strtotime($submithomework->created_at)) }}</p>
 
 			{{ $submithomework->homework_body }}

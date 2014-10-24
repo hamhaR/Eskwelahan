@@ -62,7 +62,7 @@ class SubmitHomeworkController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->passes()) {
 			$submithomework = new Submithomework;
-			$submithomework->homework_id		= '1';//Input::get('homework_id');
+			$submithomework->homework_id		= '1';
 			$submithomework->file_location		= Input::get('file_location');
 			$submithomework->homework_body		= Input::get('homework_body');
 			$submithomework->student_id 		= Auth::user()->id;

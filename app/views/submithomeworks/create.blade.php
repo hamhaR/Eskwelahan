@@ -18,6 +18,7 @@
 	
 		{{ Form::label('homework_body', 'Answers here') }}
 		<!--{{ Form::textarea('homework_body', Input::old('homework_body'), array('class' => 'form-control')) }}-->
+		<!-- Input::old('homework_id'), array('homework_id' => 'homework_id') -->
 		{{ Form::textarea('homework_body', Input::old('homework_body'), array('id' => 'body_homework')) }}
 	</div>
 <!--------------FOR FILE UPLOAD---------------->	
