@@ -17,7 +17,7 @@
 	</div>
 @stop
 @section("rightsidebar")
-	<button class="btn btn-primary"  data-toggle="modal" data-target="#myModal"> New Conversation </button>
+	<a class="btn btn-primary"  href="/conversations/create"> New Conversation </a>
 @stop
 
 <!-- Modal -->

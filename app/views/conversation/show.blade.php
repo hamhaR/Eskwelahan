@@ -29,6 +29,8 @@
 @section("rightsidebar")
 <h5>Members</h5>
 @foreach($convo->persons as $p)
+	@if(Auth::id() != $p->id)
 	<a href="/users/{{$p->id}}"><p>{{$p->fname}} {{$p->lname}}</p></a>
+	@endif
 @endforeach
 @stop
