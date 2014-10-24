@@ -275,18 +275,19 @@ class TestController extends Controller
 				return Redirect::to('tests');
 			} 
 			else{
-				if(count($test->taketests()->get()) != null)
-				{
-				//if(count($test->taketests()) != 0){
+				$query = TakeTest::where('test_id', '=', $id)->where('student_id', '=', Auth::id())->get();
+				$store = [];
+				foreach ($query as $key => $value) {
+					array_push($store, $value->id);
+				}
+				if($store == null){
 					return View::make('tests.taketest')-> with(array(
 							'questions'=> $questions,
 							'test_id' => $id
-							));					
-				}
-				else{
-					// Session::flash('message', 'You have aleady taken this test' );
-					// return Redirect::to('tests');
-					var_dump( $test->taketests()->getResults());
+							));	
+				} else{
+					Session::flash('message', 'You have aleady taken this test' );
+					return Redirect::to('tests');
 				}
 			}
 	}

@@ -42,23 +42,36 @@ class CreateAccountTest extends \Codeception\TestCase\Test
     /*
      * testCreateAccount() function
      * create account with valid data
+     * @expectedException ErrorException
      */
     public function testCreateInvalidAccount()
     {
-        $this->controller  = new UserController;
-        $data = [
-            'username' => 'juan',
-            'password' => 'juan',
-            'role' => 'student',
-            'fname' => 'Juna',
-            'mname' => 'Janu',
-            'lname' => 'Jnau',
-            'gender' => 'male',
-            'address' => 'Iligan City',
-            'email' => 'janu@gmail.com'
-        ];
-        $store = $this->controller->store();
-        $this->assertNotNull($store);
+        $this->user->username = 'kerti';
+        $this->user->role = 'student';
+        $this->user->password = 'lkb123';
+        $this->user->fname = 'Kert';
+        $this->user->mname = 'Bubbles';
+        $this->user->lname = 'Basay';
+        $this->user->gender = 'male';
+        $this->user->address = 'Iligan City';
+        $this->user->email = 'kerti';
+        $this->user->save();
+    //     $find = User::find($this->user->id);
+    //     $this->assertNull($find->email);
+        // $this->controller  = new UserController;
+        // $data = [
+        //     'username' => 'juan',
+        //     'password' => 'juan',
+        //     'role' => 'student',
+        //     'fname' => 'Juna',
+        //     'mname' => 'Janu',
+        //     'lname' => 'Jnau',
+        //     'gender' => 'male',
+        //     'address' => 'Iligan City',
+        //     'email' => 'janu@gmail.com'
+        // ];
+        // $store = $this->model->add($data);
+        // $this->assertEquals('Invalid data', $store);
     }
 
 }
