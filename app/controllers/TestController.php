@@ -263,7 +263,7 @@ class TestController extends Controller
 
 	public function taketest($id){
 
-		$questions = Question::where('test_id', '=', $id)->get();
+		$questions = Question::where('test_id', '=', $id)->orderBy('id', 'asc')->get();
 		$test = Test::find($id);
 		//$temp_test_ = TakeTest::where('test_id','=', $test->id)->get();
 		$temp_date = new DateTime();
@@ -339,9 +339,15 @@ public function testfrontview($id){
 	 		}
 	 		$taketest->score = $score;//ayha ra masave if nahuman na ug store ang sa test_answes na attributes
 	 		$taketest->save();
+	 		$taketests = TakeTest::where('id', '=', $taketest->id);
 	 	//echo $score;
-	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
+	 	//echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
 	 	//Session::flash('message', 'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions));
-	 	//return Redirect::to('tests');
+
+	 	return View::make('tests.aftertest')->with(array(
+	 			'score' => $score,
+	 			'questions' => count($questions),
+	 			'taketests' => $taketests
+	 		));
 	 }
 }

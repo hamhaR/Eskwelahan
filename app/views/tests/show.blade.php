@@ -8,7 +8,7 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <a class="panel-title" ><strong>Question No. {{$question->id}}</strong></a> 
+                <a class="panel-title" ><strong>Question No. {{$key+1}}</strong></a> 
 
               </div>
               

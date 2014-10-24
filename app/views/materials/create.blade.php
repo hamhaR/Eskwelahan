@@ -13,7 +13,7 @@
         "class"			 => "form-horizontal"
     ]) }}
     <div class="form-group">
-    {{ Form::label('course_id', 'Course') }}
+    {{ Form::label('course_id', 'Course') }} <h style="color:red">*</h>
     <select name="course_id">
         @foreach($courses as $value)
         <option value="{{ $value->id }}">{{ $value->course_code }} ({{ $value->course_title }})</option>
@@ -21,15 +21,15 @@
     </select>
     </div>
     <div class="form-group">
-    {{ Form::label('material_title', 'Title Here') }}
+    {{ Form::label('material_title', 'Title Here') }} <h style="color:red">*</h>
     {{ Form::text('material_title', "") }}
     </div>
 
     <div class="form-group">
-    {{ Form::label('material_instruction', 'Description') }}
+    {{ Form::label('material_instruction', 'Description') }} <h style="color:red">*</h>
 	</div>
 	<div class="form-group">
-    {{ Form::textarea('material_instruction', "" ,array('id' => 'instructions_create')) }}
+    {{ Form::textarea('material_instruction', "" ,array('id' => 'instructions_create')) }} 
     </div>
 	
 	<!-----------------FILE UPLOAD--------------------->

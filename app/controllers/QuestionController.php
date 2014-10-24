@@ -14,7 +14,7 @@ class QuestionController extends \BaseController {
 	 */
 	public function index()
 	{
-		$questions = Question::all();
+		$questions = Question::orderBy('id', 'desc')->paginate(4);
 		
 		return View::make('questions.index')
 		->with('questions', $questions);
