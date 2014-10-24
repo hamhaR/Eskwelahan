@@ -226,7 +226,7 @@ Route::post('/update/{id}', 'MaterialController@update');
 Route::resource('friends', 'FriendController');
 Route::get('/taketest/{id}', 'TestController@taketest');
 Route::get('testfrontview/{id}', 'TestController@testfrontview');
-Route::post('tests', 'TestController@testanswer_store');
+Route::post('aftertest/', 'TestController@testanswer_store');
 
 
 Route::resource('messages','MessageController');

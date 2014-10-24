@@ -182,6 +182,7 @@ class ClassController extends \BaseController {
 		$section = Section::find($section_id);
 
 		$section->delete();
+		Session::flash('message', 'Class was successfully deleted.');
 		return Redirect::to('classes');
 	}
 

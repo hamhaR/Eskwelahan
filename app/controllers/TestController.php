@@ -233,6 +233,7 @@ class TestController extends Controller
 					$test->save();
 					Session::flash('message', 'Successfully edited test!');
 					return Redirect::to('tests');
+
 				}
 				 //gets all old data sa database, dayon icompare sa updated data
 				
@@ -260,33 +261,6 @@ class TestController extends Controller
 		return Redirect::to('tests');
      }
 
-/*Take Test Module**/
-    /**
-	* Allows students to take test
-    */
-
-  //   public function taketest_store(){
-  //   	$rules = array(
-		// 	'test_id' 			=>	'required',
-		// 	'student_id'		=> 'required',
-		// 	'date_taken'		=> 'required'
-		// 	//'score'				=>	''
-		// );
-
-		// $taketest = new TakeTest;
-		// $taketest->test_id			= Input::get('test_id');
-		// $taketest->student_id	= Input::get('student_id');
-		// $taketest->date_taken	= Input::get('date_taken');	
-		// //$taketest->score	= Input::get('score');			
-
-		// //$test->teacher_id		= Auth::id();
-		// $taketest->save();
-
-		// return Redirect::to('tests');
-  //   }
-
-  
-
 	public function taketest($id){
 
 		$questions = Question::where('test_id', '=', $id)->get();
@@ -295,18 +269,16 @@ class TestController extends Controller
 		$temp_date = new DateTime;
 
 
-		
-			if ( $test->time_end >= $temp_date ){	//nilapas na sa time
+			if(($temp_date > $test->time_end) ){
 				Session::flash('message', 'You can no longer take this test. Time has already passed.' );
 				return Redirect::to('tests');
 			} 
 			else{
-				if(count($test->taketests()->date_taken) != 0){
-					Session::flash('message', 'You already have taken this test' );
+				if(count($test->taketests()) != 0){
+					Session::flash('message', 'You have aleady taken this test' );
 					return Redirect::to('tests');
-					
 				}
-				else{//kung wala pa.
+				else{
 					return View::make('tests.taketest')-> with(array(
 							'questions'=> $questions,
 							'test_id' => $id
@@ -336,7 +308,7 @@ public function testfrontview($id){
 	 	$taketest->test_id = Input::get('test_id');
 		$taketest->student_id = Auth::id();
 		$taketest->date_taken = new DateTime;
-		$taketest->save();	
+		//$taketest->save();	
 
 
 
@@ -363,8 +335,8 @@ public function testfrontview($id){
 	 		$taketest->score = $score;//ayha ra masave if nahuman na ug store ang sa test_answes na attributes
 	 		$taketest->save();
 	 	//echo $score;
-	 	//echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
-	 	Session::flash('message', 'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions));
-	 	return Redirect::to('tests');
+	 	echo'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions);
+	 	//Session::flash('message', 'Thank you for taking up this test. Your total score is  ' . $score . ' / ' . count($questions));
+	 	//return Redirect::to('tests');
 	 }
 }

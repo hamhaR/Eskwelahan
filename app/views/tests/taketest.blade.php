@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 
-{{ Form::open(array('url' => 'tests' )) }}
+{{ Form::open(array('url' => 'aftertest' )) }}
 
  <div class="form-group">
 	@foreach($questions as $key => $question)

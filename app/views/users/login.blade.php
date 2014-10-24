@@ -31,7 +31,7 @@
                           <div class="panel-body" >
                              
                               @if(Session::has('message'))
-                                <div id="login-alert" class="alert alert-danger col-sm-16" style="padding:0px; height:50px;">
+                                <div id="login-alert" class="alert alert-danger col-sm-16" style="padding:0px; height:70px; ">
                                   <p class="alert">{{ Session::get('message') }}</p>
                                 </div> 
                               @endif
