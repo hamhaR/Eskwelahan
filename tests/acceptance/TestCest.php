@@ -12,17 +12,6 @@ class TestCest
     }
 
     // tests
-    public function tryToSeeListOfTest(AcceptanceTester $I)
-    {
-        $I->wantTo('see list of tests');
-        $I->amOnPage('/');
-        $I->fillField('username', 'samantha');
-        $I->fillField('password', 'samsam');
-        $I->click('LOGIN');
-        $I->click('Tests');
-        $I->see('Test');
-        $I->see('Removal Exam');
-    }
 
     public function tryToCreateTestWithValidData(AcceptanceTester $I){
         $I->wantTo('create new test with valid data');
@@ -40,6 +29,18 @@ class TestCest
         //$I->fillField('teacher_id', '5');
         //$I->fillField('section_id', '1');
         $I->click('Create');
+        $I->see('Final Exam');
+    }
+	
+	public function tryToSeeListOfTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see list of tests');
+        $I->amOnPage('/');
+        $I->fillField('username', 'samantha');
+        $I->fillField('password', 'samsam');
+        $I->click('LOGIN');
+        $I->click('Tests');
+        $I->see('Test');
         $I->see('Final Exam');
     }
 }
