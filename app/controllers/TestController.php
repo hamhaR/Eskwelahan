@@ -218,13 +218,12 @@ class TestController extends Controller
 			else{
 				//if walay changes
 				$original = $test->getOriginal();
-				// if((Input::get('test_name') = $original['test_name']) && (Input::get('test_instructions') == $original['test_instructions']) && (Input::get('time_start') == $original['time_start']) && (Input::get('time_end') == $original['time_end']) ){
-				// 	Session::flash('message', 'No changes were made.');
-				// 	echo 'error';
-				// 	//return Redirect::to('tests');
-				// }
-				// //if tama, ma save si test
-				if(Input::get('time_start') <= Input::get('time_end')){
+				if(((Input::get('test_name')) == $original['test_name']) && ((Input::get('test_instructions')) == $original['test_instructions']) && ((Input::get('time_start')) == $original['time_start']) && ((Input::get('time_end')) == $original['time_end']) ){
+					Session::flash('message', 'No changes were made.');
+					return Redirect::to('tests');
+				}
+			 //if tama, ma save si test
+				else if(Input::get('time_start') <= Input::get('time_end')){
 					$test->test_name 			= 	Input::get('test_name');
 					$test->test_instructions	= 	Input::get('test_instructions');
 					$test->time_start 			=	Input::get('time_start');
