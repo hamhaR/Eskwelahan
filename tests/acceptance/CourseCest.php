@@ -58,16 +58,16 @@ class CourseCest
         $I->see('Error. Please try again.');
     }
 
-    public function tryToEditCourse(AcceptanceTester $I)
-    {
-        $I->wantTo('edit CSC186 description from "a human computer interaction course for cs students" to "Edit description"');
-        $I->click('#edit1');
-        $I->fillField('course_description', 'Edit description');
-        //$I->click('#submit');
-        $I->click('Submit');
-        $I->see('CSC186');
-        $I->see('Edit description');
-    }
+    //public function tryToEditCourse(AcceptanceTester $I)
+    //{
+    //    $I->wantTo('edit CSC186 description from "a human computer interaction course for cs students" to "Edit description"');
+    //    $I->click('#edit1');
+    //    $I->fillField('course_description', 'Edit description');
+    //    //$I->click('#submit');
+    //    $I->click('Submit');
+    //    $I->see('CSC186');
+    //    $I->see('Edit description');
+    //}
 
     public function tryToDeleteCourse(AcceptanceTester $I)
     {
