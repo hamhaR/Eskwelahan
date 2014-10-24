@@ -49,6 +49,23 @@
         <script>
             $(function () {
                 CKEDITOR.replace( 'instructions_create', {
+                    toolbar :
+                    [
+                        { name: 'document', items : [ 'Source','-','Templates' ] },
+    { name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+    { name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+    '/',
+    { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat','EqnEditor' ] },
+    { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+    '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+    { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+    { name: 'insert', items : [ 'HorizontalRule','Smiley','SpecialChar' ] },
+    '/',
+    { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+    { name: 'colors', items : [ 'TextColor','BGColor' ] },
+    { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+                    ], 
+
                     allowedContent:
                         'h1 h2 h3 p blockquote strong em;' +
                         'a[!href];' +
